@@ -1,0 +1,46 @@
+PROJEKT ISR - BIBLIOTEKA
+
+Chciałbym wykonać serwis z możliwościa wypożyczania książek, oparty na JavaScripcie (React), wraz z backendem umożliwiajacym wykonywanie operacji CRUD.
+Serwis ten będzie połączony z zapisem do zewnętrznej bazy danych MongoDB.
+
+**********************************
+
+Backend - endpointy umożliwiajace:
+
+Dla admina:
+-dodanie ksiązki - POST
+-usuwanie ksiązki - DELETE
+-pobieranie informacje o wypozyczeniu (jakie książki oraz kto wypożyczył, kiedy itd) - GET
+-modyfikacja statusu wypozyczenia (wypożyczone, oddane) - PUT
+
+Dla użytkownika:
+-pobranie wszystkich obiektów ksiązek (wraz z filtrowaniem po kategoriach, ilością stron itd.) - GET
+-pobranie obiektu jednej książki (o konkretnym id) - GET
+-wysłanie informacji o wypożyczeniu  (jakie ksiązki oraz dane osoby wypożyczającej) - POST
+
+
+Ksiązki oraz informacje o wypozyczeniu będą następnie wysłane do bazdy danych MongoDB
+
+
+***********************************
+
+Frontend - serwis umożliwiający:
+
+Dla użytkownika:
+-wyświetlenie wszystkich książek
+-wyświetlenie pojedyńczej ksiązki wraz z opisem, obrazkiem, ilością dostępnych sztuk, ilością stron, kategorii 
+-"koszyk" z ksiązkami ktorymi chcemy wypożyczyć (ksiązki będa zapisywane w ciasteczkach)
+-formularz, gdzie podajemy dane wypożyczającego i przesyłamy je do endpointu
+
+Dla admina:
+-tabela wszystkich ksiązek (możliwość usuwania)
+-tabela wypożyczen wraz z możliwościa modyfikacji stanu wypożyczenia oraz wszystkimi danymi o wypożyczeniu (kto i co)
+
+
+Serwis będzie wgrany na platforme herokuapp.com pozwalająca na darmowe testowanie aplikacji internetowych.
+
+
+Dawid Kurpiel AiR IMiR 292333
+
+
+
