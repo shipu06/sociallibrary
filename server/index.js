@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 // const config = require("./config/key");
 const uri =
-  "mongodb+srv://local:dawidrw123@cluster0-ehgqo.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass%20Community&retryWrites=true&ssl=true";
+  "mongodb+srv://dawidrw123:dawidrw123@cluster0-v5k3b.mongodb.net/ISR?authSource=admin&replicaSet=Cluster0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass%20Community&retryWrites=true&ssl=true";
 
 // const mongoose = require("mongoose");
 // mongoose
@@ -16,7 +16,6 @@ const uri =
 //   .then(() => console.log("DB connected"))
 //   .catch(err => console.error(err));
 
-const mongoose = require("mongoose");
 const connect = mongoose
   .connect(uri, {
     useNewUrlParser: true,
@@ -38,6 +37,10 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/api/users", require("./routes/users"));
+app.use("/api/user", require("./routes/user"));
+app.use("/api/admin", require("./routes/admin"));
+
+
 
 //use this to show the image you have in node js server to client (react js)
 //https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
