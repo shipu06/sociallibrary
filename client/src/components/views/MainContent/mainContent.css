@@ -1,0 +1,108 @@
+.text {
+  font-family: montserrat;
+  color: rgb(114, 114, 114);
+  justify-content: space-between;
+  padding-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.book {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: visible;
+}
+.book__img {
+  max-width: 45%;
+  height: auto;
+  object-fit: cover;
+  /* margin: 15px; */
+  border-radius: 20px;
+  opacity: 0.9;
+  cursor: pointer;
+}
+.book .book__img:hover {
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+@media (max-width: 600px) {
+  .book__img {
+    border-radius: 10px;
+    margin: 0px;
+    max-width: 45%;
+  }
+  .text {
+    padding: 1em 1.8em 1em 0;
+  }
+}
+
+.book__info {
+  padding: 20px 1.4em;
+  font-family: montserrat;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.book__title {
+  display: block;
+  font-size: 17px;
+  color: rgb(32, 32, 32);
+  font-weight: 500;
+}
+
+.book__year {
+  color: rgb(143, 143, 143);
+  display: block;
+  font-size: 12px;
+}
+.book__author {
+  color: rgb(53, 53, 53);
+  padding: 8px 0;
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+
+}
+.book__category {
+  display: block;
+  font-size: 10px;
+  color: black;
+  text-transform: uppercase;
+}
+
+.book__pages {
+  display: block;
+  font-size: 12px;
+}
+
+.book__rating {
+  font-size: 12px;
+  margin: 0.5em 0;
+}
+
+.books__buttons {
+  display: flex;
+  height: auto;
+}
+
+.filterMainOptions {
+  display: flex;
+}
+
+@media (max-width: 600px) {
+  .filterMainOptions {
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 600px) {
+  .preview {
+    max-height: 20vh;
+  }
+}

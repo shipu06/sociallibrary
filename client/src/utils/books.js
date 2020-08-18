@@ -1,0 +1,133 @@
+export const books = [
+  {
+    id: 1,
+    name: "Harry Potter",
+    author: 'Dawid Kurpiel',
+    category: "Fantasy",
+    pages: "302",
+    year: "2010",
+    rating: 5,
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+    image:
+      "https://cdn-1.cdp.pl/media/catalog/product/cache/1/image/600x/17f82f742ffe127f42dca9de82fb58b1/1/3/13916_0.jpg",
+  },
+  {
+    id: 2,
+    name: "Wzgórza jakieś ładne",
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 4,
+    description: "zajebista ksiazka o nr 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 3,
+    name: "Harry Potter",
+    author: 'Dawid Kurpiel',
+    category: "Fantasy",
+    pages: "302",
+    year: "2010",
+    rating: 3,
+    description: "zajebista ksiazka o nr 3",
+    image:
+      "https://cdn-1.cdp.pl/media/catalog/product/cache/1/image/600x/17f82f742ffe127f42dca9de82fb58b1/1/3/13916_0.jpg",
+  },
+  {
+    id: 4,
+    author: 'Dawid Kurpiel',
+    name: "Wzgórza jakieś ładne",
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    author: 'Dawid Kurpiel',
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    author: 'Dawid Kurpiel',
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    author: 'Dawid Kurpiel',
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4dasdasdsadsadsasdasadsadads Lorem*42 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    author: 'Dawid Kurpiel',
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    author: 'Dawid Kurpiel',
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    author: 'Dawid Kurpiel',
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+  {
+    id: 4,
+    name: "Wzgórza jakieś ładne",
+    category: "Przyrodnicze",
+    pages: "302",
+    year: "2010",
+    rating: 1,
+    description: "zajebista ksiazka o nr 4",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/DdytqdFTgtQuxVrHLDdmjQ--~B/aD03MTY7dz0xMDgwO3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-11/7b5b5330-112b-11ea-a77f-7c019be7ecae",
+  },
+];
