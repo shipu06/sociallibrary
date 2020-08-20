@@ -1,7 +1,6 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/auth";
-// pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
@@ -13,21 +12,38 @@ import Admin from "./views/MainContent/Admin.js";
 import NaviBar from "./views/NaviBar/NaviBar";
 import Menu from "./views/Menu/Menu";
 import MainContent from "./views/MainContent/MainContent";
-//null   Anyone Can go inside
-//true   only logged in user can go inside
-//false  logged in user can't go inside
+
+import { useDispatch, useSelector } from "react-redux";
+import { setBooks } from "../_actions/books_actions.js";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setBooks());
+  }, []);
+  const searchPhrase = useSelector(
+    (state) => state.books_store.filters.searchPhrase
+  );
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <NaviBar />
       <div className="content">
         <Menu />
         <div className="content__main">
-          <Switch>
-            <Route exact path="/books" component={Books} />
-            <Route exact path="/admin" component={Admin} />
-          </Switch>
+          {searchPhrase.length ? (
+            <>
+              <h1>Searching for '{searchPhrase}'</h1>
+              <Books />
+            </>
+          ) : (
+            <Switch>
+              <Route exact path="/books">
+                <Books />
+              </Route>
+              <Route exact path="/admin" component={Admin} />
+            </Switch>
+          )}
         </div>
       </div>
 

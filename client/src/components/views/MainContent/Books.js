@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -7,44 +7,37 @@ import Rating from "@material-ui/lab/Rating";
 import Button from "@material-ui/core/Button";
 import Modal from "./Modal";
 import Filters from "./Filters";
-import { books } from "../../../utils/books";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  margin: {
-    fontFamily: "montserrat",
-    marginRight: theme.spacing(1),
-    fontSize: 11,
-    textTransform: "lowercase",
-    [theme.breakpoints.down("md")]: {
-      fontSize: 10,
-      padding: ".5em",
-    },
-  },
-  paper: {
-    height: "22vh",
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.11)",
-    borderRadius: 20,
-    [theme.breakpoints.down("md")]: {
-      margin: "0px 20px 10px 0",
-      height: "auto",
-    },
-  },
-}));
+import { useSelector } from "react-redux";
 
 export default function NestedGrid() {
   const classes = useStyles();
 
+  const books = useSelector((state) => state.books_store.books) || false;
+
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [modalContent, setModalContent] = React.useState(null);
+
+  // useEffect(() => {
+  //   dispatch(fetchBooks());
+  //   getBooks(
+  //     {
+  //       searchPhrase,
+  //       category: [],
+  //       pages: [],
+  //       year: [],
+  //     },
+  //     (res) => {
+  //       setBooks(res);
+  //     }
+  //   );
+  // }, [searchPhrase]);
 
   const handleModalOpen = () => {
     setModalOpen(true);
   };
+
+  if (!books) return <>Loading...</>;
 
   const listOfBooks = books.map((book, id) => (
     <Grid id={id} item xs={12} md={4}>
@@ -65,7 +58,11 @@ export default function NestedGrid() {
     <div className={classes.root}>
       <Filters />
       <Grid spacing={4} container>
-        {listOfBooks}
+        {books.length ? (
+          listOfBooks
+        ) : (
+          <h1 style={{ padding: ".5em" }}>No results</h1>
+        )}
       </Grid>
       <Modal
         modalContent={modalContent}
@@ -81,7 +78,6 @@ export const Book = ({ book, handleModalOpen }) => {
   const [value, setValue] = React.useState(book.rating);
   return (
     <div className="book">
-      {console.log(book)}
       <img
         className="book__img"
         onClick={handleModalOpen}
@@ -126,3 +122,30 @@ export const Book = ({ book, handleModalOpen }) => {
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  margin: {
+    fontFamily: "montserrat",
+    marginRight: theme.spacing(1),
+    fontSize: 11,
+    textTransform: "lowercase",
+    [theme.breakpoints.down("md")]: {
+      fontSize: 10,
+      padding: ".5em",
+    },
+  },
+  paper: {
+    height: "22vh",
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.11)",
+    borderRadius: 20,
+    [theme.breakpoints.down("md")]: {
+      margin: "0px 20px 10px 0",
+      height: "auto",
+    },
+  },
+}));

@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
 import AddBook from "./AddBook.js";
+import AddCategory from "./AddCategory.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,7 +83,7 @@ export default function NavTabs() {
           aria-label="nav tabs example"
         >
           <LinkTab label="Add Book" href="/drafts" {...a11yProps(0)} />
-          <LinkTab label="All Books" href="/trash" {...a11yProps(1)} />
+          <LinkTab label="Categories" href="/trash" {...a11yProps(1)} />
           <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
           <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
           <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
@@ -93,7 +94,7 @@ export default function NavTabs() {
         <AddBook />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Page Two
+        <AddCategory />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Page Three

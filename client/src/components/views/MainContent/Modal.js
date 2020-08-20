@@ -32,7 +32,6 @@ export default function TransitionsModal({
 
   return (
     <div>
-      {console.log(isModalOpen)}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

@@ -28,49 +28,11 @@ import TextField from "@material-ui/core/TextField";
 import Popover from "@material-ui/core/Popover";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "80%",
-    backgroundColor: "transparent",
-  },
-  bg: {
-    backgroundColor: "transparent",
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-  tp: {
-    backgroundColor: "white",
-  },
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: "auto",
-  },
-  none: {
-    display: "none",
-  },
-  accordionContent: {
-    boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.06)",
-    borderRadius: "10px",
-    [theme.breakpoints.down("md")]: {
-      width: "90vw",
-    },
+import { setFilter } from "../../../_actions/books_actions.js";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-    "&:before": {
-      display: "none",
-    },
-  },
-  clickable: {
-    cursor: "pointer",
-    color: "#111",
-  },
-  iconContainer: {
-    display: "flex",
-  },
-}));
+import { Chip } from "@material-ui/core";
 
 export default function ModalWithAccordion() {
   const classes = useStyles();
@@ -136,6 +98,7 @@ export default function ModalWithAccordion() {
 
   return (
     <>
+      {/* <Chip onDelete={() => {}} label={"elo"}></Chip> */}
       <div className="text">
         <span>Books that may interest you:</span>
         <div className={classes.iconContainer}>{filtersOptions}</div>
@@ -226,33 +189,45 @@ function SimplePopover({ label, children }) {
 }
 
 function FilterMainOptions() {
-  const [value, setValue] = React.useState([0, 100]);
   const classes = useStylesFilters();
+
+  const dispatch = useDispatch();
+  const filters = useSelector((state) => state.books_store.filters);
+
+  const [checked, setChecked] = [
+    filters.category,
+    (a) => dispatch(setFilter({ category: a })),
+  ];
+
+  const [value, setValue] = [
+    filters.pages,
+    (a) => dispatch(setFilter({ pages: a })),
+  ];
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const [checked, setChecked] = React.useState([0]);
-
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-
     if (currentIndex === -1) {
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);
     }
-
     setChecked(newChecked);
   };
 
+  const [year, setYears] = [
+    filters.year,
+    (a) => dispatch(setFilter({ year: a })),
+  ];
   return (
     <>
       <div className="filterMainOptions">
         <SimplePopover label="category" className={classes.buttons}>
           <List>
-            {[0, 1, 2, 3].map((value) => {
+            {[0, "Tyryry", 2, 3].map((value) => {
               const labelId = `checkbox-list-label-${value}`;
 
               return (
@@ -283,34 +258,63 @@ function FilterMainOptions() {
         </SimplePopover>
         <SimplePopover label="Numbers of pages">
           <div className={classes.filtersOptions}>
-            <Typography id="range-slider" gutterBottom>
-              Temperature range
-            </Typography>
             <Slider
-              value={value}
+              value={filters.pages.length ? filters.pages : [0, 1000]}
               onChange={handleChange}
-              // aria-labelledby="range-slider"
-              aria-labelledby="discrete-slider-custom"
-              marks={[
-                { value: value[0], label: value[0] },
-                { value: value[1], label: value[1] },
-              ]}
+              max={1000}
+              style={{ width: "200px", marginTop: "1em" }}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              marks={
+                filters.pages.length
+                  ? [
+                      { value: filters.pages[0], label: filters.pages[0] },
+                      { value: filters.pages[1], label: filters.pages[1] },
+                    ]
+                  : [
+                      { value: 0, label: 0 },
+                      { value: 1000, label: 1000 },
+                    ]
+              }
             />
           </div>
         </SimplePopover>
         <SimplePopover label="Year">
-          <TextField
-            id="outlined-basic"
-            label="From"
-            placeholder="1994"
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-basic"
-            label="To"
-            placeholder="2020"
-            variant="outlined"
-          />
+          <div className="years">
+            <TextField
+              id="standard-number"
+              label="From"
+              type="number"
+              placeholder="1900"
+              onChange={(e) => {
+                setYears([+e.target.value, year[1] || 2020]);
+              }}
+              value={year[0]}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              style={{
+                margin: ".7em 0",
+              }}
+            />
+            <TextField
+              id="standard-number"
+              label="From"
+              type="number"
+              label="To"
+              placeholder="2020"
+              onChange={(e) => {
+                setYears([year[0] || 1900, +e.target.value]);
+              }}
+              value={year[1]}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              style={{
+                margin: ".7em 0",
+              }}
+            />
+          </div>
         </SimplePopover>
 
         <FormControl className={classes.formControl}>
@@ -341,5 +345,49 @@ const useStylesPopover = makeStyles((theme) => ({
   },
   buttons: {
     marginRight: "1em",
+  },
+}));
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "80%",
+    backgroundColor: "transparent",
+  },
+  bg: {
+    backgroundColor: "transparent",
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  tp: {
+    backgroundColor: "white",
+  },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: "auto",
+  },
+  none: {
+    display: "none",
+  },
+  accordionContent: {
+    boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.06)",
+    borderRadius: "10px",
+    [theme.breakpoints.down("md")]: {
+      width: "90vw",
+    },
+
+    "&:before": {
+      display: "none",
+    },
+  },
+  clickable: {
+    cursor: "pointer",
+    color: "#111",
+  },
+  iconContainer: {
+    display: "flex",
   },
 }));

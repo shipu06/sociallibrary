@@ -8,23 +8,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { addBookToDatabase } from "../../../utils/addBookToDatabase";
+import { AlertTitle } from "@material-ui/lab";
+import fetch from "../../../utils/fetchCategories";
 
-const categories = ["Fantasy", "Lalalala", "Bleblelbe", "Tyryry"];
-
-const top100Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-];
-
-const book1 = {
+const exampleBook = {
   id: 2,
   name: "Wzgórza jakieś ładne",
-  category: "Przyrodnicze",
-  pages: "302",
+  category: "Fantasy",
+  pages: true,
   year: "2010",
   rating: 4,
   description:
@@ -45,16 +37,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddBook() {
-  const [book, setBook] = useState(book1);
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [isSnackbarOpen, setSnackbarOpen] = useState(false);
   const classes = useStyles();
 
+  const [book, setBook] = useState(exampleBook);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isSnackbarOpen, setSnackbarOpen] = useState(false);
+  const [response, setResponse] = React.useState(false);
+  const [categories, setCategories] = useState([]);
   const handleBookInput = ({ target: { name, value } }) => {
     setBook({ ...book, [name]: value });
   };
 
-  const handleOpenSnackbar = () => {
+  const handleOpenSnackbar = (res) => {
+    setResponse(res);
     setSnackbarOpen(true);
   };
 
@@ -65,6 +60,14 @@ export default function AddBook() {
 
     setSnackbarOpen(false);
   };
+
+  const handleSaveBook = (book) => {
+    addBookToDatabase(book, (res) => handleOpenSnackbar(res));
+  };
+
+  useEffect(() => {
+    fetch.get((res) => setCategories(res.map((cat) => cat.category)));
+  });
 
   return (
     <>
@@ -100,13 +103,10 @@ export default function AddBook() {
           <Grid item md={10} xs={12}>
             <Autocomplete
               id="combo-box-demo"
-              freeSolo
               options={categories}
               inputValue={book.category}
               onInputChange={(_, value) => {
                 setBook({ ...book, category: value });
-
-                console.log(value);
               }}
               getOptionLabel={(opt) => opt}
               style={{ width: 300 }}
@@ -170,7 +170,7 @@ export default function AddBook() {
             <Button
               variant="contained"
               color="primary"
-              onClick={handleOpenSnackbar}
+              onClick={() => handleSaveBook(book)}
             >
               SAVE THE BOOK
             </Button>
@@ -199,9 +199,12 @@ export default function AddBook() {
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success">
-          Book added!
-        </Alert>
+        {response && (
+          <Alert severity={response.isSaved ? "success" : "error"}>
+            <AlertTitle>{response.isSaved ? "Success" : "Error"}</AlertTitle>
+            {response.message}
+          </Alert>
+        )}
       </Snackbar>
     </>
   );
