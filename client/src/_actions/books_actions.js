@@ -1,14 +1,16 @@
 import { SET_BOOKS, SET_FILTERS, CLEAR_FILTERS } from "./types";
 import axios from "axios";
+import { authHeader } from "../utils/authHeader";
 
 export async function setBooks() {
   return async (dispatch, getState) => {
     const options = getState().books_store.filters;
-    const request = await axios
-      .post(`/api/user/books`, options)
-      .then((response) => response.data);
 
-    console.log(request);
+    const request = await axios
+      .post(`/api/books`, options, {
+        headers: authHeader(),
+      })
+      .then((response) => response.data);
 
     dispatch({
       type: SET_BOOKS,

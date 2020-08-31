@@ -5,14 +5,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const uri =
-  "mongodb+srv://dawidrw123:dawidrw123@cluster0-v5k3b.mongodb.net/ISR?authSource=admin&replicaSet=Cluster0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass%20Community&retryWrites=true&ssl=true";
+const jwt = require("./_helpers/jwt");
+const errorHandler = require("./_helpers/error-handler");
+const uri = require("../config.json").connectionString;
 
-// const mongoose = require("mongoose");
-// mongoose
-//   .connect(config.mongoURI, { useNewUrlParser: true })
-//   .then(() => console.log("DB connected"))
-//   .catch(err => console.error(err));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -28,11 +24,12 @@ const connect = mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
-app.use("/api/users", require("./routes/users"));
-app.use("/api/user", require("./routes/user"));
-app.use("/api/admin", require("./routes/admin"));
+app.use(jwt());
 
-app.use("/uploads", express.static("uploads"));
+app.use("/api/books", require("./routes/books.controller"));
+app.use("/api/categories", require("./routes/categories.controller"));
+app.use("/api/markers", require("./routes/markers.controller"));
+app.use("/api/users", require("./users/users.controller"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -41,6 +38,8 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 }
+
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 

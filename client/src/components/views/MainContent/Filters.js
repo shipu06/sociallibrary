@@ -1,4 +1,4 @@
-import React, { useState, Children } from "react";
+import React, { useState, Children, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -32,7 +32,7 @@ import { setFilter } from "../../../_actions/books_actions.js";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import { Chip } from "@material-ui/core";
+import fetchCategories from "../../../utils/fetchCategories";
 
 export default function ModalWithAccordion() {
   const classes = useStyles();
@@ -191,6 +191,14 @@ function SimplePopover({ label, children }) {
 function FilterMainOptions() {
   const classes = useStylesFilters();
 
+  const [categories, setCategories] = useState(['loading...']);
+
+  useEffect(
+    () =>
+      fetchCategories.get((res) => setCategories(res.map((c) => c.category))),
+    []
+  );
+
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.books_store.filters);
 
@@ -227,30 +235,27 @@ function FilterMainOptions() {
       <div className="filterMainOptions">
         <SimplePopover label="category" className={classes.buttons}>
           <List>
-            {[0, "Tyryry", 2, 3].map((value) => {
-              const labelId = `checkbox-list-label-${value}`;
+            {categories.map((cat) => {
+              const labelId = `checkbox-list-label-${cat}`;
 
               return (
                 <ListItem
-                  key={value}
+                  key={cat}
                   role={undefined}
                   dense
                   button
-                  onClick={handleToggle(value)}
+                  onClick={handleToggle(cat)}
                 >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
-                      checked={checked.indexOf(value) !== -1}
+                      checked={checked.indexOf(cat) !== -1}
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ "aria-labelledby": labelId }}
                     />
                   </ListItemIcon>
-                  <ListItemText
-                    id={labelId}
-                    primary={`Line item ${value + 1}`}
-                  />
+                  <ListItemText id={labelId} primary={cat} />
                 </ListItem>
               );
             })}
@@ -317,7 +322,7 @@ function FilterMainOptions() {
           </div>
         </SimplePopover>
 
-        <FormControl className={classes.formControl}>
+        {/* <FormControl className={classes.formControl}>
           <InputLabel shrink id="demo-simple-select-placeholder-label-label">
             Sort By
           </InputLabel>
@@ -333,7 +338,7 @@ function FilterMainOptions() {
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
       </div>
     </>
   );

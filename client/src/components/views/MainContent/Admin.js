@@ -70,6 +70,9 @@ export default function NavTabs() {
     setValue(newValue);
   };
 
+  if (localStorage.getItem("user") === null)
+    return <h1 style={{ padding: ".5em" }}>No access, login or register</h1>;
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -84,10 +87,10 @@ export default function NavTabs() {
         >
           <LinkTab label="Add Book" href="/drafts" {...a11yProps(0)} />
           <LinkTab label="Categories" href="/trash" {...a11yProps(1)} />
+          {/* <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
           <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
           <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
+          <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

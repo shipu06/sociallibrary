@@ -10,7 +10,8 @@ const BookSchema = new Schema(
     description: String,
     pages: Number,
     year: Number,
-
+    addedBy: { type: String },
+    addedById: { type: String },
     image: String,
     rating: {
       type: Number,

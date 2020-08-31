@@ -10,17 +10,17 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { addBookToDatabase } from "../../../utils/addBookToDatabase";
 import { AlertTitle } from "@material-ui/lab";
-import fetch from "../../../utils/fetchCategories";
+import fetchCategories from "../../../utils/fetchCategories";
 
 const exampleBook = {
-  id: 2,
-  name: "Wzgórza jakieś ładne",
-  category: "Fantasy",
+  id: 1,
+  name: "Title",
+  category: "",
   pages: true,
   year: "2010",
   rating: 4,
   description:
-    "zajebista ksiazka o nr 2 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    "Description of the book.",
   image: "https://www.tryngo.ch/img/no-img.jpg",
 };
 
@@ -66,8 +66,8 @@ export default function AddBook() {
   };
 
   useEffect(() => {
-    fetch.get((res) => setCategories(res.map((cat) => cat.category)));
-  });
+    fetchCategories.get((res) => setCategories(res.map((cat) => cat.category)));
+  }, []);
 
   return (
     <>
@@ -181,7 +181,8 @@ export default function AddBook() {
             <h4>Preview</h4>
             <Book
               book={book}
-              on
+              buttons={false}
+              fullsize={true}
               handleModalOpen={() => {
                 setModalOpen(true);
               }}

@@ -10,25 +10,9 @@ import Tab from "@material-ui/core/Tab";
 import PhoneIcon from "@material-ui/icons/Phone";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
-import DesctopMenu from "./DesctopMenu.js";
+import DesktopMenu from "./DektopMenu.js";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 500,
-    width: "calc(100vw - 2em)",
-    borderRadius: "10px",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-    zIndex: "99",
-  },
-  option: {
-    fontSize: "12px",
-    textTransform: "lowercase",
-    textColor: "#00b0f6",
-  },
-}));
+
 
 export default function IconLabelTabs() {
   const classes = useStyles();
@@ -66,7 +50,26 @@ export default function IconLabelTabs() {
           />
         </Tabs>
       </Paper>
-      <DesctopMenu />
+      <DesktopMenu />
     </div>
   );
 }
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    maxWidth: 500,
+    width: "calc(100vw - 2em)",
+    borderRadius: "10px",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+    zIndex: "99",
+  },
+  option: {
+    fontSize: "12px",
+    textTransform: "lowercase",
+    textColor: "#00b0f6",
+  },
+}));

@@ -1,4 +1,7 @@
 import { URL_API } from "./URL_API.js";
+import { authHeader } from "./authHeader";
+
+export default { get, add, remove };
 
 function get(cb) {
   fetch(URL_API.getCategories)
@@ -8,13 +11,12 @@ function get(cb) {
     });
 }
 
-function add(cat, cb) {
+function add(category, cb) {
+  let headers = authHeader();
   fetch(URL_API.addCategories, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ category: cat }),
+    headers,
+    body: JSON.stringify({ category }),
   })
     .then((res) => res.json())
     .then((res) => {
@@ -23,11 +25,10 @@ function add(cat, cb) {
 }
 
 function remove(id, cb) {
+  let headers = authHeader();
   fetch(URL_API.removeCategories, {
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify({ id: id }),
   })
     .then((res) => res.json())
@@ -35,5 +36,3 @@ function remove(id, cb) {
       cb(res);
     });
 }
-
-export default { get, add, remove };

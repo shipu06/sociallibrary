@@ -1,7 +1,13 @@
 export const URL_API = {
-  addBook: "/api/admin/addBook",
-  getBooks: "/api/user/books",
-  getCategories: "/api/user/categories",
-  addCategories: "/api/admin/categories",
-  removeCategories: "/api/admin/categories",
+  addBook: "/api/books/add",
+  getBooks: "/api/books",
+  getUserBooks: "/api/books/user",
+  
+  getCategories: "/api/categories",
+  addCategories: "/api/categories",
+  removeCategories: "/api/categories",
+
+  getUserMarkers: "/api/markers/user",
+  createMarker: "/api/markers/",
+
 };
