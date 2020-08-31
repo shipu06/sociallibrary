@@ -69,6 +69,7 @@ export default function AddBook() {
     fetchCategories.get((res) => setCategories(res.map((cat) => cat.category)));
   }, []);
 
+  
   return (
     <>
       <h1>Add new book to your library: </h1>
