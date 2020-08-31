@@ -5,18 +5,55 @@ Serwis ten będzie połączony z zapisem do zewnętrznej bazy danych MongoDB.
 
 **********************************
 
-Backend - endpointy umożliwiajace:
+Backend - endpointy :
 
-Dla admina:
--dodanie ksiązki - POST
--usuwanie ksiązki - DELETE
--pobieranie informacje o wypozyczeniu (jakie książki oraz kto wypożyczył, kiedy itd) - GET
--modyfikacja statusu wypozyczenia (wypożyczone, oddane) - PUT
+Ogólne:
 
-Dla użytkownika:
--pobranie wszystkich obiektów ksiązek (wraz z filtrowaniem po kategoriach, ilością stron itd.) - GET
--pobranie obiektu jednej książki (o konkretnym id) - GET
--wysłanie informacji o wypożyczeniu  (jakie ksiązki oraz dane osoby wypożyczającej) - POST
+'/api/books' - POST - pobieranie tablicy obiektow z ksiazkami.
+ W body należy przekazać obiekt zawierający (dla pobrania wszystkich ksiązek): 
+ {
+    searchPhrase: "",
+    category: [],
+    pages: [],
+    year: []
+},
+
+Jeśli chcemy otrzymac przefiltrowane książki mozemy przekazac:
+
+String searchPhrase ktory bedzie szukal po nazwie, autorze, kategorii oraz nazwie uzytkowanika ktory dodał
+Tablica Stringów category dla wybrania konkretnych kategorii np ['Fantasy', 'Novel']
+Tablica int pages dla wybrania wartości minimalnych i maksymalnych, np (od 100 do 200 stron) [100, 200]
+
+
+'/api/users/login' - POST - logowanie uzytkownika, jako body wysylamy {username, password}.
+Zwracany jest token, ktory jest przechowany w localStorage przegladarki i wykorzystywany przy kolejnych requestach.
+'/api/users/register' - POST - rejestracja uzytkownika w body {username, password, firstName,secondName}
+Uzytkownik po zarejestrowaniu, jest odrazu zalogowany
+
+*********************
+
+Prywatne ( potrzeba autoryzacji JWT(JSON WEB TOKEN)):
+
+AUTORYZACJA POPRZEZ DODANIE DO HEADERA 'Authorization' : 'Bearer <token>'
+'/api/books/add' - POST - dodawanie ksiażki (model ksiazki w kodzie)
+'/api/books/user' - GET - wyswietla ksiazki dodane przez zalogowanego uzytkownika
+
+
+'/api/markers/user' - GET - wyswietla ksiazki oznaczone ksiązki przez zalogowanego uzytkownika
+'/api/markers/' - POST - tworzy  oznaczenie ksiązki dla zalogowanego uzytkownika
+
+
+***************************
+
+Prywatne ( potrzeba autoryzacji jako Admin ):
+Dla przetestowania można się zalogować na stronie:
+login: admin haslo: admin123
+
+'/api/categories' - GET - pobieranie wszystkich kategorii
+'/api/categories' - POST - dodawanie kategorii
+'/api/categories' - DELETE - usuwanie kategorii
+
+dla POST i DELETE, w body nalezy przekazac {categories}
 
 
 Ksiązki oraz informacje o wypozyczeniu będą następnie wysłane do bazdy danych MongoDB
@@ -24,20 +61,8 @@ Ksiązki oraz informacje o wypozyczeniu będą następnie wysłane do bazdy dany
 
 ***********************************
 
-Frontend - serwis umożliwiający:
+Frontend - DEMO:
 
-Dla użytkownika:
--wyświetlenie wszystkich książek
--wyświetlenie pojedyńczej ksiązki wraz z opisem, obrazkiem, ilością dostępnych sztuk, ilością stron, kategorii 
--"koszyk" z ksiązkami ktorymi chcemy wypożyczyć (ksiązki będa zapisywane w ciasteczkach)
--formularz, gdzie podajemy dane wypożyczającego i przesyłamy je do endpointu
-
-Dla admina:
--tabela wszystkich ksiązek (możliwość usuwania)
--tabela wypożyczen wraz z możliwościa modyfikacji stanu wypożyczenia oraz wszystkimi danymi o wypożyczeniu (kto i co)
-
-
-Serwis będzie wgrany na platforme herokuapp.com pozwalająca na darmowe testowanie aplikacji internetowych.
 
 
 Dawid Kurpiel AiR IMiR 292333

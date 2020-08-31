@@ -24,13 +24,6 @@ const connect = mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
-app.use(jwt());
-
-app.use("/api/books", require("./routes/books.controller"));
-app.use("/api/categories", require("./routes/categories.controller"));
-app.use("/api/markers", require("./routes/markers.controller"));
-app.use("/api/users", require("./users/users.controller"));
-
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
@@ -38,6 +31,12 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 }
+app.use(jwt());
+
+app.use("/api/books", require("./routes/books.controller"));
+app.use("/api/categories", require("./routes/categories.controller"));
+app.use("/api/markers", require("./routes/markers.controller"));
+app.use("/api/users", require("./users/users.controller"));
 
 app.use(errorHandler);
 
