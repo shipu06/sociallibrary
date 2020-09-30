@@ -1,70 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+
+import Button from "@material-ui/core/Button";
+import Rating from "@material-ui/lab/Rating";
+import fetchMarkers from "utils/fetchMarkers";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import "./mainContent.css";
-import Rating from "@material-ui/lab/Rating";
-import Button from "@material-ui/core/Button";
-import Modal from "./Modal";
-import Filters from "./Filters";
-import SelectedFilters from "./SelectedFilters";
 
-import { useSelector } from "react-redux";
-import fetchMarkers from "../../../utils/fetchMarkers";
+const cardSizes = [4, 6];
 
-export default function NestedGrid() {
-  const classes = useStyles();
-
-  const books = useSelector((state) => state.books_store.books) || false;
-
-  const [isModalOpen, setModalOpen] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState(null);
-
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  if (!books) return <>Loading...</>;
-
-  const listOfBooks = books.map((book, id) => (
-    <Book
-      id={id}
-      book={book}
-      handleModalOpen={() => {
-        setModalContent(book);
-        handleModalOpen();
-      }}
-    />
-  ));
-
-  return (
-    <div className={classes.root}>
-      <Filters />
-      <SelectedFilters />
-      <Grid spacing={4} container>
-        {books.length ? (
-          listOfBooks
-        ) : (
-          <h1 style={{ padding: ".5em" }}>No results</h1>
-        )}
-      </Grid>
-      <Modal
-        modalContent={modalContent}
-        isModalOpen={isModalOpen}
-        setModalOpen={setModalOpen}
-      />
-    </div>
-  );
-}
-
-export const Book = ({
+export default function Book({
   book,
   handleModalOpen,
   buttons = true,
   fullsize = false,
-}) => {
+  sizeOfCards = 0,
+}) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(book.rating);
+  const [value, setValue] = useState(book.rating);
 
   const handleMarker = (id) => {
     fetchMarkers.create(id, (res) => {
@@ -72,7 +25,7 @@ export const Book = ({
     });
   };
   return (
-    <Grid item xs={12} md={fullsize ? 12 : 4}>
+    <Grid item xs={12} md={fullsize ? 12 : cardSizes[sizeOfCards]}>
       <Paper className={classes.paper}>
         <div className="book">
           <img
@@ -128,7 +81,7 @@ export const Book = ({
       </Paper>
     </Grid>
   );
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -149,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.11)",
-    borderRadius: 20,
     [theme.breakpoints.down("md")]: {
       margin: "0px 20px 10px 0",
       height: "auto",

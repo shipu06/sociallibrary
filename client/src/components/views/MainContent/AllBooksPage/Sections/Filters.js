@@ -1,4 +1,4 @@
-import React, { useState, Children, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -9,32 +9,22 @@ import Radio from "@material-ui/core/Radio";
 import { Checkbox } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import ViewComfySharpIcon from "@material-ui/icons/ViewComfySharp";
-import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
-
 import Popover from "@material-ui/core/Popover";
 import Button from "@material-ui/core/Button";
 
-import { setFilter } from "../../../_actions/books_actions.js";
+import { setFilter } from "_actions/books_actions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import fetchCategories from "utils/fetchCategories";
 
-import fetchCategories from "../../../utils/fetchCategories";
-
-export default function ModalWithAccordion() {
+export default function Filters({ setSizeOfCards }) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -42,20 +32,22 @@ export default function ModalWithAccordion() {
     setIsOpen(!isOpen);
   };
 
-  const [selectedValue, setSelectedValue] = React.useState("a");
+  const [selectedValue, setSelectedValue] = React.useState("0");
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSelectedValue(value);
+    setSizeOfCards(value * 1);
   };
 
   const filtersOptions = (
     <>
       <Radio
-        checked={selectedValue === "a"}
+        checked={selectedValue === "0"}
         onChange={handleChange}
-        value="a"
+        value="0"
         name="radio-button-demo"
-        inputProps={{ "aria-label": "A" }}
+        inputProps={{ "aria-label": "0" }}
         icon={<ViewModuleIcon className={classes.clickable} />}
         checkedIcon={
           <ViewModuleIcon
@@ -65,11 +57,11 @@ export default function ModalWithAccordion() {
         }
       />
       <Radio
-        checked={selectedValue === "b"}
+        checked={selectedValue === "1"}
         onChange={handleChange}
-        value="b"
+        value="1"
         name="radio-button-demo"
-        inputProps={{ "aria-label": "B" }}
+        inputProps={{ "aria-label": "1" }}
         icon={<ViewComfySharpIcon className={classes.clickable} />}
         checkedIcon={
           <ViewComfySharpIcon
@@ -191,7 +183,7 @@ function SimplePopover({ label, children }) {
 function FilterMainOptions() {
   const classes = useStylesFilters();
 
-  const [categories, setCategories] = useState(['loading...']);
+  const [categories, setCategories] = useState(["loading..."]);
 
   useEffect(
     () =>

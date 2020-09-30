@@ -13,16 +13,16 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
-import Paper from "@material-ui/core/Paper";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import fetchCategories from "../../../utils/fetchCategories.js";
 
 import { useHistory } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { setFilter, clearFilters } from "../../../_actions/books_actions";
 
-export default function NestedList() {
+import fetchCategories from "../../../utils/fetchCategories.js";
+
+export default function DesktopMenu() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ export default function NestedList() {
     dispatch(setFilter({ category: [cat] }));
     history.push("/");
   };
+
   return (
     <>
       <List
@@ -133,10 +134,6 @@ export default function NestedList() {
           </List>
         </Collapse>
       </List>
-      {/* <div className="paper">
-        FEATURE
-
-      </div> */}
     </>
   );
 }

@@ -5,6 +5,6 @@ const BookSchema = new Schema({
   category: { type: String, required: true },
 });
 
-const Book = mongoose.model("Category", BookSchema, "categories");
+const Category = mongoose.model("Category", BookSchema, "categories");
 
-module.exports = Book;
+module.exports = Category;

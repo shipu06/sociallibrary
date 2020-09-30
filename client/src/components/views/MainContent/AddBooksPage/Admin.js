@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -7,8 +7,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-import AddBook from "./AddBook.js";
-import AddCategory from "./AddCategory.js";
+import AddBook from "./Sections/AddBook.js";
+import AddCategory from "./Sections/AddCategory.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavTabs() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -87,10 +87,6 @@ export default function NavTabs() {
         >
           <LinkTab label="Add Book" href="/drafts" {...a11yProps(0)} />
           <LinkTab label="Categories" href="/trash" {...a11yProps(1)} />
-          {/* <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -98,9 +94,6 @@ export default function NavTabs() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <AddCategory />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Page Three
       </TabPanel>
     </div>
   );

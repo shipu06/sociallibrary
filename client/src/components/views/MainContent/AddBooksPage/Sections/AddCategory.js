@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import categoriesFetch from "../../../utils/fetchCategories";
+import categoriesFetch from "utils/fetchCategories";
 import { Chip } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -17,7 +17,6 @@ export default function AddCategory() {
   useEffect(loadCategories, []);
 
   const handleDelete = (id) => {
-    console.log(id);
     categoriesFetch.remove(id, (res) => {
       alert(res.message);
       loadCategories();

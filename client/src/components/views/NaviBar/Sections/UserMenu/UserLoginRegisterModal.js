@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
@@ -10,14 +10,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function UserLoginRegisterModal({ title, type }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const toggleModal = () => {
+    setOpen(!open);
   };
 
   return (
@@ -25,7 +21,7 @@ export default function UserLoginRegisterModal({ title, type }) {
       <Button
         variant={type === "register" && "contained"}
         color="primary"
-        onClick={handleClickOpen}
+        onClick={toggleModal}
       >
         {title}
       </Button>
@@ -33,7 +29,7 @@ export default function UserLoginRegisterModal({ title, type }) {
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose}
+        onClose={toggleModal}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >

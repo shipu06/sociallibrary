@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { Book } from "./Books.js";
-import Modal from "./Modal.js";
+import Book from "../../AllBooksPage/Sections/Book";
+import Modal from "../../AllBooksPage/Sections/Modal.js";
 import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { addBookToDatabase } from "../../../utils/addBookToDatabase";
+import { addBookToDatabase } from "utils/addBookToDatabase";
 import { AlertTitle } from "@material-ui/lab";
-import fetchCategories from "../../../utils/fetchCategories";
+import fetchCategories from "utils/fetchCategories";
 
 const exampleBook = {
   id: 1,
@@ -19,8 +19,7 @@ const exampleBook = {
   pages: true,
   year: "2010",
   rating: 4,
-  description:
-    "Description of the book.",
+  description: "Description of the book.",
   image: "https://www.tryngo.ch/img/no-img.jpg",
 };
 
@@ -69,7 +68,6 @@ export default function AddBook() {
     fetchCategories.get((res) => setCategories(res.map((cat) => cat.category)));
   }, []);
 
-  
   return (
     <>
       <h1>Add new book to your library: </h1>

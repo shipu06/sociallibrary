@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Chip } from "@material-ui/core";
-import { setFilter } from "../../../_actions/books_actions";
+import { setFilter } from "_actions/books_actions";
 
 export default function SelectedFilters() {
   const { category, pages, year } = useSelector(
