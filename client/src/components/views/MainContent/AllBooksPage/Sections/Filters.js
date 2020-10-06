@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -383,6 +384,10 @@ const useStyles = makeStyles((theme) => ({
   clickable: {
     cursor: "pointer",
     color: "#111",
+  },
+
+  secondaryColor: {
+    main: "#E33E7F",
   },
   iconContainer: {
     display: "flex",

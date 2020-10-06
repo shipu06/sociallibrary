@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import "./mainContent.css";
 
-import Books from "./AllBooksPage/AllBooks";
+import AllBooks from "./AllBooksPage/AllBooks";
 import Admin from "./AddBooksPage/Admin";
 import UserBooks from "./UserBooksPages/UserBooks";
 
-import { getUserBooks } from "../../../utils/getBooks";
+import { getUserBooks, remove } from "../../../utils/getBooks";
 import fetchMarkers from "../../../utils/fetchMarkers";
 
 export default function MainContent() {
@@ -20,21 +20,23 @@ export default function MainContent() {
       {searchPhrase.length ? (
         <>
           <h1>Searching for '{searchPhrase}'</h1>
-          <Books />
+          <AllBooks />
         </>
       ) : (
         <Switch>
-          <Route exact path="/" component={Books} />
+          <Route exact path="/" component={AllBooks} />
           <Route exact path="/myBooks">
             <UserBooks
               title={"Books that you have created:"}
               fetchCallback={getUserBooks}
+              deleteCallback={remove}
             />
           </Route>
           <Route exact path="/markers">
             <UserBooks
               title={"Books that you have marked:"}
               fetchCallback={fetchMarkers.getUserMarkers}
+              deleteCallback={fetchMarkers.remove}
             />
           </Route>
           <Route exact path="/add" component={Admin} />

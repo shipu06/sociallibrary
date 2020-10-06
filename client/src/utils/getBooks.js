@@ -26,3 +26,16 @@ export function getUserBooks(cb) {
       cb(res);
     });
 }
+export function remove(bookId, cb) {
+  let headers = authHeader();
+  fetch(URL_API.deleteBook, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ bookId }),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      alert(res.message);
+      cb(res);
+    });
+}

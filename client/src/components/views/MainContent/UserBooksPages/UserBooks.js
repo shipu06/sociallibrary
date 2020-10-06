@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Book from "../AllBooksPage/Sections/Book";
-import Modal from "../AllBooksPage/Sections/Modal";
-import Grid from "@material-ui/core/Grid";
 
-export default function UserBooks({ title, fetchCallback }) {
+import Grid from "@material-ui/core/Grid";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import IconButton from "@material-ui/core/IconButton";
+
+import Book from "../AllBooksPage/Sections/Book";
+import Modal from "../AllBooksPage/Sections/Modal/Modal";
+
+export default function UserBooks({ title, fetchCallback, deleteCallback }) {
   const [books, setBooks] = useState([]);
   const [modalBook, setModalBook] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
@@ -13,6 +17,11 @@ export default function UserBooks({ title, fetchCallback }) {
       setBooks(res);
     });
   }, [fetchCallback]);
+
+  const removeCallback = (removedBook) => {
+    setBooks(books.filter((book) => removedBook._id !== book._id));
+    deleteCallback(removedBook._id, () => {});
+  };
 
   return (
     <div style={{ flexGrow: 1 }}>
@@ -31,7 +40,19 @@ export default function UserBooks({ title, fetchCallback }) {
                 id={id}
                 book={book}
                 buttons={false}
-              />
+              >
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls="primary-search-account-menu"
+                  aria-haspopup="true"
+                  color="red"
+                  className="books__delete"
+                  onClick={() => removeCallback(book)}
+                >
+                  <HighlightOffIcon />
+                </IconButton>
+              </Book>
             ))}
           </Grid>
           <Modal

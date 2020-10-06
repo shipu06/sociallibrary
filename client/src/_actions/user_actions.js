@@ -32,6 +32,7 @@ export function loginUser(dataToSubmit) {
           payload: res.data,
         });
         localStorage.setItem("user", JSON.stringify(res.data));
+        window.location.reload();
       })
       .catch((error) => {
         alert("Sign In Error: Wrong username or password");
@@ -58,6 +59,7 @@ export function auth() {
 }
 
 export function logoutUser() {
+  window.location.reload();
   return {
     type: LOGOUT_USER,
   };

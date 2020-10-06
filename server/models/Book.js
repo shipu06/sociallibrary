@@ -15,7 +15,7 @@ const BookSchema = new Schema(
     image: String,
     rating: {
       type: Number,
-      default: 0,
+      required: true,
     },
     isAvailable: {
       type: Boolean,

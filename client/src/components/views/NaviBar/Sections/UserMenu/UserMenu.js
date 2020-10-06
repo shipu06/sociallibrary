@@ -15,6 +15,7 @@ export default function UserMenu({ type }) {
   const handleLogout = () => {
     localStorage.removeItem("user");
     dispatch(logoutUser());
+    window.location.reload();
   };
 
   if (user === null && type === "desktop") return <UserMenuNotLogged />;

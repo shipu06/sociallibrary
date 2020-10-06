@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AddBoxIcon from "@material-ui/icons/AddBox";
@@ -15,19 +16,16 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 
-import { useHistory } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 import { setFilter, clearFilters } from "../../../_actions/books_actions";
 
-import fetchCategories from "../../../utils/fetchCategories.js";
+import fetchCategories from "utils/fetchCategories.js";
 
-export default function DesktopMenu() {
+export default function DesktopMenu({ history }) {
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState(["loading data..."]);
 
   const isLogged = false;

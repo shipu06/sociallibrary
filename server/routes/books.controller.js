@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const Book = require("../models/Book");
+
 const mongoose = require("mongoose");
+const ObjectID = require("mongodb").ObjectID;
+const isObjectIDvalid = mongoose.Types.ObjectId.isValid;
+
+const Book = require("../models/Book");
 const userService = require("../users/user.service.js");
 
 router.post("/", getBooks);
 router.post("/add", createBook);
 router.get("/user", getUserBooks);
+router.delete("/delete", removeBook);
 
 async function createBook(req, res) {
   const _book = req.body;
-  console.log(_book);
   const user = await userService.getById(req.user.sub);
 
   _book.addedBy = `${user.firstName} ${user.lastName}`;
@@ -66,6 +70,30 @@ async function getUserBooks(req, res) {
   } catch (err) {
     res.json({ message: err });
   }
+}
+
+async function removeBook(req, res) {
+  const { bookId } = req.body;
+  const userId = req.user.sub;
+
+  if (!isObjectIDvalid(bookId))
+    return res.json({ message: "BookID is not valid!", isSaved: false });
+
+  const book = await Book.findById(ObjectID(bookId)).exec();
+  if (!book)
+    return res.json({ message: "Book does not exist!", isSaved: false });
+
+
+  if (userId !== book.addedById)
+    return res.json({
+      message: "Book was not created by you!",
+      isSaved: false,
+    });
+
+  book.remove((err, obj) => {
+    if (err) return res.json({ message: err.message, isSaved: false });
+    res.json({ message: "Book removed!", isSaved: true });
+  });
 }
 
 module.exports = router;

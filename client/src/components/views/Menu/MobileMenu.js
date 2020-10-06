@@ -4,11 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import PhoneIcon from "@material-ui/icons/Phone";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import PersonPinIcon from "@material-ui/icons/PersonPin";
 
-export default function IconLabelTabs() {
+import LibraryBooks from "@material-ui/icons/LibraryBooks";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+
+export default function IconLabelTabs({ history }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -28,18 +29,27 @@ export default function IconLabelTabs() {
       >
         <Tab
           classes={{ root: classes.option }}
-          icon={<PhoneIcon />}
-          label="RECENTS"
+          icon={<LibraryBooks />}
+          label="All"
+          onClick={() => {
+            history.push("/");
+          }}
         />
         <Tab
           classes={{ root: classes.option }}
-          icon={<FavoriteIcon />}
-          label="FAVORITES"
+          icon={<BookmarkIcon />}
+          label="marked"
+          onClick={() => {
+            history.push("/markers");
+          }}
         />
         <Tab
           classes={{ root: classes.option }}
-          icon={<PersonPinIcon />}
-          label="NEARBY"
+          icon={<AddBoxIcon />}
+          label="add"
+          onClick={() => {
+            history.push("/add");
+          }}
         />
       </Tabs>
     </Paper>

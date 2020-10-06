@@ -102,6 +102,12 @@
   transition: 0.3s;
 }
 
+.books__delete {
+  position: absolute !important;
+  top: 0;
+  right: 4%;
+}
+
 @media (max-width: 600px) {
   .book__img {
     border-radius: 10px;
@@ -192,7 +198,6 @@
 .years {
   width: 6em;
 }
-
 
 input.error {
   border-color: red;

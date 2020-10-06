@@ -1,4 +1,6 @@
 import React, { Suspense, useEffect } from "react";
+import { ThemeProvider } from "@material-ui/core/styles";
+import theme from "utils/theme";
 
 import NaviBar from "./views/NaviBar/NaviBar";
 import Menu from "./views/Menu/Menu";
@@ -17,13 +19,15 @@ function App() {
   }, []);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <NaviBar />
-      <div className="content">
-        <Menu />
-        <MainContent />
-      </div>
-    </Suspense>
+    <ThemeProvider theme={theme}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NaviBar />
+        <div className="content">
+          <Menu />
+          <MainContent />
+        </div>
+      </Suspense>
+    </ThemeProvider>
   );
 }
 

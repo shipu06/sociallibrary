@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 
-import Modal from "./Sections/Modal";
+import Modal from "./Sections/Modal/Modal";
 import Filters from "./Sections/Filters";
 import SelectedFilters from "./Sections/SelectedFilters";
 import Book from "./Sections/Book";
 
+import fetchMarkers from "utils/fetchMarkers";
+
 export default function AllBooks() {
   const books = useSelector((state) => state.books_store.books) || false;
+
+  const [markedBooks, setMarkedBooks] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -19,13 +24,21 @@ export default function AllBooks() {
     setModalOpen(true);
   };
 
-  if (!books) return <>Loading...</>;
+  useEffect(() => {
+    fetchMarkers.getUserMarkers((res) => {
+      setMarkedBooks(res);
+      setIsLoaded(true);
+    });
+  }, []);
+
+  if (!books || !isLoaded) return <>Loading...</>;
 
   const listOfBooks = books.map((book, id) => (
     <Book
       key={book._id}
       id={id}
       book={book}
+      markedBooks={markedBooks}
       handleModalOpen={() => {
         setModalContent(book);
         handleModalOpen();

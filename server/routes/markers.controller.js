@@ -6,13 +6,12 @@ const mongoose = require("mongoose");
 const Book = require("../models/Book");
 const Marker = require("../models/Marker");
 const isObjectIDvalid = mongoose.Types.ObjectId.isValid;
-// https://github.com/cornflourblue/node-mongo-registration-login-api
 
 router.get("/user", getUserMarkers);
 router.post("/", createMarker);
+router.delete("/", deleteMarker);
 
 async function getUserMarkers(req, res) {
-  console.log("getmarkers");
   const markers = await Marker.find({ userId: req.user.sub });
   const bookIds = markers
     .map((m) => m.bookId)
@@ -44,6 +43,31 @@ async function createMarker(req, res) {
     if (err) return res.json({ message: err.message, isSaved: false });
 
     res.json({ message: "Marker created!", isSaved: true });
+  });
+}
+
+async function deleteMarker(req, res) {
+  const { bookId } = req.body;
+  const userId = req.user.sub;
+
+  if (!isObjectIDvalid(bookId))
+    return res.json({ message: "BookID is not valid!", isSaved: false });
+
+  const book = await Book.findById(ObjectID(bookId)).exec();
+  if (!book)
+    return res.json({ message: "Book does not exist!", isSaved: false });
+
+  const marker = await Marker.findOne({
+    userId,
+    bookId,
+  });
+  if (!marker)
+    return res.json({ message: "Marker is not in database!", isSaved: false });
+
+  marker.remove((err, obj) => {
+    if (err) return res.json({ message: err.message, isSaved: false });
+
+    res.json({ message: "Marker deleted!", isSaved: true });
   });
 }
 

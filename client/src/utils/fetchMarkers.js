@@ -9,7 +9,6 @@ function getUserMarkers(cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       cb(res);
     });
 }
@@ -26,5 +25,17 @@ function create(bookId, cb) {
       cb(res);
     });
 }
+function remove(bookId, cb) {
+  let headers = authHeader();
+  fetch(URL_API.createMarker, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ bookId }),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      cb(res);
+    });
+}
 
-export default { create, getUserMarkers };
+export default { create, getUserMarkers, remove };

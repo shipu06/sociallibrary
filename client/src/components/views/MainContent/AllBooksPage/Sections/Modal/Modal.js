@@ -3,8 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import MuiModal from "./MuiModal.js";
-
+import ModalContent from "./ModalContent.js";
 
 export default function TransitionsModal({
   setModalOpen,
@@ -32,7 +31,7 @@ export default function TransitionsModal({
         }}
       >
         <Fade in={isModalOpen}>
-          <MuiModal modalContent={modalContent} />
+          <ModalContent book={modalContent} handleClose={handleClose} />
         </Fade>
       </Modal>
     </div>
@@ -42,8 +41,10 @@ export default function TransitionsModal({
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
-    alignItems: "center",
+    margin: "5% 0 ",
     justifyContent: "center",
+    overflowY: "scroll",
+    height: "auto",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
