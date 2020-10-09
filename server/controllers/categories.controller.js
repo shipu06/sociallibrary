@@ -1,12 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Category = require("../models/Category");
-const ObjectID = require("mongodb").ObjectID;
-const userService = require("../services/user.service.js");
-const mongoose = require("mongoose");
 
 const categoriesService = require("../services/categories.service");
-// https://github.com/cornflourblue/node-mongo-registration-login-api
 
 router.get("/", getCategories);
 router.post("/", createCategory);

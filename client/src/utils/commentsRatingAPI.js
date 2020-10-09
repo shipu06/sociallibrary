@@ -11,6 +11,7 @@ function getUserCommentRate(commentId, cb) {
   })
     .then((res) => res.json())
     .then((res) => {
+      console.log(res)
       cb(res);
     });
 }
@@ -23,6 +24,7 @@ function getById(commentId, cb) {
   })
     .then((res) => res.json())
     .then((res) => {
+      console.log(res)
       cb(res);
     });
 }
@@ -36,6 +38,7 @@ function set(payload, cb) {
   })
     .then((res) => res.json())
     .then((res) => {
+      console.log(res)
       cb(res);
     });
 }

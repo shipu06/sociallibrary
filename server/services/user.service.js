@@ -30,8 +30,8 @@ async function getAll() {
   return await User.find();
 }
 
-async function getById(id) {
-  return await User.findById(id);
+async function getById(_id) {
+  return await User.findById({ _id });
 }
 
 async function create(userParam) {

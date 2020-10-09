@@ -13,7 +13,6 @@ function get(bookId, cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       cb(res);
     });
 }
