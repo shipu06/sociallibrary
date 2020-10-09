@@ -19,8 +19,11 @@ export default function UserBooks({ title, fetchCallback, deleteCallback }) {
   }, [fetchCallback]);
 
   const removeCallback = (removedBook) => {
-    setBooks(books.filter((book) => removedBook._id !== book._id));
-    deleteCallback(removedBook._id, () => {});
+    deleteCallback(removedBook._id, (res) => {
+      res.isSaved
+        ? setBooks(books.filter((book) => removedBook._id !== book._id))
+        : alert(res.message);
+    });
   };
 
   return (

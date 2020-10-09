@@ -1,44 +1,41 @@
 import { URL_API } from "./URL_API.js";
 import { authHeader } from "./authHeader";
 
-function getUserMarkers(cb) {
+export default { set, getById, getUserCommentRate };
+
+function getUserCommentRate(commentId, cb) {
   let headers = authHeader();
-  fetch(URL_API.getUserMarkers, {
+  fetch(`${URL_API.getUserCommentRate}/${commentId}`, {
     method: "GET",
     headers,
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       cb(res);
     });
 }
 
-function create(bookId, cb) {
+function getById(commentId, cb) {
   let headers = authHeader();
-  fetch(URL_API.createMarker, {
+  fetch(`${URL_API.getCommentRateById}/${commentId}`, {
+    method: "GET",
+    headers,
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      cb(res);
+    });
+}
+
+function set(payload, cb) {
+  let headers = authHeader();
+  fetch(URL_API.setCommentRate, {
     method: "POST",
     headers,
-    body: JSON.stringify({ bookId }),
+    body: JSON.stringify(payload),
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       cb(res);
     });
 }
-function remove(bookId, cb) {
-  let headers = authHeader();
-  fetch(URL_API.createMarker, {
-    method: "DELETE",
-    headers,
-    body: JSON.stringify({ bookId }),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res)
-      cb(res);
-    });
-}
-
-export default { create, getUserMarkers, remove };

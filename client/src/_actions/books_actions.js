@@ -6,15 +6,15 @@ export async function setBooks() {
   return async (dispatch, getState) => {
     const options = getState().books_store.filters;
 
-    const request = await axios
+    const data = await axios
       .post(`/api/books`, options, {
         headers: authHeader(),
       })
-      .then((response) => response.data);
+      .then((response) => (response.length ? [] : response.data));
 
     dispatch({
       type: SET_BOOKS,
-      payload: request,
+      payload: data,
     });
   };
 }

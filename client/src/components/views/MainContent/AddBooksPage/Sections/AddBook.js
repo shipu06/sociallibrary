@@ -66,7 +66,8 @@ export default function AddBook() {
   };
 
   const handleSaveBook = (book) => {
-    if (!book.rating) handleOpenSnackbar("Rate the book");
+    if (!book.rating)
+      return handleOpenSnackbar({ isSaved: false, message: "Rate the book" });
     addBookToDatabase(book, (res) => handleOpenSnackbar(res));
   };
 

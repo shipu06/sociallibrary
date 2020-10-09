@@ -136,7 +136,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     position: "relative",
     color: theme.palette.text.secondary,
-    boxShadow: "10px 15px 10px rgba(0, 20, 140, 0.15)",
+    boxShadow:
+      "10px 15px 10px rgba(0, 20, 140, 0.15), 10px 15px 10px rgba(0, 20, 140, 0.15)",
     transition: ".5s",
     [theme.breakpoints.down("md")]: {
       margin: "0px 20px 10px 0",

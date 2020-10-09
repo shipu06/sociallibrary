@@ -8,6 +8,6 @@ export function authHeader() {
       Authorization: "Bearer " + user.token,
     };
   } else {
-    return {};
+    return { "Content-Type": "application/json" };
   }
 }

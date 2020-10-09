@@ -1,6 +1,6 @@
 const expressJwt = require("express-jwt");
 const config = require("../../config.json");
-const userService = require("../users/user.service");
+const userService = require("../services/user.service");
 
 module.exports = jwt;
 
@@ -13,6 +13,10 @@ function jwt() {
       "/api/users/login",
       "/api/books",
       { url: "/api/categories", methods: ["GET"] },
+      { url: "/api/comments/get", methods: ["POST"] },
+      { url: /^\/api\/commentsRating\/([^\/]*)$/, methods: ["GET"] },
+      { url: /^\/api\/booksRating\/([^\/]*)$/, methods: ["GET"] },
+      ,
     ],
   });
 }

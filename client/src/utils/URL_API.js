@@ -10,4 +10,16 @@ export const URL_API = {
 
   getUserMarkers: "/api/markers/user",
   createMarker: "/api/markers/",
+
+  getComments: "/api/comments/get",
+  addComment: "/api/comments",
+  removeComments: "/api/comments",
+
+  setCommentRate: "/api/commentsRating",
+  getCommentRateById: "/api/commentsRating",
+  getUserCommentRate: "/api/commentsRating/user",
+
+  setBookRate: "/api/booksRating",
+  getAverageBookRate: "/api/booksRating",
+  getBookRateById: "/api/booksRating/user",
 };
