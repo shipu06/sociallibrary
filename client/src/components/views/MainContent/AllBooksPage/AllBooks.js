@@ -8,7 +8,7 @@ import Filters from "./Sections/Filters";
 import SelectedFilters from "./Sections/SelectedFilters";
 import Book from "./Sections/Book";
 
-import fetchMarkers from "utils/fetchMarkers";
+import markersAPI from "utils/markersAPI";
 
 export default function AllBooks() {
   const books = useSelector((state) => state.books_store.books) || false;
@@ -25,7 +25,7 @@ export default function AllBooks() {
   };
 
   useEffect(() => {
-    fetchMarkers.getUserMarkers((res) => {
+    markersAPI.getUserMarkers((res) => {
       setMarkedBooks(res);
       setIsLoaded(true);
     });

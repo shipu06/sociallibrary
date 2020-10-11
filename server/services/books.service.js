@@ -53,6 +53,13 @@ async function create(_book, userId) {
   return book.save();
 }
 
+async function getFew(quantity) {
+  return await Book.find().sort({ createdAt: -1 }).limit(quantity);
+}
+async function getAll(limit) {
+  return await Book.find().sort({ createdAt: -1 });
+}
+
 async function _delete(bookId, userId) {
   const [book] = await getBooksByIds(bookId);
 
@@ -72,8 +79,10 @@ const validateId = (id) => {
 async function getBooksByIds(ids) {
   if (typeof ids === "object") ids.forEach((id) => validateId(id));
   if (typeof ids === "string") validateId(ids);
-
   return await Book.find({ _id: ids }).exec();
+}
+async function findQuery(obj) {
+  return await Book.find(obj).exec();
 }
 
 module.exports = {
@@ -82,4 +91,7 @@ module.exports = {
   getBooks,
   create,
   getBooksByIds,
+  getAll,
+  getFew,
+  findQuery,
 };

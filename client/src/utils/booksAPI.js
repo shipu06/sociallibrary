@@ -1,7 +1,9 @@
 import { URL_API } from "./URL_API.js";
 import { authHeader } from "./authHeader";
 
-export default function getBooks(options, cb) {
+export default { getBooks, getUserBooks, remove, create };
+
+function getBooks(options, cb) {
   fetch(URL_API.getBooks, {
     method: "POST",
     headers: {
@@ -15,7 +17,7 @@ export default function getBooks(options, cb) {
     });
 }
 
-export function getUserBooks(cb) {
+function getUserBooks(cb) {
   let headers = authHeader();
   fetch(URL_API.getUserBooks, {
     method: "GET",
@@ -26,7 +28,7 @@ export function getUserBooks(cb) {
       cb(res);
     });
 }
-export function remove(bookId, cb) {
+function remove(bookId, cb) {
   let headers = authHeader();
   fetch(URL_API.deleteBook, {
     method: "DELETE",
@@ -36,6 +38,19 @@ export function remove(bookId, cb) {
     .then((res) => res.json())
     .then((res) => {
       alert(res.message);
+      cb(res);
+    });
+}
+
+function create(book, cb) {
+  let headers = authHeader();
+  fetch(URL_API.addBook, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(book),
+  })
+    .then((res) => res.json())
+    .then((res) => {
       cb(res);
     });
 }

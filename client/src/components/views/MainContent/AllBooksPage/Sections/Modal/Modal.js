@@ -4,6 +4,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import ModalContent from "./ModalContent.js";
+// import "./modal.css";
 
 export default function TransitionsModal({
   setModalOpen,

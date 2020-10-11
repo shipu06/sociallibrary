@@ -24,7 +24,12 @@ async function create(comment, userId) {
   newComment.save();
 }
 
+async function getAll() {
+  return await Comment.find({});
+}
+
 module.exports = {
   getCommentsForBook,
   create,
+  getAll,
 };

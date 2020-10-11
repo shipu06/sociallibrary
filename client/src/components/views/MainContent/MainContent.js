@@ -6,9 +6,10 @@ import "./mainContent.css";
 import AllBooks from "./AllBooksPage/AllBooks";
 import Admin from "./AddBooksPage/Admin";
 import UserBooks from "./UserBooksPages/UserBooks";
+import StatisticsPage from "./Statistics/StatisticsPage";
 
-import { getUserBooks, remove } from "../../../utils/getBooks";
-import fetchMarkers from "../../../utils/fetchMarkers";
+import booksAPI from "utils/booksAPI";
+import markersAPI from "utils/markersAPI";
 
 export default function MainContent() {
   const searchPhrase = useSelector(
@@ -28,18 +29,19 @@ export default function MainContent() {
           <Route exact path="/myBooks">
             <UserBooks
               title={"Books that you have created:"}
-              fetchCallback={getUserBooks}
-              deleteCallback={remove}
+              fetchCallback={booksAPI.getUserBooks}
+              deleteCallback={booksAPI.remove}
             />
           </Route>
           <Route exact path="/markers">
             <UserBooks
               title={"Books that you have marked:"}
-              fetchCallback={fetchMarkers.getUserMarkers}
-              deleteCallback={fetchMarkers.remove}
+              fetchCallback={markersAPI.getUserMarkers}
+              deleteCallback={markersAPI.remove}
             />
           </Route>
           <Route exact path="/add" component={Admin} />
+          <Route exact path="/statistics" component={StatisticsPage} />
         </Switch>
       )}
     </div>

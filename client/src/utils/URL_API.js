@@ -22,4 +22,10 @@ export const URL_API = {
   setBookRate: "/api/booksRating",
   getAverageBookRate: "/api/booksRating",
   getBookRateById: "/api/booksRating/user",
+
+  getBestBooks: "/api/statistics/bestBooks",
+  getLastBooks: "/api/statistics/lastBooks",
+  getMostPopular: "/api/statistics/mostPopularBooks",
+  getQuantityOfCategories: "/api/statistics/getQuantityOfCategories",
+  getNumbers: "/api/statistics/getNumbers",
 };

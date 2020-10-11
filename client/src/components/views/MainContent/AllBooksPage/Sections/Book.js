@@ -6,7 +6,7 @@ import Rating from "@material-ui/lab/Rating";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
-import fetchMarkers from "utils/fetchMarkers";
+import markersAPI from "utils/markersAPI";
 
 const cardSizes = [4, 6];
 
@@ -23,13 +23,13 @@ export default function Book({
   const classes = useStyles();
 
   const createMarker = (id) => {
-    fetchMarkers.create(id, (res) => {
+    markersAPI.create(id, (res) => {
       if (res.isSaved) setIsMarked(true);
     });
   };
 
   const deleteMarker = (id) => {
-    fetchMarkers.remove(id, (res) => {
+    markersAPI.remove(id, (res) => {
       if (res.isSaved) setIsMarked(false);
     });
   };
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    height: "22vh",
+    height: "100%",
     textAlign: "center",
     borderRadius: "20px",
     position: "relative",
@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paperMarked: {
-    height: "22vh",
+    height: "100%",
     borderRadius: "10px",
     textAlign: "center",
     position: "relative",

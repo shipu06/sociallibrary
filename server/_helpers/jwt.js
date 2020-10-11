@@ -12,6 +12,7 @@ function jwt() {
       "/api/users/register",
       "/api/users/login",
       "/api/books",
+      /^\/api\/statistics\/([^\/]*)$/,
       { url: "/api/categories", methods: ["GET"] },
       { url: "/api/comments/get", methods: ["POST"] },
       { url: /^\/api\/commentsRating\/([^\/]*)$/, methods: ["GET"] },

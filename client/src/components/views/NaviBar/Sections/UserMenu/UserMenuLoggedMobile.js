@@ -7,6 +7,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { Avatar } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import IconButton from "@material-ui/core/IconButton";
+import BarChartIcon from "@material-ui/icons/BarChart";
 
 export default function UserMenuLoggedMobile({ user, handleLogout }) {
   const classes = useStyles();
@@ -53,6 +54,7 @@ export default function UserMenuLoggedMobile({ user, handleLogout }) {
             {user.firstName} {user.lastName}
           </span>
         </MenuItem>
+
         <MenuItem onClick={handleLogout}>
           <IconButton
             aria-label="show more"

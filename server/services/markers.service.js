@@ -14,6 +14,9 @@ async function get(userId) {
     .filter((id) => isObjectIDvalid(id));
   return await booksService.getBooksByIds(bookIds);
 }
+async function getAll() {
+  return await Marker.find();
+}
 
 async function create(bookId, userId) {
   const book = await booksService.getBooksByIds(bookId);
@@ -31,7 +34,6 @@ async function create(bookId, userId) {
 }
 
 async function _delete(bookId, userId) {
-  console.log(bookId);
   const [book] = await booksService.getBooksByIds(bookId);
   if (!book) throw new Error("Book does not exist!");
 
@@ -40,10 +42,9 @@ async function _delete(bookId, userId) {
     bookId,
   });
 
-  
   if (!marker) throw new Error("Marker is not in database!");
 
   return await marker.remove();
 }
 
-module.exports = { get, create, _delete };
+module.exports = { get, create, _delete, getAll };

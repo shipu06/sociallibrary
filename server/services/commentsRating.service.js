@@ -39,7 +39,6 @@ async function setUserRating({ commentId, value }, userId) {
 async function getCommentRating(commentId) {
   if (!isObjectIDvalid(commentId)) throw new Error("CommentID is not valid!");
 
-  console.log(commentId)
   const commentRatings = await CommentRating.find({
     commentId,
   });
@@ -65,8 +64,13 @@ async function getUserCommentRating(commentId, userId) {
   return { value: null };
 }
 
+async function getAll() {
+  return await CommentRating.find();
+}
+
 module.exports = {
   setUserRating,
   getCommentRating,
   getUserCommentRating,
+  getAll,
 };

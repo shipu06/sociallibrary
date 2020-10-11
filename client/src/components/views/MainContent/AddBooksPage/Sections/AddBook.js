@@ -14,8 +14,9 @@ import Typography from "@material-ui/core/Typography";
 import Book from "../../AllBooksPage/Sections/Book";
 import Modal from "../../AllBooksPage/Sections/Modal/Modal.js";
 
-import { addBookToDatabase } from "utils/addBookToDatabase";
-import fetchCategories from "utils/fetchCategories";
+import booksAPI from "utils/booksAPI";
+
+import categoriesAPI from "utils/categoriesAPI";
 
 const exampleBook = {
   id: 1,
@@ -68,11 +69,11 @@ export default function AddBook() {
   const handleSaveBook = (book) => {
     if (!book.rating)
       return handleOpenSnackbar({ isSaved: false, message: "Rate the book" });
-    addBookToDatabase(book, (res) => handleOpenSnackbar(res));
+    booksAPI.create(book, (res) => handleOpenSnackbar(res));
   };
 
   useEffect(() => {
-    fetchCategories.get((res) => setCategories(res.map((cat) => cat.category)));
+    categoriesAPI.get((res) => setCategories(res.map((cat) => cat.category)));
   }, []);
 
   return (

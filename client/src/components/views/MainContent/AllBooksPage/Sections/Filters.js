@@ -23,7 +23,7 @@ import Button from "@material-ui/core/Button";
 import { setFilter } from "_actions/books_actions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import fetchCategories from "utils/fetchCategories";
+import categoriesAPI from "utils/categoriesAPI";
 
 export default function Filters({ setSizeOfCards }) {
   const classes = useStyles();
@@ -188,7 +188,7 @@ function FilterMainOptions() {
 
   useEffect(
     () =>
-      fetchCategories.get((res) => setCategories(res.map((c) => c.category))),
+      categoriesAPI.get((res) => setCategories(res.map((c) => c.category))),
     []
   );
 

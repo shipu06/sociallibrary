@@ -89,7 +89,7 @@
   overflow-x: visible;
 }
 .book__img {
-  max-width: 45%;
+  max-width: 55%;
   height: auto;
   object-fit: cover;
   /* margin: 15px; */
@@ -120,7 +120,7 @@
 }
 
 .book__info {
-  margin: 50px 1.4em;
+  padding: 4vh 1.4em;
   font-family: montserrat;
   text-align: left;
   display: flex;

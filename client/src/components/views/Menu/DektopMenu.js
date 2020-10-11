@@ -15,11 +15,12 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 import { useDispatch } from "react-redux";
 import { setFilter, clearFilters } from "../../../_actions/books_actions";
 
-import fetchCategories from "utils/fetchCategories.js";
+import categoriesAPI from "utils/categoriesAPI.js";
 
 export default function DesktopMenu({ history }) {
   const classes = useStyles();
@@ -31,7 +32,7 @@ export default function DesktopMenu({ history }) {
   const isLogged = false;
 
   useEffect(() => {
-    fetchCategories.get((res) => {
+    categoriesAPI.get((res) => {
       setCategories(res.map((c) => c.category));
     });
   }, []);
@@ -104,6 +105,18 @@ export default function DesktopMenu({ history }) {
             <AddBoxIcon />
           </ListItemIcon>
           <ListItemText primary="Add books" />
+        </ListItem>
+        <ListItem
+          button
+          disabled={isLogged}
+          onClick={() => {
+            history.push("/statistics");
+          }}
+        >
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Statistics" />
         </ListItem>
         <ListItem button onClick={handleClick}>
           <ListItemIcon>

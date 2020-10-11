@@ -1,0 +1,19 @@
+.statistics {
+  flex-grow: 1;
+}
+
+.statistics__header {
+  font-size: 48px;
+}
+
+.statistics__subheader {
+  line-height: 2.4em;
+}
+.statistics__spinner {
+  margin-left: 2em;
+  width: "50%";
+}
+
+.statistics__chart {
+  padding: 0vh 1vw 6vh;
+}

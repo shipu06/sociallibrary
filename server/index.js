@@ -17,6 +17,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(jwt());
 
+app.use("/api/users", require("./controllers/users.controller"));
 app.use("/api/books", require("./controllers/books.controller"));
 app.use("/api/categories", require("./controllers/categories.controller"));
 app.use("/api/comments", require("./controllers/comments.controller"));
@@ -26,7 +27,7 @@ app.use(
 );
 app.use("/api/booksRating", require("./controllers/booksRating.controller"));
 app.use("/api/markers", require("./controllers/markers.controller"));
-app.use("/api/users", require("./controllers/users.controller"));
+app.use("/api/statistics", require("./controllers/statistics.controller"));
 
 app.use(errorHandler);
 

@@ -13,9 +13,7 @@ export default function UserBooks({ title, fetchCallback, deleteCallback }) {
   const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchCallback((res) => {
-      setBooks(res);
-    });
+    fetchCallback((res) => setBooks(res));
   }, [fetchCallback]);
 
   const removeCallback = (removedBook) => {

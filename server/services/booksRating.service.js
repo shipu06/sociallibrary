@@ -39,12 +39,6 @@ async function getAverageRate(bookId) {
   return { value, quantity: bookRatings.length };
 }
 
-async function ratingsByBookId(bookId) {
-  return await BookRating.find({
-    bookId,
-  });
-}
-
 async function userRateToBook(bookId, userId) {
   if (!isObjectIDvalid(bookId)) throw newError("CommentID is not valid!");
 
@@ -61,9 +55,20 @@ async function userRateToBook(bookId, userId) {
   return { isFound: false };
 }
 
+async function ratingsByBookId(bookId) {
+  return await BookRating.find({
+    bookId,
+  });
+}
+
+async function getAll() {
+  return await BookRating.find({});
+}
+
 module.exports = {
   set,
   getAverageRate,
   ratingsByBookId,
   userRateToBook,
+  getAll,
 };
