@@ -6,6 +6,7 @@ import "./mainContent.css";
 import AllBooks from "./AllBooksPage/AllBooks";
 import Admin from "./AddBooksPage/Admin";
 import UserBooks from "./UserBooksPages/UserBooks";
+import UserProfile from "./UserProfile/UserProfile";
 import StatisticsPage from "./Statistics/StatisticsPage";
 
 import booksAPI from "utils/booksAPI";
@@ -41,6 +42,7 @@ export default function MainContent() {
             />
           </Route>
           <Route exact path="/add" component={Admin} />
+          <Route exact path="/user/:id" component={UserProfile} />
           <Route exact path="/statistics" component={StatisticsPage} />
         </Switch>
       )}

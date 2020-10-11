@@ -3,7 +3,6 @@ import Spinner from "./Spinner";
 import CanvasJSReact from "utils/canvasjs.react.js";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-
 const defaultPoints = [
   { y: 18, label: "Direct" },
   { y: 49, label: "Organic Search" },
@@ -12,7 +11,7 @@ const defaultPoints = [
   { y: 19, label: "Social" },
 ];
 
-export default function PieChart({ getCallback }) {
+export default function PieChart({ getCallback, text = "" }) {
   const [dataPoints, setDataPoints] = useState(defaultPoints);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -41,17 +40,17 @@ export default function PieChart({ getCallback }) {
             animationEnabled: true,
             backgroundColor: "transparent",
             title: {
-              text: "Books on our site by categories",
+              text,
             },
             data: [
               {
                 type: "pie",
                 startAngle: 75,
-                toolTipContent: "<b>{label}</b>: {y}%",
+                toolTipContent: "<b>{label}</b>: {y}",
                 showInLegend: "true",
                 legendText: "{label}",
                 indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}%",
+                indexLabel: "{y} {label} ",
                 dataPoints,
               },
             ],

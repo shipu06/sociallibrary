@@ -14,9 +14,6 @@ async function get(userId) {
     .filter((id) => isObjectIDvalid(id));
   return await booksService.getBooksByIds(bookIds);
 }
-async function getAll() {
-  return await Marker.find();
-}
 
 async function create(bookId, userId) {
   const book = await booksService.getBooksByIds(bookId);
@@ -47,4 +44,11 @@ async function _delete(bookId, userId) {
   return await marker.remove();
 }
 
-module.exports = { get, create, _delete, getAll };
+async function getAll() {
+  return await Marker.find();
+}
+async function findQuery(query) {
+  return await Marker.find(query);
+}
+
+module.exports = { get, create, _delete, getAll, findQuery };

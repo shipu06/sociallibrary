@@ -8,9 +8,17 @@ const BookSchema = new Schema(
     author: { type: String, required: true },
     category: { type: String, required: true },
     description: String,
-    pages: Number,
-    year: Number,
+    pages: {
+      type: Number,
+      required: true,
+      min: 10,
+    },
+    year: {
+      type: Number,
+      required: true,
+    },
     addedBy: { type: String },
+    addedByUsername: { type: String },
     addedById: { type: String },
     image: String,
     rating: {

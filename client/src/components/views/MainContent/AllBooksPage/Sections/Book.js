@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
@@ -21,6 +22,11 @@ export default function Book({
   markedBooks = [],
 }) {
   const classes = useStyles();
+  const history = useHistory();
+
+  const [isMarked, setIsMarked] = useState(
+    markedBooks.length && markedBooks.some((mark) => mark._id === book._id)
+  );
 
   const createMarker = (id) => {
     markersAPI.create(id, (res) => {
@@ -34,9 +40,9 @@ export default function Book({
     });
   };
 
-  const [isMarked, setIsMarked] = useState(
-    markedBooks.length && markedBooks.some((mark) => mark._id === book._id)
-  );
+  const handleProfilePageLink = () => {
+    book.addedByUsername && history.push(`/user/${book.addedByUsername}`);
+  };
 
   return (
     <Grid item xs={12} md={fullsize ? 12 : cardSizes[sizeOfCards]}>
@@ -63,7 +69,10 @@ export default function Book({
               readOnly
             />
             {!fullsize && (
-              <span className="book__addedBy">added by: {book.addedBy}</span>
+              <span onClick={handleProfilePageLink} className="book__addedBy">
+                added by:{" "}
+                <span className="book__addedByHover">{book.addedBy}</span>
+              </span>
             )}
 
             {buttons && (

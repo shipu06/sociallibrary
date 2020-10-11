@@ -64,6 +64,9 @@ async function ratingsByBookId(bookId) {
 async function getAll() {
   return await BookRating.find({});
 }
+async function findQuery(query) {
+  return await BookRating.find(query);
+}
 
 module.exports = {
   set,
@@ -71,4 +74,5 @@ module.exports = {
   ratingsByBookId,
   userRateToBook,
   getAll,
+  findQuery,
 };

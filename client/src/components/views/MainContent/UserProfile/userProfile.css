@@ -1,0 +1,29 @@
+.user-profile__header {
+  width: 100%;
+  text-align: center;
+  padding: 2em;
+  border-radius: 2vh;
+  background-color: rgb(255, 255, 255);
+}
+
+.user-profile__header .user-profile__avatar {
+  font-size: 48px !important;
+  display: flex;
+  margin: auto;
+  width: 10vh;
+  height: 10vh;
+  background-color: #00b0f6;
+}
+.user-profile__dateText {
+  color: rgb(90, 90, 90);
+}
+
+.user-profile__pie-chart {
+  padding: 8vh 10vw;
+}
+.user-profile__details {
+  padding: 2em 2vw;
+  width: 100%;
+  border-radius: 2vh;
+  background-color: rgb(255, 255, 255);
+}

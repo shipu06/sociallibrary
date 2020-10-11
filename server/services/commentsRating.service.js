@@ -67,10 +67,14 @@ async function getUserCommentRating(commentId, userId) {
 async function getAll() {
   return await CommentRating.find();
 }
+async function findQuery(query) {
+  return await CommentRating.find(query);
+}
 
 module.exports = {
   setUserRating,
   getCommentRating,
   getUserCommentRating,
   getAll,
+  findQuery,
 };

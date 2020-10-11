@@ -7,7 +7,7 @@ import { Avatar } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function UserMenuLoggedDesktop({ user, handleLogout }) {
+export default function UserMenuLoggedDesktop({ user, handleLogout, history }) {
   const classes = useStyles();
 
   return (
@@ -23,6 +23,7 @@ export default function UserMenuLoggedDesktop({ user, handleLogout }) {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+          onClick={() => history.push(`/user/${user.username}`)}
         >
           <Avatar
             alt={user.firstName}

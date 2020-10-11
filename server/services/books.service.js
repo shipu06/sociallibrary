@@ -36,10 +36,12 @@ async function getBooks(options) {
   return books;
 }
 
-async function getBooksCreatedByUser(id) {
-  return await Book.find({ addedById: id }).sort({
-    createdAt: -1,
-  });
+async function getBooksCreatedByUser(id, quantity) {
+  return await Book.find({ addedById: id })
+    .sort({
+      createdAt: -1,
+    })
+    .limit(quantity);
 }
 
 async function create(_book, userId) {
@@ -47,6 +49,7 @@ async function create(_book, userId) {
 
   _book.addedBy = `${user.firstName} ${user.lastName}`;
   _book.addedById = userId;
+  _book.addedByUsername = user.username;
 
   const book = new Book(_book);
 

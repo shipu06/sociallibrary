@@ -8,8 +8,10 @@ import { Avatar } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import IconButton from "@material-ui/core/IconButton";
 import BarChartIcon from "@material-ui/icons/BarChart";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
-export default function UserMenuLoggedMobile({ user, handleLogout }) {
+export default function UserMenuLoggedMobile({ user, handleLogout, history }) {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -44,7 +46,7 @@ export default function UserMenuLoggedMobile({ user, handleLogout }) {
         open={isMobileMenuOpen}
         onClose={handleMobileMenuClose}
       >
-        <MenuItem>
+        <MenuItem onClick={() => history.push(`/user/${user.username}`)}>
           <Avatar
             alt={user.firstName}
             style={{ backgroundColor: "#00b0f6" }}
@@ -53,6 +55,16 @@ export default function UserMenuLoggedMobile({ user, handleLogout }) {
           <span className={classes.accountName}>
             {user.firstName} {user.lastName}
           </span>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            history.push("/statistics");
+          }}
+        >
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Statistics" />
         </MenuItem>
 
         <MenuItem onClick={handleLogout}>

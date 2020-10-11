@@ -45,7 +45,28 @@ function getQuantityOfCategories(cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
+      cb(res);
+    });
+}
+function getUserActivity(userId, cb) {
+  let headers = authHeader();
+  fetch(`${URL_API.getUserActivity}/${userId}`, {
+    method: "GET",
+    headers,
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      cb(res);
+    });
+}
+function getUserBooks(userId, cb) {
+  let headers = authHeader();
+  fetch(`${URL_API.getUserBooks}/${userId}`, {
+    method: "GET",
+    headers,
+  })
+    .then((res) => res.json())
+    .then((res) => {
       cb(res);
     });
 }
@@ -62,37 +83,12 @@ function getNumbers(cb) {
     });
 }
 
-function create(bookId, cb) {
-  let headers = authHeader();
-  fetch(URL_API.createMarker, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ bookId }),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-      cb(res);
-    });
-}
-function remove(bookId, cb) {
-  let headers = authHeader();
-  fetch(URL_API.createMarker, {
-    method: "DELETE",
-    headers,
-    body: JSON.stringify({ bookId }),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-      cb(res);
-    });
-}
-
 export default {
   getBestBooks,
   getLastBooks,
   getMostPopular,
   getQuantityOfCategories,
   getNumbers,
+  getUserActivity,
+  getUserBooks,
 };

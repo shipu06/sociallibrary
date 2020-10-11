@@ -12,8 +12,11 @@ export default function StatisticsPage() {
     <div className="statistics">
       <h1 className="statistics__header">Statistics</h1>
 
+      <PieChart
+        text="Books on our site by categories"
+        getCallback={statisticsAPI.getQuantityOfCategories}
+      />
       <BarChart getCallback={statisticsAPI.getNumbers} />
-      <PieChart getCallback={statisticsAPI.getQuantityOfCategories} />
       <BooksDisplay
         getCallback={statisticsAPI.getBestBooks}
         header={"Top rated books"}

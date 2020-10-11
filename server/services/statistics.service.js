@@ -82,22 +82,51 @@ async function getQuantityOfCategories() {
 
   return categoriesCounter;
 }
+
 async function getNumbers() {
-  const booksQuantity = (await booksService.getAll()).length;
+  const allBooks = await booksService.getAll();
+
+  const booksQuantity = allBooks.length;
   const booksRatingQuantity = (await booksRatingService.getAll()).length;
   const commentsQuantity = (await commentsService.getAll()).length;
   const commentsRatingQuantity = (await commentsRatingService.getAll()).length;
   const markersQuantity = (await markersService.getAll()).length;
   const usersQuantity = (await userService.getAll()).length;
+  const pagesQuantity = allBooks.reduce((acc, curr) => acc + curr.pages, 0);
 
   const arrayWithData = [
     { category: "Books", quantity: booksQuantity },
-    { category: "Rating of books", quantity: booksRatingQuantity },
+    { category: "Rating of bookss", quantity: booksRatingQuantity },
     { category: "Comments", quantity: commentsQuantity },
     { category: "Ratings of comments", quantity: commentsRatingQuantity },
     { category: "Markers", quantity: markersQuantity },
+    { category: "Pages of all books", quantity: pagesQuantity },
     { category: "Users", quantity: usersQuantity },
   ];
+
+  return arrayWithData;
+}
+
+async function getUserActivity(userId) {
+  const booksRatingQuantity = (await booksRatingService.findQuery({ userId }))
+    .length;
+  const commentsQuantity = (await commentsService.findQuery({ userId })).length;
+  const likesRatingQuantity = (
+    await commentsRatingService.findQuery({ userId, value: "like" })
+  ).length;
+  const dislikesRatingQuantity = (
+    await commentsRatingService.findQuery({ userId, value: "dislike" })
+  ).length;
+  const markersQuantity = (await markersService.findQuery({ userId })).length;
+
+  const arrayWithData = [
+    { category: "Rating of books", quantity: booksRatingQuantity },
+    { category: "Comments", quantity: commentsQuantity },
+    { category: "Likes of comments", quantity: likesRatingQuantity },
+    { category: "Dislikes of comments", quantity: dislikesRatingQuantity },
+    { category: "Markers", quantity: markersQuantity },
+  ];
+  console.log(arrayWithData);
 
   return arrayWithData;
 }
@@ -108,4 +137,5 @@ module.exports = {
   getMostPopularBooks,
   getQuantityOfCategories,
   getNumbers,
+  getUserActivity,
 };

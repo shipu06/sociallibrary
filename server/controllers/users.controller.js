@@ -5,7 +5,7 @@ const userService = require("../services/user.service");
 // routes
 router.post("/login", login);
 router.post("/register", register);
-// router.get("/", getAll);
+router.get("/:username", getByUserName);
 // router.get("/current", getCurrent);
 // router.get("/:id", getById);
 // router.put("/:id", update);
@@ -28,6 +28,21 @@ function register(req, res, next) {
   userService
     .create(req.body)
     .then((user) => res.json(user))
+    .catch((err) => next(err));
+}
+function getByUserName(req, res, next) {
+  const { username } = req.params;
+
+  userService
+    .getByUserName(username)
+    .then((user) =>
+      user
+        ? res.json({ user, isFound: true })
+        : res.status(400).json({
+            message: `There isn't username called '${username}' `,
+            isFound: false,
+          })
+    )
     .catch((err) => next(err));
 }
 

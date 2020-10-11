@@ -8,6 +8,7 @@ module.exports = {
   login,
   getAll,
   getById,
+  getByUserName,
   create,
   update,
   delete: _delete,
@@ -32,6 +33,9 @@ async function getAll() {
 
 async function getById(_id) {
   return await User.findById({ _id });
+}
+async function getByUserName(username) {
+  return await User.findOne({ username });
 }
 
 async function create(userParam) {

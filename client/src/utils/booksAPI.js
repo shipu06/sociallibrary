@@ -17,14 +17,19 @@ function getBooks(options, cb) {
     });
 }
 
-function getUserBooks(cb) {
+function getUserBooks(cb, userId = false) {
   let headers = authHeader();
-  fetch(URL_API.getUserBooks, {
+  const URL = userId
+    ? `${URL_API.getUserBooks}/${userId}`
+    : URL_API.getUserBooks;
+
+  fetch(URL, {
     method: "GET",
     headers,
   })
     .then((res) => res.json())
     .then((res) => {
+      console.log(res);
       cb(res);
     });
 }

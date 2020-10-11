@@ -1,4 +1,6 @@
 export const URL_API = {
+  getByUserName: "/api/users",
+
   addBook: "/api/books/add",
   getBooks: "/api/books",
   getUserBooks: "/api/books/user",
@@ -28,4 +30,5 @@ export const URL_API = {
   getMostPopular: "/api/statistics/mostPopularBooks",
   getQuantityOfCategories: "/api/statistics/getQuantityOfCategories",
   getNumbers: "/api/statistics/getNumbers",
+  getUserActivity: "/api/statistics/userActivity",
 };

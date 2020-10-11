@@ -27,9 +27,13 @@ async function create(comment, userId) {
 async function getAll() {
   return await Comment.find({});
 }
+async function findQuery(query) {
+  return await Comment.find(query);
+}
 
 module.exports = {
   getCommentsForBook,
   create,
   getAll,
+  findQuery,
 };

@@ -8,6 +8,7 @@ router.get("/lastBooks", getLastBooks);
 router.get("/mostPopularBooks", getMostPopular);
 router.get("/getQuantityOfCategories", getQuantityOfCategories);
 router.get("/getNumbers", getNumbers);
+router.get("/userActivity/:userId", getUserActivity);
 
 function getBestBook(req, res) {
   statisticsService
@@ -33,8 +34,8 @@ function getMostPopular(req, res) {
 function getQuantityOfCategories(req, res) {
   statisticsService
     .getQuantityOfCategories()
-    .then((books) => {
-      res.json(books);
+    .then((cat) => {
+      res.json(cat);
     })
     .catch((err) => res.json({}));
 }
@@ -43,6 +44,16 @@ function getNumbers(req, res) {
     .getNumbers()
     .then((books) => {
       res.json(books);
+    })
+    .catch((err) => res.json({}));
+}
+function getUserActivity(req, res) {
+  const { userId } = req.params;
+
+  statisticsService
+    .getUserActivity(userId)
+    .then((cat) => {
+      res.json(cat);
     })
     .catch((err) => res.json({}));
 }
