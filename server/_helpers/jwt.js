@@ -9,11 +9,12 @@ function jwt() {
   return expressJwt({ secret, algorithms: ["HS256"], isRevoked }).unless({
     path: [
       // public routes that don't require authentication
-      "/api/users",
+      /^\/api\/users\/([^\/]*)$/,
+      "/api/users/register",
+      "/api/users/login",
       "/api/books",
       { url: "/api/categories", methods: ["GET"] },
       { url: "/api/comments/get", methods: ["POST"] },
-      /^\/api\/users\/([^\/]*)$/,
       /^\/api\/statistics\/([^\/]*)$/,
       /^\/api\/statistics\/userActivity\/([^\/]*)$/,
       /^\/api\/books\/user\/([^\/]*)$/,

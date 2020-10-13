@@ -11,7 +11,7 @@ export default function UserMenuLoggedDesktop({ user, handleLogout, history }) {
   const classes = useStyles();
 
   return (
-    <Grid item xs="12" md="3" className={classes.account}>
+    <Grid item xs={12} md={3} className={classes.account}>
       <Toolbar
         classes={{
           root: classes.toolbarDestop,

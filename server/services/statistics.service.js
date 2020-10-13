@@ -23,12 +23,23 @@ async function getBestBooks(quantity) {
     }
   );
 
-  const sortedArray = arrayWithAverageRatings
-    .sort((a, b) => b[1] - a[1])
-    .splice(0, quantity);
+  const sortedArray = arrayWithAverageRatings.sort((a, b) => b[1] - a[1]);
 
   const bestIds = sortedArray.map(([bookId]) => bookId);
-  return await booksService.getBooksByIds(bestIds);
+
+  let counter = 0;
+  let i = 0;
+  let books = [];
+  while (counter < quantity) {
+    const [book] = await booksService.getBooksByIds(bestIds[i]);
+    if (book) {
+      books.push(book);
+      counter++;
+    }
+    i++;
+  }
+
+  return await books;
 }
 
 async function getLastBooks(quantity) {
@@ -57,7 +68,7 @@ async function getMostPopularBooks(quantity) {
   let counter = 0;
   let i = 0;
   let books = [];
-  while (counter < 5) {
+  while (counter < quantity) {
     const [book] = await booksService.getBooksByIds(bestIds[i]);
     if (book) {
       books.push(book);
@@ -96,12 +107,12 @@ async function getNumbers() {
 
   const arrayWithData = [
     { category: "Books", quantity: booksQuantity },
-    { category: "Rating of bookss", quantity: booksRatingQuantity },
+    { category: "Users", quantity: usersQuantity },
     { category: "Comments", quantity: commentsQuantity },
+    { category: "Ratings of books", quantity: booksRatingQuantity },
     { category: "Ratings of comments", quantity: commentsRatingQuantity },
     { category: "Markers", quantity: markersQuantity },
     { category: "Pages of all books", quantity: pagesQuantity },
-    { category: "Users", quantity: usersQuantity },
   ];
 
   return arrayWithData;
@@ -120,7 +131,7 @@ async function getUserActivity(userId) {
   const markersQuantity = (await markersService.findQuery({ userId })).length;
 
   const arrayWithData = [
-    { category: "Rating of books", quantity: booksRatingQuantity },
+    { category: "Ratings of books", quantity: booksRatingQuantity },
     { category: "Comments", quantity: commentsQuantity },
     { category: "Likes of comments", quantity: likesRatingQuantity },
     { category: "Dislikes of comments", quantity: dislikesRatingQuantity },

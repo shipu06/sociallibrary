@@ -11,6 +11,7 @@ export const URL_API = {
   removeCategories: "/api/categories",
 
   getUserMarkers: "/api/markers/user",
+  isBookMarked: "/api/markers/book",
   createMarker: "/api/markers/",
 
   getComments: "/api/comments/get",
@@ -31,4 +32,7 @@ export const URL_API = {
   getQuantityOfCategories: "/api/statistics/getQuantityOfCategories",
   getNumbers: "/api/statistics/getNumbers",
   getUserActivity: "/api/statistics/userActivity",
+
+  REGISTER: "/api/users/register",
+  LOGIN: "/api/users/login",
 };

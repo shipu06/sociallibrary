@@ -7,3 +7,6 @@ export const LOAD_USER = "load_user";
 export const SET_BOOKS = "set_books";
 export const SET_FILTERS = "set_filters";
 export const CLEAR_FILTERS = "clear_filters";
+
+export const SET_LIMITS = "set_limits";
+

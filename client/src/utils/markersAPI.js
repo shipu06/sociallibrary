@@ -9,7 +9,18 @@ function getUserMarkers(cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
+      cb(res);
+    });
+}
+
+function isBookMarked(bookId, cb) {
+  let headers = authHeader();
+  fetch(`${URL_API.isBookMarked}/${bookId}`, {
+    method: "GET",
+    headers,
+  })
+    .then((res) => res.json())
+    .then((res) => {
       cb(res);
     });
 }
@@ -36,9 +47,9 @@ function remove(bookId, cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res)
+      console.log(res);
       cb(res);
     });
 }
 
-export default { create, getUserMarkers, remove };
+export default { create, getUserMarkers, remove, isBookMarked };

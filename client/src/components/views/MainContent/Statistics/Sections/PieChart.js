@@ -16,11 +16,16 @@ export default function PieChart({ getCallback, text = "" }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const changeDataToPoints = (data) => {
+    const sum = data.reduce((acc, curr) => {
+      return acc + curr.quantity;
+    }, 0);
+
     const points = data
+      .filter((point) => point.quantity)
       .map(({ quantity, category }) => {
-        return { y: quantity, label: category };
-      })
-      .filter((point) => point.y);
+        return { y: ((quantity / sum) * 100).toFixed(2), label: category };
+      });
+
     return points;
   };
 
@@ -46,11 +51,11 @@ export default function PieChart({ getCallback, text = "" }) {
               {
                 type: "pie",
                 startAngle: 75,
-                toolTipContent: "<b>{label}</b>: {y}",
+                toolTipContent: "<b>{label}</b>: {y}%",
                 showInLegend: "true",
                 legendText: "{label}",
                 indexLabelFontSize: 16,
-                indexLabel: "{y} {label} ",
+                indexLabel: "{y}% {label} ",
                 dataPoints,
               },
             ],

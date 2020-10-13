@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { useDispatch } from "react-redux";
-import { loginUser, registerUser } from "../../../../../_actions/user_actions";
+import { loginUser, registerUser } from "_actions/user_actions";
 
 export default function Form({ type }) {
   const classes = useStyles();

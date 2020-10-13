@@ -9,7 +9,6 @@ function getBestBooks(cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       cb(res);
     });
 }
@@ -78,7 +77,6 @@ function getNumbers(cb) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       cb(res);
     });
 }

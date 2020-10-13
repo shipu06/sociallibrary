@@ -73,25 +73,15 @@ export default function Filters({ setSizeOfCards }) {
       />
       <Checkbox
         onChange={handleFiltersExpand}
-        icon={
-          <FilterListIcon
-            className={classes.clickable}
-            onClick={handleFiltersExpand}
-          />
-        }
-        checkedIcon={
-          <CloseIcon
-            className={classes.clickable}
-            onClick={handleFiltersExpand}
-          />
-        }
+        onClick={handleFiltersExpand}
+        icon={<FilterListIcon className={classes.clickable} />}
+        checkedIcon={<CloseIcon className={classes.clickable} />}
       ></Checkbox>
     </>
   );
 
   return (
     <>
-      {/* <Chip onDelete={() => {}} label={"elo"}></Chip> */}
       <div className="text">
         <span>Books that may interest you:</span>
         <div className={classes.iconContainer}>{filtersOptions}</div>
@@ -187,8 +177,7 @@ function FilterMainOptions() {
   const [categories, setCategories] = useState(["loading..."]);
 
   useEffect(
-    () =>
-      categoriesAPI.get((res) => setCategories(res.map((c) => c.category))),
+    () => categoriesAPI.get((res) => setCategories(res.map((c) => c.category))),
     []
   );
 
@@ -199,14 +188,9 @@ function FilterMainOptions() {
     filters.category,
     (a) => dispatch(setFilter({ category: a })),
   ];
-
-  const [value, setValue] = [
-    filters.pages,
-    (a) => dispatch(setFilter({ pages: a })),
-  ];
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  
+  const handleChange = (event, newValue) =>
+    dispatch(setFilter({ pages: newValue }));
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -314,24 +298,6 @@ function FilterMainOptions() {
             />
           </div>
         </SimplePopover>
-
-        {/* <FormControl className={classes.formControl}>
-          <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-            Sort By
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-placeholder-label-label"
-            id="demo-simple-select-placeholder-label"
-            value={10}
-            onChange={handleChange}
-            displayEmpty
-            className={classes.selectEmpty}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl> */}
       </div>
     </>
   );

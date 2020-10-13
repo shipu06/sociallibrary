@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
+import cx from "clsx";
 
 import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
@@ -8,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
 import markersAPI from "utils/markersAPI";
+import RateBookAPI from "utils/bookRateAPI";
+import isLogged from "utils/isLogged";
 
 const cardSizes = [4, 6];
 
@@ -17,16 +20,14 @@ export default function Book({
   buttons = true,
   fullsize = false,
   sizeOfCards = 0,
-  key,
   children,
-  markedBooks = [],
 }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const [isMarked, setIsMarked] = useState(
-    markedBooks.length && markedBooks.some((mark) => mark._id === book._id)
-  );
+  const [averageRate, setAverageRate] = useState(0);
+
+  const [isMarked, setIsMarked] = useState(false);
 
   const createMarker = (id) => {
     markersAPI.create(id, (res) => {
@@ -44,9 +45,25 @@ export default function Book({
     book.addedByUsername && history.push(`/user/${book.addedByUsername}`);
   };
 
+  useEffect(() => {
+    RateBookAPI.getAverageBookRate(book._id, (res) => {
+      setAverageRate(res.value);
+    });
+
+    isLogged() &&
+      markersAPI.isBookMarked(book._id, (res) => {
+        setIsMarked(res.isMarked);
+      });
+  }, []);
+
   return (
     <Grid item xs={12} md={fullsize ? 12 : cardSizes[sizeOfCards]}>
-      <Paper className={isMarked ? classes.paperMarked : classes.paper}>
+      <Paper
+        className={cx(
+          "book-wrapper",
+          isMarked ? classes.paperMarked : classes.paper
+        )}
+      >
         <div className="book">
           <img
             className="book__img"
@@ -61,12 +78,13 @@ export default function Book({
             <span className="book__author">written by: {book.author}</span>
             <span className="book__pages">{book.pages} pages</span>
             <Rating
-              key={key}
+              key={book._id}
               className="book__rating"
-              name={key}
+              name={book._id}
               size="small"
-              value={book.rating}
+              value={averageRate * 1 || book.rating * 1}
               readOnly
+              precision={0.1}
             />
             {!fullsize && (
               <span onClick={handleProfilePageLink} className="book__addedBy">

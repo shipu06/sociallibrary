@@ -1,17 +1,11 @@
 import axios from "axios";
-import {
-  LOGIN_USER,
-  REGISTER_USER,
-  AUTH_USER,
-  LOGOUT_USER,
-  LOAD_USER,
-} from "./types";
-import { USER_SERVER } from "../components/Config.js";
+import { URL_API } from "utils/URL_API";
+import { LOGIN_USER, LOGOUT_USER, LOAD_USER } from "./types";
 
 export function registerUser(dataToSubmit) {
   return (dispatch) => {
     axios
-      .post(`/api/users/register`, dataToSubmit)
+      .post(URL_API.REGISTER, dataToSubmit)
       .then((res) => {
         const { username, password } = dataToSubmit;
         dispatch(loginUser({ username, password }));
@@ -25,7 +19,7 @@ export function registerUser(dataToSubmit) {
 export function loginUser(dataToSubmit) {
   return (dispatch) => {
     axios
-      .post(`/api/users/login`, dataToSubmit)
+      .post(URL_API.LOGIN, dataToSubmit)
       .then((res) => {
         dispatch({
           type: LOGIN_USER,
@@ -44,17 +38,6 @@ export function loadSessionData() {
   return {
     type: LOAD_USER,
     payload: data,
-  };
-}
-
-export function auth() {
-  const request = axios
-    .get(`${USER_SERVER}/auth`)
-    .then((response) => response.data);
-
-  return {
-    type: AUTH_USER,
-    payload: request,
   };
 }
 

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 
@@ -7,14 +6,10 @@ import Modal from "./Sections/Modal/Modal";
 import Filters from "./Sections/Filters";
 import SelectedFilters from "./Sections/SelectedFilters";
 import Book from "./Sections/Book";
-
-import markersAPI from "utils/markersAPI";
+import Pagination from "./Sections/Pagination";
 
 export default function AllBooks() {
   const books = useSelector((state) => state.books_store.books) || false;
-
-  const [markedBooks, setMarkedBooks] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -24,21 +19,13 @@ export default function AllBooks() {
     setModalOpen(true);
   };
 
-  useEffect(() => {
-    markersAPI.getUserMarkers((res) => {
-      setMarkedBooks(res);
-      setIsLoaded(true);
-    });
-  }, []);
-
-  if (!books || !isLoaded) return <>Loading...</>;
+  if (!books) return <>Loading...</>;
 
   const listOfBooks = books.map((book, id) => (
     <Book
       key={book._id}
       id={id}
       book={book}
-      markedBooks={markedBooks}
       handleModalOpen={() => {
         setModalContent(book);
         handleModalOpen();
@@ -50,17 +37,20 @@ export default function AllBooks() {
   const noResults = <h1 style={{ padding: ".5em" }}>No results</h1>;
 
   return (
-    <div className="allBooks">
+    <>
       <Filters setSizeOfCards={setSizeOfCards} />
       <SelectedFilters />
-      <Grid spacing={4} container>
-        {books.length ? listOfBooks : noResults}
-      </Grid>
-      <Modal
-        modalContent={modalContent}
-        isModalOpen={isModalOpen}
-        setModalOpen={setModalOpen}
-      />
-    </div>
+      <div className="allBooks">
+        <Grid spacing={4} container>
+          {books.length ? listOfBooks : noResults}
+        </Grid>
+        <Modal
+          modalContent={modalContent}
+          isModalOpen={isModalOpen}
+          setModalOpen={setModalOpen}
+        />
+      </div>
+      <Pagination />
+    </>
   );
 }

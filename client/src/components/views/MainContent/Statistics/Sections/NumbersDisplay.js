@@ -3,7 +3,7 @@ import Spinner from "./Spinner";
 
 const defaultPoints = [{ y: 1, label: "loading..." }];
 
-export default function PieChart({ getCallback }) {
+export default function NumbersDisplay({ getCallback }) {
   const [dataPoints, setDataPoints] = useState(defaultPoints);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -15,20 +15,25 @@ export default function PieChart({ getCallback }) {
     });
   }, []);
   return (
-    <div className="statistics__chart">
+    <div className="statistics-cards">
       {isLoaded ? (
-        <div>
+        <>
           {dataPoints.map((point) => (
-            <h2>
-              {point.quantity} {point.category}
-            </h2>
+            <Card point={point} />
           ))}
-        </div>
+        </>
       ) : (
         <Spinner />
       )}
-
-      {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
     </div>
   );
 }
+
+export const Card = ({ point }) => {
+  return (
+    <div className="statistics-cards__card">
+      <h2>{point.quantity}</h2>
+      <div className="statistics-cards__title">{point.category}</div>
+    </div>
+  );
+};

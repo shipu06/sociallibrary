@@ -4,9 +4,19 @@ const router = express.Router();
 const markersService = require("../services/markers.service.js");
 
 router.get("/user", getUserMarkers);
+router.get("/book/:bookId", isBookMarked);
 router.post("/", createMarker);
 router.delete("/", deleteMarker);
 
+function isBookMarked(req, res) {
+  const userId = req.user.sub;
+  const { bookId } = req.params;
+
+  markersService
+    .isBookMarked(userId, bookId)
+    .then((isMarked) => res.json({ isMarked }))
+    .catch(() => res.json({ isMarked: false }));
+}
 function getUserMarkers(req, res) {
   const userId = req.user.sub;
 

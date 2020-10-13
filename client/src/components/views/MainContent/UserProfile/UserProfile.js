@@ -5,6 +5,7 @@ import { Avatar } from "@material-ui/core";
 import dateFormater from "date-and-time";
 
 import BooksDisplay from "../Statistics/Sections/BooksDisplay";
+import NumbersDisplay from "../Statistics/Sections/NumbersDisplay";
 import PieChart from "../Statistics/Sections/PieChart";
 
 import usersAPI from "utils/usersAPI";
@@ -50,6 +51,12 @@ export default function UserProfile({ match }) {
       </section>
       <section className="user-profile__pie-chart">
         <PieChart
+          text="Activity of user"
+          getCallback={(cb) => statisticsAPI.getUserActivity(user.id, cb)}
+        />
+      </section>
+      <section className="user-profile__numbers">
+        <NumbersDisplay
           text="Activity of user"
           getCallback={(cb) => statisticsAPI.getUserActivity(user.id, cb)}
         />

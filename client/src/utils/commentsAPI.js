@@ -5,7 +5,6 @@ export default { get, add, remove };
 
 function get(bookId, cb) {
   let headers = authHeader();
-  console.log(headers);
   fetch(URL_API.getComments, {
     method: "POST",
     headers,

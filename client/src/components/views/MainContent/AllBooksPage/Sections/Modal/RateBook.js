@@ -68,7 +68,7 @@ export default function RateBook({ bookId, authorRating }) {
       <div className={classes.root}>
         <Rating
           name="hover-feedback"
-          value={averageRate}
+          value={averageRate * 1}
           precision={0.1}
           readOnly
         />

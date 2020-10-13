@@ -1,7 +1,7 @@
 import React from "react";
 import "./statisticsPage.css";
 
-import BarChart from "./Sections/BarChart";
+import NumbersDisplay from "./Sections/NumbersDisplay";
 import PieChart from "./Sections/PieChart";
 import BooksDisplay from "./Sections/BooksDisplay";
 
@@ -16,7 +16,7 @@ export default function StatisticsPage() {
         text="Books on our site by categories"
         getCallback={statisticsAPI.getQuantityOfCategories}
       />
-      <BarChart getCallback={statisticsAPI.getNumbers} />
+      <NumbersDisplay getCallback={statisticsAPI.getNumbers} />
       <BooksDisplay
         getCallback={statisticsAPI.getBestBooks}
         header={"Top rated books"}
@@ -29,9 +29,6 @@ export default function StatisticsPage() {
         getCallback={statisticsAPI.getMostPopular}
         header={"Most popular books"}
       />
-      {/* <TopComments />
-      <LastAddedBooks />
-      <MostPopularBooks /> */}
     </div>
   );
 }

@@ -6,7 +6,6 @@ const commentsService = require("../services/comments.service.js");
 
 router.post("/get", getBookComments);
 router.post("/", createBookComment);
-// router.delete("/", deleteMarker);
 
 async function createBookComment(req, res) {
   const userId = req.user.sub;

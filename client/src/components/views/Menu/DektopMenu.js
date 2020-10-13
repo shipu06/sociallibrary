@@ -15,11 +15,12 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import BarChartIcon from '@material-ui/icons/BarChart';
+import BarChartIcon from "@material-ui/icons/BarChart";
 
 import { useDispatch } from "react-redux";
-import { setFilter, clearFilters } from "../../../_actions/books_actions";
+import { setFilter, clearFilters } from "_actions/books_actions";
 
+import MenuStats from "./MenuStats";
 import categoriesAPI from "utils/categoriesAPI.js";
 
 export default function DesktopMenu({ history }) {
@@ -130,6 +131,7 @@ export default function DesktopMenu({ history }) {
             {categories.map((cat) => {
               return (
                 <ListItem
+                  key={cat}
                   onClick={() => handleCategoryClick(cat)}
                   button
                   className={classes.nested}
@@ -144,6 +146,9 @@ export default function DesktopMenu({ history }) {
             })}
           </List>
         </Collapse>
+        <div className={classes.stats}>
+          <MenuStats />
+        </div>
       </List>
     </>
   );
@@ -168,5 +173,15 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     fontSize: "14px",
+  },
+  stats: {
+    display: "flex",
+    position: "absolute",
+    flexDirection: "column",
+    marginTop: "5vh",
+    flexGrow: 1,
+    borderRadius: 20,
+    width: "100%",
+    justifyContent: "center",
   },
 }));

@@ -1,8 +1,6 @@
 import { URL_API } from "./URL_API.js";
 import { authHeader } from "./authHeader";
 
-export default { get, add, remove };
-
 function get(cb) {
   fetch(URL_API.getCategories)
     .then((res) => res.json())
@@ -36,3 +34,4 @@ function remove(id, cb) {
       cb(res);
     });
 }
+export default { get, add, remove };

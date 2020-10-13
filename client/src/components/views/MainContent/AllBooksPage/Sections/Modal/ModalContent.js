@@ -15,7 +15,7 @@ import clsx from "clsx";
 import Comments from "./Comments";
 import RateBook from "./RateBook";
 
-export default function RecipeReviewCard({ book, handleClose }) {
+export default function ModalContent({ book, handleClose }) {
   const classes = useStyles();
 
   return (
@@ -25,9 +25,8 @@ export default function RecipeReviewCard({ book, handleClose }) {
           avatar={
             <Avatar
               alt={book.addedBy}
-              aria-label="recipe"
+              aria-label="modal"
               style={{ backgroundColor: "#eee" }}
-              className={classes.avatar}
             />
           }
           action={

@@ -6,8 +6,10 @@ const userService = require("../services/user.service.js");
 const db = require("../_helpers/db");
 const Book = db.Book;
 
-async function getBooks(options) {
+async function getBooks(body) {
+  const { options, limits } = body;
   const { category, pages, year, sortBy, searchPhrase } = options;
+  const { page, itemsPerPage } = limits;
   let query = [];
 
   if (searchPhrase) {
@@ -30,9 +32,10 @@ async function getBooks(options) {
   if (year.length) query.push({ year: { $lt: year[1], $gt: year[0] } });
   if (!query.length) query = [{}];
 
-  const books = await Book.find({ $and: query }).sort(
-    sortBy || { createdAt: -1 }
-  );
+  const books = await Book.find({ $and: query })
+    .sort(sortBy || { createdAt: -1 })
+    .skip(page * itemsPerPage)
+    .limit(itemsPerPage);
   return books;
 }
 
@@ -56,13 +59,6 @@ async function create(_book, userId) {
   return book.save();
 }
 
-async function getFew(quantity) {
-  return await Book.find().sort({ createdAt: -1 }).limit(quantity);
-}
-async function getAll(limit) {
-  return await Book.find().sort({ createdAt: -1 });
-}
-
 async function _delete(bookId, userId) {
   const [book] = await getBooksByIds(bookId);
 
@@ -84,6 +80,15 @@ async function getBooksByIds(ids) {
   if (typeof ids === "string") validateId(ids);
   return await Book.find({ _id: ids }).exec();
 }
+
+async function getFew(quantity) {
+  return await Book.find().sort({ createdAt: -1 }).limit(quantity);
+}
+
+async function getAll(limit) {
+  return await Book.find().sort({ createdAt: -1 });
+}
+
 async function findQuery(obj) {
   return await Book.find(obj).exec();
 }

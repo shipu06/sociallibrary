@@ -4,7 +4,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import ModalContent from "./ModalContent.js";
-// import "./modal.css";
+
 
 export default function TransitionsModal({
   setModalOpen,
@@ -18,7 +18,6 @@ export default function TransitionsModal({
   };
 
   return (
-    <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -35,7 +34,6 @@ export default function TransitionsModal({
           <ModalContent book={modalContent} handleClose={handleClose} />
         </Fade>
       </Modal>
-    </div>
   );
 }
 
