@@ -27,9 +27,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     color: "#3C3C3C",
-    backgroundColor: "white",
     borderRadius: "30px",
-    margin: "0 0 3em 0",
+    margin: "0 5em 3em ",
+    [theme.breakpoints.down("md")]: {
+      margin: "1.5em 0 0",
+      borderRadius: "10px",
+    },
   },
 
   account: {

@@ -24,7 +24,7 @@
   border-radius: 2em;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1280px) {
   body {
     padding: 1.2em 0 1.2em 1.2em;
   }
@@ -114,7 +114,7 @@
   right: 4%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .book__img {
     border-radius: 10px;
     margin: 0px;

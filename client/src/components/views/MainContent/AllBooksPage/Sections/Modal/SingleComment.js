@@ -16,6 +16,7 @@ import commentsRatingAPI from "utils/commentsRatingAPI";
 
 export default function SingleComment({
   comment: { comment, name },
+  key,
   isUserLogged,
 }) {
   const classes = useStyles();
@@ -51,10 +52,10 @@ export default function SingleComment({
 
   useEffect(() => {
     handleFetchRatings();
-  }, []);
+  }, [comment]);
 
   return (
-    <>
+    <div key={key}>
       <ListItem className={classes.listItem}>
         <ListItemAvatar>
           <Avatar
@@ -125,7 +126,7 @@ export default function SingleComment({
           }
         />
       </ListItem>
-    </>
+    </div>
   );
 }
 

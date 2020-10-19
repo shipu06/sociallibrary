@@ -10,7 +10,7 @@ import WriteComment from "./WriteComment";
 
 import isLogged from "utils/isLogged";
 
-export default function Comments({ bookId  }) {
+export default function Comments({ bookId }) {
   const classes = useStyles();
   const isUserLogged = isLogged();
   const [comments, setComments] = useState([]);

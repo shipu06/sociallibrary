@@ -27,7 +27,7 @@ export default function UserProfile({ match }) {
       setUser(user);
       setIsLoaded(true);
     });
-  }, []);
+  }, [user]);
 
   if (error) return <h2>{error}</h2>;
   if (!isLoaded) return <h2>Loading...</h2>;
@@ -64,7 +64,7 @@ export default function UserProfile({ match }) {
       <section className="user-profile__details">
         <BooksDisplay
           getCallback={(cb) => booksAPI.getUserBooks(cb, user.id)}
-          header={"Last added books"}
+          header={"Recently added books"}
         />
       </section>
     </div>

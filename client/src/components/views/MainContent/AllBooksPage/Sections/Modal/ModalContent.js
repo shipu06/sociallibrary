@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-import './modalBar.css'
+import "./modalBar.css";
 import clsx from "clsx";
 
 import Comments from "./Comments";
@@ -35,7 +35,7 @@ export default function ModalContent({ book, handleClose }) {
             </IconButton>
           }
           title={book.addedBy}
-          subheader={book.createdAt.split("").splice(0, 10)}
+          subheader={book.createdAt && book.createdAt.split("").splice(0, 10)}
           classes={{ label: "modal-bar" }}
           style={{
             backgroundColor: "rgba(33, 33, 33, 0.7)",

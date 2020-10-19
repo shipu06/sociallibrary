@@ -152,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.11)",
     transition: ".5s",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       margin: "0px 20px 0 0",
       height: "auto",
     },

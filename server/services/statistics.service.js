@@ -119,6 +119,8 @@ async function getNumbers() {
 }
 
 async function getUserActivity(userId) {
+  const addedBooks = (await booksService.findQuery({ addedById: userId }))
+    .length;
   const booksRatingQuantity = (await booksRatingService.findQuery({ userId }))
     .length;
   const commentsQuantity = (await commentsService.findQuery({ userId })).length;
@@ -131,13 +133,13 @@ async function getUserActivity(userId) {
   const markersQuantity = (await markersService.findQuery({ userId })).length;
 
   const arrayWithData = [
+    { category: "Added books", quantity: addedBooks },
     { category: "Ratings of books", quantity: booksRatingQuantity },
     { category: "Comments", quantity: commentsQuantity },
     { category: "Likes of comments", quantity: likesRatingQuantity },
     { category: "Dislikes of comments", quantity: dislikesRatingQuantity },
     { category: "Markers", quantity: markersQuantity },
   ];
-  console.log(arrayWithData);
 
   return arrayWithData;
 }

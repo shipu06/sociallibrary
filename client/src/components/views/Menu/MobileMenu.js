@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 500,
     width: "calc(100vw - 2em)",
     borderRadius: "10px",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       display: "none",
     },
     zIndex: "99",
