@@ -31,6 +31,8 @@ app.use("/api/statistics", require("./controllers/statistics.controller"));
 
 app.use(errorHandler);
 
+
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
