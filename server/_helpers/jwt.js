@@ -20,7 +20,7 @@ function jwt() {
       /^\/api\/books\/user\/([^\/]*)$/,
       { url: /^\/api\/commentsRating\/([^\/]*)$/, methods: ["GET"] },
       { url: /^\/api\/booksRating\/([^\/]*)$/, methods: ["GET"] },
-      ,
+      new RegExp("^(?:(?!api/).)*$\r?\n?"),
     ],
   });
 }

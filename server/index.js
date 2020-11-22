@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const jwt = require("./_helpers/jwt");
 const errorHandler = require("./_helpers/error-handler");
+const path = require("path");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,9 +30,11 @@ app.use("/api/booksRating", require("./controllers/booksRating.controller"));
 app.use("/api/markers", require("./controllers/markers.controller"));
 app.use("/api/statistics", require("./controllers/statistics.controller"));
 
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+});
+
 app.use(errorHandler);
-
-
 
 const port = process.env.PORT || 5000;
 
