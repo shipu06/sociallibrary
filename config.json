@@ -1,4 +1,0 @@
-﻿{
-  "connectionString": "mongodb+srv://dawidrw123:dawidrw123@cluster0-v5k3b.mongodb.net/onlineBooks?authSource=admin&replicaSet=Cluster0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass%20Community&retryWrites=true&ssl=true",
-  "secret": "dawid123"
-}
