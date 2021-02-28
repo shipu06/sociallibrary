@@ -49,7 +49,8 @@ Full-stack application utilising a MERN stack.
 1. Run `npm install`
 2. Go to client directory `cd client`
 3. Run `npm install`
-4. Open http://localhost:3000 to view it in the browser.
+4. Go to parent directory and run npm run dev
+5. Open http://localhost:3000 to view it in the browser.
 
 The page will automatically reload if you make changes to the code.
 You will see the build errors and lint warnings in the console.
