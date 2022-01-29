@@ -99,6 +99,7 @@ router.get("/test", async (req, res) => {
     return res.json({ urls });
   } catch (err) {
     return res.json(err);
+    console.log('e');
   }
 });
 
