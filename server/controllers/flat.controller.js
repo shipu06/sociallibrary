@@ -72,10 +72,10 @@ flatServices.getFlatsFromOtoDomURL = async (URL) => {
 };
 
 flatServices.getImagesURLFromOtoDomListingURL = async (URL) => {
-  console.log(URL, 'Site scrapping');
+  console.log(URL, "Site scrapping");
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['"--no-sandbox'],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
   await page.goto(URL);
