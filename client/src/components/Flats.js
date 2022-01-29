@@ -27,7 +27,7 @@ export default function Flats() {
   return (
     <div>
       {listingList.map((listing) => (
-        <FlatListing listing={listing} />
+        <FlatListing key={listing.title} listing={listing} />
       ))}
     </div>
   );
@@ -52,11 +52,14 @@ const CenteredText = ({ alert, children }) => {
 
 const FlatListing = ({ listing } = { title: "N/A" }) => {
   const { title, link, image, price, area, rooms } = listing;
+
   return (
     <>
-      <a href={link}>
+      <a href={link} target="_blank">
         <h4>{title}</h4>
-        <img src={image} width={400} height={300} target="_blank" />
+        {image.map((imgSrc) => (
+          <img key={imgSrc} src={imgSrc} width={400} height={300} />
+        ))}
       </a>
       <hr />
     </>
