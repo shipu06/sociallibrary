@@ -1,0 +1,21 @@
+.menu {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: 500;
+  font-size: 20px;
+  background-color: #464b53;
+}
+
+.menu__item {
+  border-bottom: 3px solid transparent;
+  user-select: none;
+  padding: 20px;
+  user-drag: none;
+  color: white;
+}
+
+.menu__item.is-active {
+  border-bottom: 3px solid rgb(3, 189, 80);
+  font-weight: 700;
+}
