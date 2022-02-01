@@ -14,6 +14,9 @@ export default function Menu() {
       <NavLink className='menu__item' activeClassName="is-active" to="/gumtree">
         Gumtree
       </NavLink>
+      <NavLink className='menu__item' activeClassName="is-active" to="/settings">
+        Settings
+      </NavLink>
     </div>
   );
 }

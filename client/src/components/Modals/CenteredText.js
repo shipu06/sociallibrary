@@ -5,7 +5,7 @@ const CenteredText = ({ alert, children }) => {
     <h1
       style={{
         position: "absolute",
-        top: "40vh",
+        top: "50vh",
         left: "50vw",
         fontWeight: 400,
         transform: "translate(-50%,-50%)",

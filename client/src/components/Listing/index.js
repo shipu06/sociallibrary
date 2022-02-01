@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import storage from "../../utils/storage";
+
 import CenteredText from "../Modals/CenteredText.js";
 import ImageLoader from "../Loaders/ImageLoader.js";
 import "./index.css";
 
-const Listing = ({ listing } = { title: "N/A" }) => {
+const Listing = ({ listing, idx } = { title: "N/A" }) => {
   const { title, link, price } = listing;
+
   const [imagesSRC, setImageSRC] = useState(new Array(6).fill(""));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -13,7 +16,7 @@ const Listing = ({ listing } = { title: "N/A" }) => {
 
   useEffect(() => {
     const getData = async () => {
-      fetch("api/flat", {
+      fetch("api/flat/single", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ URL: link }),
@@ -37,33 +40,41 @@ const Listing = ({ listing } = { title: "N/A" }) => {
   }, []);
 
   const onRemoveListing = () => {
-    let removedIds = JSON.parse(localStorage.getItem("removed-id") || "[]");
+    let removedIds = storage.get("removed-id", []);
     if (!removedIds.includes(link) && !removed) {
       removedIds.push(link);
     } else {
       removedIds = removedIds.filter((id) => id !== link);
     }
-    localStorage.setItem("removed-id", JSON.stringify(removedIds));
+    storage.set("removed-id", removedIds);
     setRemoved((state) => !state);
+
+    const nextListing = !removed
+      ? document.getElementById(idx + 1)
+      : document.getElementById(idx);
+
+    if (nextListing) {
+      nextListing.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
   };
 
   if (error) {
     return <CenteredText alert>Error :(</CenteredText>;
   }
 
+  console.log(idx);
   return (
-    <div className={`listing ${removed ? "listing--removed" : ""}`}>
+    <div className={`listing ${removed ? "listing--removed" : ""}`} id={idx}>
       {/* Menu & Info */}
       <div className="listing__info">
         <div className="listing__title">{title}</div>
         <div className="listing__price">{price}</div>
         <div className="listing__save">Save </div>
-        <div
-          className="listing__remove"
-          onClick={() => {
-            onRemoveListing();
-          }}
-        >
+        <div className="listing__remove" onClick={onRemoveListing}>
           Remove
         </div>
       </div>

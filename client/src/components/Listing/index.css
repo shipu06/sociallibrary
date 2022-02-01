@@ -1,8 +1,9 @@
 .listing {
-  margin: 5vh auto;
-  max-width: 1480px;
+  margin: 10vh auto;
+  max-width: 80vw;
   color: white;
   transition: 0.2s;
+  background-color: #464b53;
 }
 
 .listing--removed {
@@ -14,9 +15,8 @@
 .listing__gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 20px 20px 40px 20px;
-  background-color: #464b53;
+  gap: 3px;
+  padding: 3px;
 }
 
 .listing__gallery-image-wrapper {
@@ -35,7 +35,9 @@
 
 .listing__info {
   display: flex;
-  padding: 2em 20px;
+  padding: 1em 50px;
+  left: 0;
+  right: 0;
   justify-content: space-between;
   align-items: center;
   position: -webkit-sticky;
@@ -44,13 +46,19 @@
   position: -ms-sticky;
   position: sticky;
   top: -1px;
-  background-color: #464b53;
+  background: #464b5385;
 }
 
 .listing__title {
   font-size: 24px;
   font-weight: 300;
   width: 50%;
+  padding-right: 5vw;
+  text-overflow: ellipsis;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .listing__price {
@@ -79,7 +87,7 @@
   font-size: 24px;
   font-weight: 500;
   width: 10%;
-  color: rgb(48, 250, 132);
+  color: rgb(3, 189, 80);
   cursor: pointer;
   transition: 0.1s;
 }

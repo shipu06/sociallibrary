@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import storage from "../utils/storage";
 
 import Listing from "../components/Listing";
 import CenteredText from "../components/Modals/CenteredText.js";
-import SiteLoader from "../components/Loaders/SiteLoader";
 
 const substractArray = (A, B) => {
   return A.filter((n) => !B.includes(n.link));
@@ -11,29 +11,38 @@ const substractArray = (A, B) => {
 export default function Flats() {
   const [listingList, setListingList] = useState([{}]);
   const [bLoading, setLoading] = useState(true);
-  const [bError, setError] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const removedIds = JSON.parse(localStorage.getItem("removed-id") || "[]");
+    const initialSettings = storage.get("settings", { otodomURL: "" });
+    const link = initialSettings.otodomURL;
 
     const getListings = async () => {
       try {
-        const data = await fetch("/api/flat");
-        const listingList = await data.json();
+        const jsonData = await fetch("api/flat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: link }),
+        });
+        const data = await jsonData.json();
+        if (!data.success) {
+          throw new Error(data.message);
+        }
 
         // Filter list from removed ids
-        const filteredListingList = substractArray(listingList, removedIds);
+        const filteredListingList = substractArray(data.data, removedIds);
 
         setListingList(filteredListingList);
         setLoading(false);
         console.log(listingList);
       } catch (err) {
-        setError(err);
+        setLoading(false);
+        setError(err.message);
       }
     };
     getListings();
   }, []);
-
   if (bLoading) {
     return (
       <>
@@ -41,8 +50,14 @@ export default function Flats() {
       </>
     );
   }
-  if (bError) {
-    return <CenteredText alert>Error :(</CenteredText>;
+
+  if (error) {
+    return (
+      <CenteredText>
+        <div style={{ fontWeight: "700", fontSize: "36px" }}>Error!</div>
+        <div style={{ fontWeight: "300", fontSize: "12px" }}>{error}</div>
+      </CenteredText>
+    );
   }
 
   if (listingList.length === 0) {
@@ -51,8 +66,8 @@ export default function Flats() {
 
   return (
     <>
-      {listingList.map((listing) => (
-        <Listing key={listing.link} listing={listing} />
+      {listingList.map((listing, idx) => (
+        <Listing key={listing.link} listing={listing} idx={idx} />
       ))}
     </>
   );

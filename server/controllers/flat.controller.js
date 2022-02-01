@@ -24,66 +24,32 @@ const puppeteer = require("puppeteer");
 
 // Controller
 router.get("/", getFlats);
+router.post("/", getFlatsFromURL);
 
 function getFlats(req, res) {
   console.log("GET /api/flat");
   flatServices
     .getFlatsFromOtoDomURL(otodomURL)
-    .then((books) => res.json(books))
+    .then((data) => res.json(data))
     .catch((err) => res.json({ message: err }));
+}
+
+function getFlatsFromURL(req, res) {
+  const url = req.body.url;
+  const limit = req.body.limit || 50;
+  console.log("POST /api/flat - " + url);
+  flatServices
+    .getFlatsFromOtoDomURL(url, limit)
+    .then((data) => {
+      return res.json({ data, success: true });
+    })
+    .catch((err) => {
+      return res.json({ message: err.message, success: false });
+    });
 }
 
 // Services
 const flatServices = {};
-
-flatServices.getFlatsFromOtoDomURL = async (URL) => {
-  console.time("Scrapping searching list: ");
-  try {
-    // Get site HTML
-    const response = await fetch(URL);
-    const body = await response.text();
-
-    // Parse the html text and extract titles
-    const $ = cheerio.load(body);
-
-    // Get listings info
-    const listingList = [];
-    $('[role="main"] > [data-cy="search.listing"] li').each(async (i, item) => {
-      const listingNode = $(item);
-      const path = listingNode
-        .find('[data-cy="listing-item-link"]')
-        .attr("href");
-      console.log(path);
-
-      if (typeof path === "undefined") {
-        return;
-      }
-
-      const title = listingNode.find('[data-cy="listing-item-title"]').text();
-      const link = "https://www.otodom.pl" + path;
-      const mainImage = $(
-        listingNode.find('[media="(max-width: 768px)"]')[0]
-      ).attr("srcset");
-      const price = $(listingNode.find("article>p")[1]).text();
-      const rooms = $(listingNode.find("article>p span")[0]).text();
-      const area = $(listingNode.find("article>p span")[1]).text();
-
-      listingList.push({
-        title,
-        link,
-        price,
-        area,
-        rooms,
-        mainImage,
-      });
-    });
-    console.timeEnd("Scrapping searching list: ");
-
-    return listingList;
-  } catch (err) {
-    return console.log(err);
-  }
-};
 
 flatServices.getImagesURLFromOtoDomListingURL = async (URL) => {
   try {
@@ -128,6 +94,63 @@ flatServices.getImagesURLFromOtoDomListingURL = async (URL) => {
   }
 };
 
+flatServices.getFlatsFromOtoDomURL = async (URL, limit = 100) => {
+  console.time("Scrapping searching list: ");
+  try {
+    if (typeof URL !== "string") {
+      throw new Error("URL is not a string");
+    }
+    if (URL === "") {
+      throw new Error("URL is empty string");
+    }
+    // Get site HTML
+    const response = await fetch(URL);
+    const body = await response.text();
+
+    // Parse the html text and extract titles
+    const $ = cheerio.load(body);
+
+    // Get listings info
+    const listingList = [];
+    $('[role="main"] > [data-cy="search.listing"] li').each(async (i, item) => {
+      if (i >= limit) {
+        return;
+      }
+      const listingNode = $(item);
+      const path = listingNode
+        .find('[data-cy="listing-item-link"]')
+        .attr("href");
+      console.log(path);
+
+      if (typeof path === "undefined") {
+        return;
+      }
+
+      const title = listingNode.find('[data-cy="listing-item-title"]').text();
+      const link = "https://www.otodom.pl" + path;
+      const mainImage = $(
+        listingNode.find('[media="(max-width: 768px)"]')[0]
+      ).attr("srcset");
+      const price = $(listingNode.find("article>p")[1]).text();
+      const rooms = $(listingNode.find("article>p span")[0]).text();
+      const area = $(listingNode.find("article>p span")[1]).text();
+      listingList.push({
+        title,
+        link,
+        price,
+        area,
+        rooms,
+        mainImage,
+      });
+    });
+    console.timeEnd("Scrapping searching list: ");
+
+    return listingList;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 router.get("/test", async (req, res) => {
   try {
     const URL =
@@ -139,8 +162,7 @@ router.get("/test", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  console.log("POST /api/flat - " + req.body.URL);
+router.post("/single", async (req, res) => {
   try {
     const urls = await flatServices.getImagesURLFromOtoDomListingURL(
       req.body.URL
