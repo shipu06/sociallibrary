@@ -3,14 +3,14 @@ import storage from "../utils/storage";
 
 export default function Flats() {
   const [otodomURL, setOtodomURL] = useState("");
-  const [removedIDs, setRemovedIDs] = useState([{}]);
+
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const IDs = storage.get("removed-id", []);
-    const initialSettings = storage.get("settings", { otodomURL: "" });
-    setRemovedIDs(IDs);
+    const initialSettings = storage.get("settings", {
+      otodomURL: initOtodomURL,
+    });
     setOtodomURL(initialSettings.otodomURL);
     isLinkValid(initialSettings.otodomURL).then((res) => {
       setIsValid(res);
@@ -50,11 +50,8 @@ export default function Flats() {
   };
 
   return (
-    <div style={{ width: "50vw", margin: "5vh auto" }}>
-      <hr />
-      <h1>Data urls</h1>
-      <hr />
-      <span>OtoDom: </span>
+    <div style={{ width: "80vw", margin: "5vh auto" }}>
+      <h1>{"OtoDom   "}</h1>
       <input
         type="text"
         style={{ width: "100%" }}
@@ -63,31 +60,19 @@ export default function Flats() {
         }}
         value={otodomURL}
       />
-      <button onClick={updateSettings}>Save</button>
-
       {loading ? (
-        "Loading..."
+        <p>Loading...</p>
       ) : (
-        <span style={{ color: isValid ? "green" : "red", fontWeight: 800 }}>
+        <p style={{ color: isValid ? "green" : "red", fontWeight: 800 }}>
           {isValid ? "Valid link" : "Wrong link"}{" "}
-        </span>
-      )}
-
-      <hr />
-      <h1>Removed flats</h1>
-      <button
-        onClick={() => {
-          storage.remove("removed-id");
-          setRemovedIDs([]);
-        }}
-      >
-        Clear removed
+        </p>
+      )}{" "}
+      <button onClick={updateSettings} style={{ margin: "10px 10px 10px 0" }}>
+        Save
       </button>
-      <hr />
-      {removedIDs.map((url, idx) => {
-        return <p>{idx + ". " + url}</p>;
-      })}
-      <hr />
     </div>
   );
 }
+
+const initOtodomURL =
+  "https://www.otodom.pl/pl/oferty/wynajem/mieszkanie/krakow?roomsNumber=%5BONE%2CTWO%5D&priceMin=1400&priceMax=2100&areaMin=30&areaMax=50&distanceRadius=0&market=ALL&page=1&limit=72&by=DEFAULT&direction=DESC&locations%5B0%5D%5BregionId%5D=6&locations%5B0%5D%5BcityId%5D=38&locations%5B0%5D%5BsubregionId%5D=410";

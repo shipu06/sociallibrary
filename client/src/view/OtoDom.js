@@ -23,7 +23,7 @@ export default function Flats() {
         const jsonData = await fetch("api/flat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: link }),
+          body: JSON.stringify({ url: link, limit: 10 }),
         });
         const data = await jsonData.json();
         if (!data.success) {
@@ -66,6 +66,7 @@ export default function Flats() {
 
   return (
     <>
+      <h1>To dziala tak se, za duzo danych na raz i wolno laduje, ograniczylem do 10 wynikow narazie</h1>
       {listingList.map((listing, idx) => (
         <Listing key={listing.link} listing={listing} idx={idx} />
       ))}

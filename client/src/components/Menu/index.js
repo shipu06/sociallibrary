@@ -5,14 +5,14 @@ import "./index.css";
 export default function Menu() {
   return (
     <div className="menu">
-      <NavLink className='menu__item' activeClassName="is-active" to="/otodom">
+      {/* <NavLink className='menu__item' activeClassName="is-active" to="/otodom">
         Otodom
+      </NavLink> */}
+      <NavLink className='menu__item' activeClassName="is-active" to="/tinder">
+        Tinder
       </NavLink>
-      <NavLink className='menu__item' activeClassName="is-active" to="/olx">
-        Olx
-      </NavLink>
-      <NavLink className='menu__item' activeClassName="is-active" to="/gumtree">
-        Gumtree
+      <NavLink className='menu__item' activeClassName="is-active" to="/summary">
+        Summary
       </NavLink>
       <NavLink className='menu__item' activeClassName="is-active" to="/settings">
         Settings

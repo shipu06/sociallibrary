@@ -5,7 +5,9 @@ import CenteredText from "../Modals/CenteredText.js";
 import ImageLoader from "../Loaders/ImageLoader.js";
 import "./index.css";
 
-const Listing = ({ listing, idx } = { title: "N/A" }) => {
+const Listing = (
+  { listing, idx, removeId = "removed-id" } = { title: "N/A" }
+) => {
   const { title, link, price } = listing;
 
   const [imagesSRC, setImageSRC] = useState(new Array(6).fill(""));
@@ -40,13 +42,13 @@ const Listing = ({ listing, idx } = { title: "N/A" }) => {
   }, []);
 
   const onRemoveListing = () => {
-    let removedIds = storage.get("removed-id", []);
+    let removedIds = storage.get(removeId, []);
     if (!removedIds.includes(link) && !removed) {
       removedIds.push(link);
     } else {
       removedIds = removedIds.filter((id) => id !== link);
     }
-    storage.set("removed-id", removedIds);
+    storage.set(removeId, removedIds);
     setRemoved((state) => !state);
 
     const nextListing = !removed
