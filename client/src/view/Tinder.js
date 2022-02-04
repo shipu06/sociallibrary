@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import storage from "../utils/storage";
-import lodash from "lodash";
-
+import AliceCarousel from "react-alice-carousel";
 import ImageLoader from "../components/Loaders/ImageLoader.js";
 import CenteredText from "../components/Modals/CenteredText.js";
+
+import "react-alice-carousel/lib/alice-carousel.css";
+import "./Tinder.css";
+import Gallery from "./Swiper";
 
 const substractArray = (A, B) => {
   return A.filter((n) => !B.includes(n.link));
@@ -63,7 +66,7 @@ export default function Flats() {
       setNextListing(listingList[currentIndex + 2]);
     }
     setCurrentIndex((state) => state + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (bLoading) {
@@ -112,7 +115,7 @@ export default function Flats() {
 const Listing = ({ listing, onRemove, hidden } = { title: "N/A" }) => {
   const { title, link, price } = listing;
 
-  const [imagesSRC, setImageSRC] = useState(new Array(6).fill(""));
+  const [imagesSRC, setImageSRC] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -172,16 +175,44 @@ const Listing = ({ listing, onRemove, hidden } = { title: "N/A" }) => {
   if (error) {
     return <CenteredText alert>Error :(</CenteredText>;
   }
-
+  console.log(imagesSRC);
   return (
     <div
       className={`listing ${removed ? "listing--removed" : ""}`}
-      style={{ display: hidden ? "none" : "block" }}
+      style={{ display: hidden ? "none" : "flex" }}
     >
-      {/* Menu & Info */}
-      <div className="listing__info">
+      <div
+        className="listing__info listing__info--title "
+        style={{ backgroundColor: "transparent" }}
+      >
         <div className="listing__title">{title}</div>
         <div className="listing__price">{price}</div>
+      </div>
+      {/* Gallery */}
+      <div className="listing__gallery">
+        {imagesSRC.length !== 0 ? (
+          <AliceCarousel
+            mouseTracking
+            disableButtonsControls
+            items={imagesSRC.map((src) => (
+              <div className="item">
+                <img
+                  src={src}
+                  onDragStart={handleDragStart}
+                  role="presentation"
+                />
+              </div>
+            ))}
+          />
+        ) : (
+          <div className="listing__gallery-image-wrapper">
+            <ImageLoader />
+          </div>
+        )}
+      </div>
+
+      {/* Menu & Info */}
+      <div className="listing__info listing__info--actions">
         <div className="listing__save" onClick={onSaveListing}>
           Save
         </div>
@@ -189,25 +220,8 @@ const Listing = ({ listing, onRemove, hidden } = { title: "N/A" }) => {
           Remove
         </div>
       </div>
-
-      {/* Gallery */}
-      <a href={link} target="_blank">
-        <div className="listing__gallery">
-          {imagesSRC.map((src, idx) => (
-            <div className="listing__gallery-image-wrapper">
-              {src !== "" ? (
-                <img
-                  className="listing__gallery-image"
-                  key={src + idx}
-                  src={src}
-                />
-              ) : (
-                <ImageLoader className="listing__gallery-image" />
-              )}
-            </div>
-          ))}
-        </div>
-      </a>
     </div>
   );
 };
+
+const handleDragStart = (e) => e.preventDefault();
