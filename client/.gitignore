@@ -10,7 +10,7 @@
 
 # production
 /build
-/obsolete
+
 # misc
 .DS_Store
 .env.local

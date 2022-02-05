@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import storage from "../utils/storage";
-import AliceCarousel from "react-alice-carousel";
-import ImageLoader from "../components/Loaders/ImageLoader.js";
-import CenteredText from "../components/Modals/CenteredText.js";
+import storage from "../../utils/storage";
+import ContentLoader from "react-content-loader";
+import CenteredText from "../../components/Modals/CenteredText.js";
+import ImageGallery from "react-image-gallery";
 
-import "react-alice-carousel/lib/alice-carousel.css";
-import "./Tinder.css";
-import Gallery from "./Swiper";
+import "./index.css";
 
 const substractArray = (A, B) => {
   return A.filter((n) => !B.includes(n.link));
@@ -66,7 +64,6 @@ export default function Flats() {
       setNextListing(listingList[currentIndex + 2]);
     }
     setCurrentIndex((state) => state + 1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (bLoading) {
@@ -80,8 +77,8 @@ export default function Flats() {
   if (error) {
     return (
       <CenteredText>
-        <div style={{ fontWeight: "700", fontSize: "36px" }}>Error!</div>
-        <div style={{ fontWeight: "300", fontSize: "12px" }}>{error}</div>
+        <div className="block text-center text-3xl">Error!</div>
+        <div className="block text-center text-sm">{error}</div>
       </CenteredText>
     );
   }
@@ -91,7 +88,6 @@ export default function Flats() {
   }
 
   if (currentIndex >= listingList.length) {
-    console.log("juz");
     return <CenteredText>That's all, try again later</CenteredText>;
   }
 
@@ -102,17 +98,12 @@ export default function Flats() {
         listing={currentListing}
         onRemove={onRemove}
       />
-      <Listing
-        key={nextListing.link}
-        listing={nextListing}
-        onRemove={onRemove}
-        hidden
-      />
+      <Listing key={nextListing.link} listing={nextListing} hidden />
     </>
   );
 }
 
-const Listing = ({ listing, onRemove, hidden } = { title: "N/A" }) => {
+const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
   const { title, link, price } = listing;
 
   const [imagesSRC, setImageSRC] = useState([]);
@@ -172,56 +163,114 @@ const Listing = ({ listing, onRemove, hidden } = { title: "N/A" }) => {
     onRemove();
   };
 
-  if (error) {
-    return <CenteredText alert>Error :(</CenteredText>;
+  if (hidden) {
+    return <></>;
   }
-  console.log(imagesSRC);
+
+  if (error) {
+    return (
+      <CenteredText>
+        <div className="block text-center text-3xl">Error!</div>
+        <div className="block text-center text-sm">:(</div>
+      </CenteredText>
+    );
+  }
+
+  if (imagesSRC.length === 0) {
+    return (
+      <div className={"absolute top-16 bottom-0 left-0 right-0 "}>
+        <ContentLoader
+          backgroundColor="rgb(241,245,249)"
+          foregroundColor="white"
+          height="100%"
+          width="100%"
+        >
+          <rect x="0" y="0" height={"100%"} width={"100%"} />
+        </ContentLoader>
+      </div>
+    );
+  }
+
+  const items = imagesSRC.map((src) => ({
+    original: src,
+    thumbnail: src,
+    description: " Buddy, Dog given to the king of England",
+    renderItem: () => (
+      <div className="item ">
+        <img src={src} />
+      </div>
+    ),
+    renderThumbInner: () => (
+      <div className="thumbnail">
+        <img src={src} />
+      </div>
+    ),
+  }));
+
   return (
     <div
-      className={`listing ${removed ? "listing--removed" : ""}`}
-      style={{ display: hidden ? "none" : "flex" }}
+      className={
+        "absolute top-16 bottom-0 left-0 right-0 lg:left-24 lg:right-24"
+      }
     >
-      <div
-        className="listing__info listing__info--title "
-        style={{ backgroundColor: "transparent" }}
-      >
-        <div className="listing__title">{title}</div>
-        <div className="listing__price">{price}</div>
-      </div>
-      {/* Gallery */}
-      <div className="listing__gallery">
-        {imagesSRC.length !== 0 ? (
-          <AliceCarousel
-            mouseTracking
-            disableButtonsControls
-            items={imagesSRC.map((src) => (
-              <div className="item">
-                <img
-                  src={src}
-                  onDragStart={handleDragStart}
-                  role="presentation"
-                />
-              </div>
-            ))}
-          />
-        ) : (
-          <div className="listing__gallery-image-wrapper">
-            <ImageLoader />
-          </div>
-        )}
+      {/* Listing info */}
+      <div className="flex py-6 text-sm text-gray px-6 justify-center items-center">
+        <div className="mr-6">{title}</div>
+        <div className="text-xl font-bold bg-slate-50 justify-between items-center shadow-md rounded-lg px-4 py-2">
+          {price}
+        </div>
       </div>
 
-      {/* Menu & Info */}
-      <div className="listing__info listing__info--actions">
-        <div className="listing__save" onClick={onSaveListing}>
-          Save
+      {/* Gallery */}
+      <div className="">
+        <ImageGallery
+          showIndex
+          showPlayButton={false}
+          useBrowserFullscreen={false}
+          thumbnailPosition={"top"}
+          items={items}
+        />
+      </div>
+
+      {/* Actions */}
+      <div className="fixed bottom-6 left-0 right-0 flex items-center justify-between gap-3 sm:justify-center px-6">
+        <div
+          className="p-6 bg-green-400 rounded-full shadow-xl cursor-pointer"
+          onClick={onSaveListing}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
         </div>
-        <div className="listing__remove" onClick={onRemoveListing}>
-          Remove
+        <div
+          className="p-6 bg-red-400 rounded-full shadow-xl cursor-pointer"
+          onClick={onRemoveListing}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-white"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
         </div>
       </div>
     </div>
   );
 };
-
-const handleDragStart = (e) => e.preventDefault();

@@ -109,24 +109,26 @@ flatServices.getFlatsFromOtoDomURL = async (URL, limit = 100) => {
 
     // Parse the html text and extract titles
     const $ = cheerio.load(body);
-
+    // Listing selectors
+    const listingSelector = {
+      container: '[role="main"] > [data-cy="search.listing"] li',
+      link: '[data-cy="listing-item-link"]',
+      title: '[data-cy="listing-item-title"]',
+    };
     // Get listings info
     const listingList = [];
-    $('[role="main"] > [data-cy="search.listing"] li').each(async (i, item) => {
+    $(listingSelector.container).each(async (i, item) => {
       if (i >= limit) {
         return;
       }
       const listingNode = $(item);
-      const path = listingNode
-        .find('[data-cy="listing-item-link"]')
-        .attr("href");
-      console.log(path);
+      const path = listingNode.find(listingSelector.link).attr("href");
 
       if (typeof path === "undefined") {
         return;
       }
 
-      const title = listingNode.find('[data-cy="listing-item-title"]').text();
+      const title = listingNode.find(listingSelector.title).text();
       const link = "https://www.otodom.pl" + path;
       const mainImage = $(
         listingNode.find('[media="(max-width: 768px)"]')[0]

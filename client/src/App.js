@@ -1,28 +1,33 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
-import Menu from "./components/Menu";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
-import OtoDom from "./view/OtoDom.js";
-import Tinder from "./view/Tinder.js";
-import Settings from "./view/Settings";
+import "./App.css";
+
+import NavBar from "./components/NavBar";
+import Tinder from "./view/Tinder";
 import Summary from "./view/Summary";
-import Swiper from "./view/Swiper";
+import Settings from "./view/Settings";
+import Test from "./view/Test";
 
 function App() {
   return (
-    <>
-      <Menu />
-      <Switch>
-        <Route exact path="/otodom" component={OtoDom} />
-        <Route exact path="/tinder" component={Tinder} />
-        <Route exact path="/swiper" component={Swiper} />
-        <Route exact path="/olx" component={() => <h1>OLX</h1>} />
-        <Route exact path="/gumtree" component={() => <h1>Gumtree</h1>} />
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/summary" component={Summary} />
-        <Redirect to="/settings" />
-      </Switch>
-    </>
+    <div className="min-h-screen h-screen min-w-screen w-screen bg-gradient-to-b from-slate-100 to-white-100 relative">
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route exact path="/tinder" element={<Tinder />} />
+          <Route exact path="/summary" element={<Summary />} />
+          <Route exact path="/settings" element={<Settings />} />
+          <Route exact path="/test" element={<Test />} />
+          <Route path="*" element={<Navigate to="/settings" />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
