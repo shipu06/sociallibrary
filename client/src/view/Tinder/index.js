@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import storage from "../../utils/storage";
+import { useSelector, useDispatch } from "react-redux";
+import { addDeleted } from "../../store/actions/deletedActions";
+import { addSaved } from "../../store/actions/savedActions";
+
 import ContentLoader from "react-content-loader";
 import CenteredText from "../../components/Modals/CenteredText.js";
 import ImageGallery from "react-image-gallery";
@@ -19,18 +22,21 @@ export default function Flats() {
   const [currentListing, setCurrentListing] = useState({});
   const [nextListing, setNextListing] = useState({});
 
-  useEffect(() => {
-    const removedIds = JSON.parse(localStorage.getItem("removed-id") || "[]");
-    const savedIds = storage.get("saved-id", []).map((listing) => listing.link);
-    const initialSettings = storage.get("settings", { otodomURL: "" });
-    const link = initialSettings.otodomURL;
+  // Settings
+  const settings = useSelector((state) => state.settings);
+  const otodomUrl = settings.otodomUrl;
 
+  // Removed & Saved listings
+  const deleted = useSelector((state) => state.deleted);
+  const saved = useSelector((state) => state.saved);
+
+  useEffect(() => {
     const getListings = async () => {
       try {
         const jsonData = await fetch("api/flat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: link, limit: 60 }),
+          body: JSON.stringify({ url: otodomUrl, limit: 60 }),
         });
         const data = await jsonData.json();
         if (!data.success) {
@@ -39,8 +45,8 @@ export default function Flats() {
 
         // Filter list from removed ids
         const filteredListingList = substractArray(data.data, [
-          ...removedIds,
-          ...savedIds,
+          ...deleted,
+          ...saved,
         ]);
 
         setListingList(filteredListingList);
@@ -109,14 +115,11 @@ export default function Flats() {
 }
 
 const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
+  const dispatch = useDispatch();
+
   const { title, link, price } = listing;
-
   const [imagesSRC, setImageSRC] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
-  const [removed, setRemoved] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -131,7 +134,6 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
           console.log(res.urls);
           if (Array.isArray(urls)) {
             setImageSRC(res.urls);
-            setLoading(false);
           } else {
             console.log(urls + "is not an array");
           }
@@ -144,27 +146,12 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
   }, []);
 
   const onRemoveListing = () => {
-    let removedIds = storage.get("removed-id", []);
-    if (!removedIds.includes(link) && !removed) {
-      removedIds.push(link);
-    } else {
-      removedIds = removedIds.filter((id) => id !== link);
-    }
-    storage.set("removed-id", removedIds);
-    setRemoved((state) => !state);
+    dispatch(addDeleted(link));
     onRemove();
   };
 
   const onSaveListing = () => {
-    let savedListings = storage.get("saved-id", []);
-
-    if (!savedListings.some((listing) => listing.link === link) && !saved) {
-      savedListings.push(listing);
-    } else {
-      savedListings = savedListings.filter((listing) => listing.link !== link);
-    }
-    storage.set("saved-id", savedListings);
-    setSaved((state) => !state);
+    dispatch(addSaved(listing));
     onRemove();
   };
 
@@ -230,10 +217,11 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
       </div>
 
       {/* Listing info */}
-      <div className="flex py-4 text-xs text-gray justify-between items-center flex-col">
-        <div className="text-center">{title}</div>
-      </div>
-
+      <a href={link} rel="noreferrer" target="_blank">
+        <div className="flex py-4 text-xs text-gray justify-between items-center flex-col">
+          <div className="text-center">{title}</div>
+        </div>
+      </a>
       {/* Panel strip */}
       <div className="fixed bottom-0 pb-6 left-0 right-0 flex items-center justify-between gap-3 sm:justify-center px-6">
         {/* Save */}

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
-import storage from "../utils/storage";
+import { useSelector, useDispatch } from "react-redux";
+import { setOtodomUrl } from "../store/actions/settingsActions";
+
+// Store
 
 export default function Flats() {
-  const [otodomURL, setOtodomURL] = useState("");
-
+  const dispatch = useDispatch();
+  const settings = useSelector((state) => state.settings);
+  const [otodomURL, setOtodomURL] = useState(settings.otodomUrl);
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initialSettings = storage.get("settings", {
-      otodomURL: initOtodomURL,
-    });
-    setOtodomURL(initialSettings.otodomURL);
-    isLinkValid(initialSettings.otodomURL).then((res) => {
+    console.log(otodomURL);
+
+    isLinkValid(otodomURL).then((res) => {
       setIsValid(res);
       setLoading(false);
     });
@@ -38,14 +40,10 @@ export default function Flats() {
 
   const updateSettings = () => {
     setLoading(true);
-
-    storage.set("settings", {
-      otodomURL,
-    });
-
     isLinkValid(otodomURL).then((res) => {
       setIsValid(res);
       setLoading(false);
+      res && dispatch(setOtodomUrl(otodomURL));
     });
   };
 
@@ -73,6 +71,3 @@ export default function Flats() {
     </div>
   );
 }
-
-const initOtodomURL =
-  "https://www.otodom.pl/pl/oferty/wynajem/mieszkanie/krakow?roomsNumber=%5BONE%2CTWO%5D&priceMin=1400&priceMax=2100&areaMin=30&areaMax=50&distanceRadius=0&market=ALL&page=1&limit=12&by=DEFAULT&direction=DESC&locations%5B0%5D%5BregionId%5D=6&locations%5B0%5D%5BcityId%5D=38&locations%5B0%5D%5BsubregionId%5D=410";

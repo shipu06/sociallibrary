@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
-import storage from "../../utils/storage";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const substractArray = (A, B) => {
   return A.filter((n) => !B.includes(n.link));
@@ -10,33 +10,34 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [newFlatsCounter, setNewFlatsCounter] = useState(0);
 
-  const toggleOpen = () => {
-    setIsOpen((state) => !state);
-  };
+  // Settings
+  const settings = useSelector((state) => state.settings);
+  const otodomUrl = settings.otodomUrl;
+
+  // Removed & Saved listings
+  const deleted = useSelector((state) => state.deleted);
+  const saved = useSelector((state) => state.saved);
 
   useEffect(() => {
-    const removedIds = JSON.parse(localStorage.getItem("removed-id") || "[]");
-    const savedIds = storage.get("saved-id", []).map((listing) => listing.link);
-    const initialSettings = storage.get("settings", { otodomURL: "" });
-    const link = initialSettings.otodomURL;
-
     const getListings = async () => {
       try {
         const jsonData = await fetch("api/flat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: link, limit: 60 }),
+          body: JSON.stringify({ url: otodomUrl, limit: 60 }),
         });
         const data = await jsonData.json();
         if (!data.success) {
           throw new Error(data.message);
         }
 
+        console.log(data.data);
         // Filter list from removed ids
         const filteredListingList = substractArray(data.data, [
-          ...removedIds,
-          ...savedIds,
+          ...deleted,
+          ...saved.map((i) => i.link),
         ]);
+        console.log([...deleted, ...saved.map((i) => i.link)]);
 
         setNewFlatsCounter(filteredListingList.length);
       } catch (err) {
@@ -44,14 +45,13 @@ const NavBar = () => {
       }
     };
     getListings();
-    console.log("eeee");
-
-    window.onstorage = (e) => {
-      console.log(e);
-    };
-  }, []);
+  }, [deleted, saved, otodomUrl]);
 
   const elements = ["tinder", "summary", "settings", "test"];
+
+  const toggleOpen = () => {
+    setIsOpen((state) => !state);
+  };
 
   return (
     <nav className="bg-gray-800 relative" style={{ zIndex: "200" }}>

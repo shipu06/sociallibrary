@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSaved } from "../store/actions/savedActions";
+import { setDeleted } from "../store/actions/deletedActions";
+
 import storage from "../utils/storage";
 
 export default function Flats() {
-  const [savedIDs, setSavedIDs] = useState([{}]);
-  const [removedIDs, setRemovedIDs] = useState([{}]);
+  const dispatch = useDispatch();
+
+  // Removed & Saved listings
+  const deleted = useSelector((state) => state.deleted);
+  const saved = useSelector((state) => state.saved);
 
   useEffect(() => {
-    const removed = storage.get("removed-id", []);
-    setRemovedIDs(removed);
-
-    const saved = storage.get("saved-id", []);
-    setSavedIDs(saved);
-  }, []);
+    console.log("changed");
+  }, [saved, deleted]);
 
   return (
     <div style={{ width: "90vw", margin: "20px auto" }}>
@@ -31,7 +34,7 @@ export default function Flats() {
           }}
           onClick={() => {
             storage.remove("saved-id");
-            setSavedIDs([]);
+            dispatch(setSaved([]));
           }}
         >
           Clear
@@ -39,7 +42,7 @@ export default function Flats() {
       </div>
       <hr />
 
-      {savedIDs.map((listing, idx) => {
+      {saved.map((listing, idx) => {
         return (
           <div key={listing.link}>
             <h1>{idx + 1 + ". " + listing.title}</h1>
@@ -61,18 +64,17 @@ export default function Flats() {
           alignItems: "center",
         }}
       >
-        <h1>Removed</h1>
+        <h1>Deleted</h1>
         <button
           onClick={() => {
-            storage.remove("removed-id");
-            setRemovedIDs([]);
+            dispatch(setDeleted([]));
           }}
         >
           Clear
         </button>
       </div>
       <hr />
-      {removedIDs.map((url, idx) => {
+      {deleted.map((url, idx) => {
         return <p key={url}>{idx + 1 + ". " + url}</p>;
       })}
       <hr />
