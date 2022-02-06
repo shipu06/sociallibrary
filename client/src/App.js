@@ -16,7 +16,7 @@ import Test from "./view/Test";
 
 function App() {
   return (
-    <div className="min-h-screen h-screen min-w-screen w-screen bg-gradient-to-b from-slate-100 to-white-100 relative">
+    <div className="height-screen min-w-screen w-screen bg-gradient-to-b from-slate-100 to-white-100 relative font-sans">
       <Router>
         <NavBar />
         <Routes>

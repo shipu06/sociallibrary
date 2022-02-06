@@ -45,9 +45,12 @@ export default function Flats() {
 
         setListingList(filteredListingList);
         setLoading(false);
-
-        setCurrentListing(filteredListingList[currentIndex]);
-        setNextListing(filteredListingList[currentIndex + 1]);
+        if (filteredListingList.length >= 1) {
+          setCurrentListing(filteredListingList[0]);
+        }
+        if (filteredListingList.length >= 2) {
+          setNextListing(filteredListingList[1]);
+        }
       } catch (err) {
         setLoading(false);
         setError(err.message);
@@ -62,6 +65,8 @@ export default function Flats() {
     }
     if (currentIndex + 3 <= listingList.length) {
       setNextListing(listingList[currentIndex + 2]);
+    } else {
+      setNextListing({});
     }
     setCurrentIndex((state) => state + 1);
   };
@@ -213,16 +218,8 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
         "absolute top-16 bottom-0 left-0 right-0 lg:left-24 lg:right-24"
       }
     >
-      {/* Listing info */}
-      <div className="flex py-6 text-sm text-gray px-6 justify-center items-center">
-        <div className="mr-6">{title}</div>
-        <div className="text-xl font-bold bg-slate-50 justify-between items-center shadow-md rounded-lg px-4 py-2">
-          {price}
-        </div>
-      </div>
-
       {/* Gallery */}
-      <div className="">
+      <div className="pt-3">
         <ImageGallery
           showIndex
           showPlayButton={false}
@@ -232,10 +229,16 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
         />
       </div>
 
-      {/* Actions */}
-      <div className="fixed bottom-6 left-0 right-0 flex items-center justify-between gap-3 sm:justify-center px-6">
+      {/* Listing info */}
+      <div className="flex py-4 text-xs text-gray justify-between items-center flex-col">
+        <div className="text-center">{title}</div>
+      </div>
+
+      {/* Panel strip */}
+      <div className="fixed bottom-0 pb-6 left-0 right-0 flex items-center justify-between gap-3 sm:justify-center px-6">
+        {/* Save */}
         <div
-          className="p-6 bg-green-400 rounded-full shadow-xl cursor-pointer"
+          className="p-4 bg-green-400 rounded-full shadow-xl cursor-pointer"
           onClick={onSaveListing}
         >
           <svg
@@ -253,8 +256,16 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
             />
           </svg>
         </div>
+        {/* Listing info */}
+        <div className="flex text-xs text-gray justify-between items-center flex-col">
+          <div className="text-xl font-semibold bg-white justify-between items-center shadow-slate-200 shadow-xl rounded-lg px-4 py-2">
+            {price}
+          </div>
+        </div>
+
+        {/* Next */}
         <div
-          className="p-6 bg-red-400 rounded-full shadow-xl cursor-pointer"
+          className="p-4 bg-red-400 rounded-full shadow-xl cursor-pointer"
           onClick={onRemoveListing}
         >
           <svg

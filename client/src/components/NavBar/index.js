@@ -145,7 +145,10 @@ const NavBar = () => {
       {/* Mobile menu */}
       {isOpen && (
         <div className="sm:hidden" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+          <div
+            className="px-2 pt-2 pb-3 space-y-1 relative"
+            style={{ zIndex: "200" }}
+          >
             {elements.map((url) => (
               <NavLink
                 to={url}
