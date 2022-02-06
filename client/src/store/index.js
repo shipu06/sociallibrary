@@ -5,9 +5,15 @@ import rootReducer from "./rootReducer";
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 
-const store = createStore(rootReducer, loadFromLocalStorage(), composedEnhancer);
-store.subscribe(() => saveToLocalStorage(store.getState()));
+const store = createStore(
+  rootReducer,
+  loadFromLocalStorage(),
+  composedEnhancer
+);
 
+export default store;
+
+// Local storage settings
 
 function loadFromLocalStorage() {
   try {
@@ -21,14 +27,21 @@ function loadFromLocalStorage() {
 }
 
 function saveToLocalStorage(state) {
-    try {
-      const serialisedState = JSON.stringify(state);
-      localStorage.setItem("persistantState", serialisedState);
-    } catch (e) {
-      console.warn(e);
-    }
+  const itemsToLocalStorage = ["settings", "deleted", "saved"];
+  try {
+    const stateToSave = {};
+
+    itemsToLocalStorage.forEach((item) => {
+      if (item in state) {
+        stateToSave[item] = state[item];
+      }
+    });
+
+    const serialisedState = JSON.stringify(stateToSave);
+    localStorage.setItem("persistantState", serialisedState);
+  } catch (e) {
+    console.warn(e);
   }
+}
 
-
-
-export default store;
+store.subscribe(() => saveToLocalStorage(store.getState()));

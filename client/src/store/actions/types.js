@@ -1,5 +1,7 @@
 export const SET_OTODOMURL = "SET_OTODOMURL";
 
+export const SET_LISTINGS = "SET_LISTINGS";
+
 export const SET_DELETED = "SET_DELETED";
 export const ADD_DELETED = "ADD_DELETED";
 export const REMOVE_DELETED = "REMOVE_DELETED";

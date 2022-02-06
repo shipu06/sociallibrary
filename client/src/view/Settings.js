@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setOtodomUrl } from "../store/actions/settingsActions";
+import { getListings } from "../store/actions/listingsActions";
 
 // Store
 
@@ -12,8 +13,6 @@ export default function Flats() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(otodomURL);
-
     isLinkValid(otodomURL).then((res) => {
       setIsValid(res);
       setLoading(false);

@@ -10,42 +10,19 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [newFlatsCounter, setNewFlatsCounter] = useState(0);
 
-  // Settings
-  const settings = useSelector((state) => state.settings);
-  const otodomUrl = settings.otodomUrl;
-
-  // Removed & Saved listings
+  // All & Removed & Saved
+  const listings = useSelector((state) => state.listings);
   const deleted = useSelector((state) => state.deleted);
   const saved = useSelector((state) => state.saved);
 
   useEffect(() => {
-    const getListings = async () => {
-      try {
-        const jsonData = await fetch("api/flat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: otodomUrl, limit: 60 }),
-        });
-        const data = await jsonData.json();
-        if (!data.success) {
-          throw new Error(data.message);
-        }
+    const filteredListingList = substractArray(listings, [
+      ...deleted,
+      ...saved.map((i) => i.link),
+    ]);
 
-        console.log(data.data);
-        // Filter list from removed ids
-        const filteredListingList = substractArray(data.data, [
-          ...deleted,
-          ...saved.map((i) => i.link),
-        ]);
-        console.log([...deleted, ...saved.map((i) => i.link)]);
-
-        setNewFlatsCounter(filteredListingList.length);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getListings();
-  }, [deleted, saved, otodomUrl]);
+    setNewFlatsCounter(filteredListingList.length);
+  }, [deleted, saved, listings]);
 
   const elements = ["tinder", "summary", "settings", "test"];
 

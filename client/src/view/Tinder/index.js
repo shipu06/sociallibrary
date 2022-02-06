@@ -14,7 +14,6 @@ const substractArray = (A, B) => {
 };
 
 export default function Flats() {
-  const [error, setError] = useState(false);
   const [listingList, setListingList] = useState([{}]);
   const [bLoading, setLoading] = useState(true);
 
@@ -22,48 +21,27 @@ export default function Flats() {
   const [currentListing, setCurrentListing] = useState({});
   const [nextListing, setNextListing] = useState({});
 
-  // Settings
-  const settings = useSelector((state) => state.settings);
-  const otodomUrl = settings.otodomUrl;
-
-  // Removed & Saved listings
+  // All & Removed & Saved
+  const listings = useSelector((state) => state.listings);
   const deleted = useSelector((state) => state.deleted);
   const saved = useSelector((state) => state.saved);
 
   useEffect(() => {
-    const getListings = async () => {
-      try {
-        const jsonData = await fetch("api/flat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: otodomUrl, limit: 60 }),
-        });
-        const data = await jsonData.json();
-        if (!data.success) {
-          throw new Error(data.message);
-        }
+    const filteredListingList = substractArray(listings, [
+      ...deleted,
+      ...saved.map((i) => i.link),
+    ]);
+    setListingList(filteredListingList);
 
-        // Filter list from removed ids
-        const filteredListingList = substractArray(data.data, [
-          ...deleted,
-          ...saved,
-        ]);
+    if (filteredListingList.length >= 1) {
+      setCurrentListing(filteredListingList[0]);
+    }
+    if (filteredListingList.length >= 2) {
+      setNextListing(filteredListingList[1]);
+    }
 
-        setListingList(filteredListingList);
-        setLoading(false);
-        if (filteredListingList.length >= 1) {
-          setCurrentListing(filteredListingList[0]);
-        }
-        if (filteredListingList.length >= 2) {
-          setNextListing(filteredListingList[1]);
-        }
-      } catch (err) {
-        setLoading(false);
-        setError(err.message);
-      }
-    };
-    getListings();
-  }, []);
+    setLoading(false);
+  }, [listings, saved, deleted]);
 
   const onRemove = () => {
     if (currentIndex + 2 <= listingList.length) {
@@ -82,15 +60,6 @@ export default function Flats() {
       <>
         <CenteredText>Loading...</CenteredText>
       </>
-    );
-  }
-
-  if (error) {
-    return (
-      <CenteredText>
-        <div className="block text-center text-3xl">Error!</div>
-        <div className="block text-center text-sm">{error}</div>
-      </CenteredText>
     );
   }
 
