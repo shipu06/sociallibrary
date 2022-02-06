@@ -1,12 +1,55 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
+import storage from "../../utils/storage";
+
+const substractArray = (A, B) => {
+  return A.filter((n) => !B.includes(n.link));
+};
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [newFlatsCounter, setNewFlatsCounter] = useState(0);
 
   const toggleOpen = () => {
     setIsOpen((state) => !state);
   };
+
+  useEffect(() => {
+    const removedIds = JSON.parse(localStorage.getItem("removed-id") || "[]");
+    const savedIds = storage.get("saved-id", []).map((listing) => listing.link);
+    const initialSettings = storage.get("settings", { otodomURL: "" });
+    const link = initialSettings.otodomURL;
+
+    const getListings = async () => {
+      try {
+        const jsonData = await fetch("api/flat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: link, limit: 60 }),
+        });
+        const data = await jsonData.json();
+        if (!data.success) {
+          throw new Error(data.message);
+        }
+
+        // Filter list from removed ids
+        const filteredListingList = substractArray(data.data, [
+          ...removedIds,
+          ...savedIds,
+        ]);
+
+        setNewFlatsCounter(filteredListingList.length);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getListings();
+    console.log("eeee");
+
+    window.onstorage = (e) => {
+      console.log(e);
+    };
+  }, []);
 
   const elements = ["tinder", "summary", "settings", "test"];
 
@@ -60,20 +103,26 @@ const NavBar = () => {
           </div>
 
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-              <img
-                className="block lg:hidden h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                alt="Workflow"
-              />
-              <img
-                className="hidden lg:block h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                alt="Workflow"
-              />
-            </div>
-
+            <a href="/tinder">
+              {/* Logo */}
+              <div className="flex-shrink-0 flex items-cente relative">
+                {newFlatsCounter !== 0 && (
+                  <div className="absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 -right-3">
+                    {newFlatsCounter}
+                  </div>
+                )}
+                <img
+                  className="block lg:hidden h-8 w-auto"
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                  alt="Workflow"
+                />
+                <img
+                  className="hidden lg:block h-8 w-auto"
+                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                  alt="Workflow"
+                />
+              </div>
+            </a>
             {/* Items Nav */}
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
