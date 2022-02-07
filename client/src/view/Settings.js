@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setOtodomUrl } from "../store/actions/settingsActions";
-import { getListings } from "../store/actions/listingsActions";
 
 // Store
 

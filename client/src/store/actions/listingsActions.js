@@ -19,7 +19,6 @@ export function getListings() {
         { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => res.data);
-
     if (data.success) {
       const listings = data.data;
       dispatch(setListings(listings));

@@ -41,7 +41,7 @@ export default function Flats() {
     }
 
     setLoading(false);
-  }, [listings, saved, deleted]);
+  }, [listings]);
 
   const onRemove = () => {
     if (currentIndex + 2 <= listingList.length) {
