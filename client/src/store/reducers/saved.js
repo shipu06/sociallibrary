@@ -14,7 +14,9 @@ const savedReducer = (state = initialState, action) => {
       return state;
     case REMOVE_SAVED:
       const listingToUnsave = action.payload;
-      const newState = state.filter((item) => item.url !== listingToUnsave.url);
+      const newState = state.filter((item) => item.link !== listingToUnsave.link);
+      console.log(listingToUnsave, newState);
+
       return newState;
     default:
       return state;

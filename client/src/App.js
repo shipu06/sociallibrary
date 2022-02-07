@@ -8,7 +8,7 @@ import {
 import "./App.css";
 
 import NavBar from "./components/NavBar";
-import Tinder from "./view/Tinder";
+import Scanner from "./view/Scanner";
 import Summary from "./view/Summary";
 import Settings from "./view/Settings";
 import Test from "./view/Test";
@@ -19,7 +19,7 @@ function App() {
       <Router>
         <NavBar />
         <Routes>
-          <Route exact path="/tinder" element={<Tinder />} />
+          <Route exact path="/scanner" element={<Scanner />} />
           <Route exact path="/summary" element={<Summary />} />
           <Route exact path="/settings" element={<Settings />} />
           <Route exact path="/test" element={<Test />} />

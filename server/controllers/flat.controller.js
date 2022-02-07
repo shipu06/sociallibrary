@@ -133,9 +133,11 @@ flatServices.getFlatsFromOtoDomURL = async (URL, limit = 100) => {
       const mainImage = $(
         listingNode.find('[media="(max-width: 768px)"]')[0]
       ).attr("srcset");
-      const price = $(listingNode.find("article>p")[1]).text();
-      const rooms = $(listingNode.find("article>p span")[0]).text();
-      const area = $(listingNode.find("article>p span")[1]).text();
+      const price = $(listingNode.find("article p")[1]).text();
+      const rooms = $(listingNode.find("article p span")[1]).text();
+      const area = $(listingNode.find("article p span")[2]).text();
+      // console.log(area, rooms);
+
       listingList.push({
         title,
         link,

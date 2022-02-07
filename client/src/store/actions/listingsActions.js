@@ -4,6 +4,7 @@ import {
   REQUEST_LISTINGS,
   ERROR_LISTING,
 } from "../actions/types";
+import { updateFiltered } from "./filteredActions";
 
 export function getListings() {
   return async (dispatch, getState) => {
@@ -19,8 +20,10 @@ export function getListings() {
           { headers: { "Content-Type": "application/json" } }
         )
         .then((res) => res.data);
+
       if (data.success) {
         const listings = data.data;
+        dispatch(updateFiltered(listings));
         dispatch({ type: SUCCESS_LISTINGS, payload: listings });
       }
     } catch (err) {

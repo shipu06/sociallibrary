@@ -37,7 +37,9 @@
   }
 }
 
-
-.height-screen{
+.height-screen {
   height: calc(var(--vh, 1vh) * 100);
+}
+.height-screen-without-logo {
+  height: calc(var(--vh, 1vh) * 100 - 64);
 }

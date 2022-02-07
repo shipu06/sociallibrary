@@ -2,35 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-const substractArray = (A, B) => {
-  return A.filter((n) => !B.includes(n.link));
-};
-
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [newFlatsCounter, setNewFlatsCounter] = useState(0);
 
-  // All & Removed & Saved
-  const listings = useSelector((state) => state.listings.data);
-  const deleted = useSelector((state) => state.deleted);
-  const saved = useSelector((state) => state.saved);
+  const filtered = useSelector((state) => state.filtered);
 
   useEffect(() => {
-    const filteredListingList = substractArray(listings, [
-      ...deleted,
-      ...saved.map((i) => i.link),
-    ]);
+    setNewFlatsCounter(filtered.length);
+  }, [filtered]);
 
-    setNewFlatsCounter(filteredListingList.length);
-  }, [deleted, saved, listings]);
-
-  const elements = ["tinder", "summary", "settings", "test"];
+  const elements = ["scanner", "summary", "settings"];
 
   const toggleOpen = () => {
     setIsOpen((state) => !state);
   };
-
-
 
   return (
     <nav className="bg-gray-800 relative" style={{ zIndex: "200" }}>
@@ -82,11 +68,11 @@ const NavBar = () => {
           </div>
 
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <a href="/tinder">
+            <a href="/scanner">
               {/* Logo */}
               <div className="flex-shrink-0 flex items-cente relative">
                 {newFlatsCounter !== 0 && (
-                  <div className="absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 -right-3">
+                  <div className="absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 -right-3 flex justify-center items-center text-center">
                     {newFlatsCounter}
                   </div>
                 )}
