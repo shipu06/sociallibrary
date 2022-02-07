@@ -39,7 +39,7 @@ export default function Flats() {
   if (filtered.length === 0 && currentIndex !== 0) {
     return <CenteredText>That's all, try again later</CenteredText>;
   }
-  
+
   if (filtered.length === 0) {
     return <CenteredText>No results, try again later</CenteredText>;
   }
@@ -167,7 +167,7 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
       <div className="fixed bottom-0 pb-6 left-0 right-0 flex items-center justify-between gap-3 sm:justify-center px-6">
         {/* Save */}
         <div
-          className="p-4 bg-green-400 rounded-full shadow cursor-pointer"
+          className="p-4 bg-green-400 rounded-full shadow cursor-pointer select-none"
           onClick={onSaveListing}
         >
           <svg
@@ -187,14 +187,14 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
         </div>
         {/* Listing info */}
         <div className="flex text-xs text-gray justify-between items-center flex-col">
-          <div className="text-xl font-semibold bg-white justify-between items-center shadow-slate-200 shadow rounded-lg px-4 py-2">
+          <div className="text-xl font-semibold bg-white justify-between items-center shadow-slate-200 shadow rounded-lg px-4 py-2 select-none">
             {price}
           </div>
         </div>
 
         {/* Next */}
         <div
-          className="p-4 bg-red-400 rounded-full shadow cursor-pointer"
+          className="p-4 bg-red-400 rounded-full shadow cursor-pointer select-none"
           onClick={onRemoveListing}
         >
           <svg

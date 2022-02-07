@@ -169,10 +169,10 @@ export default function Flats() {
                       <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         Id
                       </th>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
                       <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         URL
                       </th>
+                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
                     </tr>
                   </thead>
 
@@ -182,6 +182,11 @@ export default function Flats() {
                         <tr>
                           <td class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-1 text-left text-gray-500 font-thin">
                             {idx + 1}
+                          </td>
+                          <td class="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-left text-gray-700 ">
+                            <a href={url} target="_blank" />
+                            {url}
+                            <a />
                           </td>
                           <td class="border-t-0 px-3 align-left border-l-0 border-r-0 text-xs whitespace-nowrap py-1">
                             <button
@@ -194,11 +199,6 @@ export default function Flats() {
                             >
                               delete
                             </button>
-                          </td>
-                          <td class="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-left text-gray-700 ">
-                            <a href={url} target="_blank" />
-                            {url}
-                            <a />
                           </td>
                         </tr>
                       );

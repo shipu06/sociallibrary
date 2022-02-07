@@ -65,7 +65,7 @@ export default function Flats() {
           <div class="relative text-gray-500 ">
             <input
               class="block w-full pr-20 py-2 pl-3 mt-1 text-sm text-black border-gray-200 border-2"
-              placeholder="Jane Doe"
+              placeholder="Paste url from Otodom.pl..."
               onChange={(e) => {
                 setOtodomURL(e.target.value);
               }}
