@@ -11,7 +11,7 @@ const NavBar = () => {
   const [newFlatsCounter, setNewFlatsCounter] = useState(0);
 
   // All & Removed & Saved
-  const listings = useSelector((state) => state.listings);
+  const listings = useSelector((state) => state.listings.data);
   const deleted = useSelector((state) => state.deleted);
   const saved = useSelector((state) => state.saved);
 
@@ -29,6 +29,8 @@ const NavBar = () => {
   const toggleOpen = () => {
     setIsOpen((state) => !state);
   };
+
+
 
   return (
     <nav className="bg-gray-800 relative" style={{ zIndex: "200" }}>

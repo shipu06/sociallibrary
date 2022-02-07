@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./rootReducer";
+import { getListings } from "./actions/listingsActions";
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 
@@ -14,7 +15,6 @@ const store = createStore(
 export default store;
 
 // Local storage settings
-
 function loadFromLocalStorage() {
   try {
     const serialisedState = localStorage.getItem("persistantState");
@@ -45,3 +45,6 @@ function saveToLocalStorage(state) {
 }
 
 store.subscribe(() => saveToLocalStorage(store.getState()));
+
+// Init store
+store.dispatch(getListings());

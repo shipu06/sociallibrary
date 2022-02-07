@@ -15,16 +15,16 @@ const substractArray = (A, B) => {
 
 export default function Flats() {
   const [listingList, setListingList] = useState([{}]);
-  const [bLoading, setLoading] = useState(true);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentListing, setCurrentListing] = useState({});
   const [nextListing, setNextListing] = useState({});
-
   // All & Removed & Saved
-  const listings = useSelector((state) => state.listings);
+  const loading = useSelector((state) => state.listings.loading);
+  const listings = useSelector((state) => state.listings.data);
   const deleted = useSelector((state) => state.deleted);
   const saved = useSelector((state) => state.saved);
+  console.log(loading, listings);
 
   useEffect(() => {
     const filteredListingList = substractArray(listings, [
@@ -39,8 +39,6 @@ export default function Flats() {
     if (filteredListingList.length >= 2) {
       setNextListing(filteredListingList[1]);
     }
-
-    setLoading(false);
   }, [listings]);
 
   const onRemove = () => {
@@ -55,12 +53,8 @@ export default function Flats() {
     setCurrentIndex((state) => state + 1);
   };
 
-  if (bLoading) {
-    return (
-      <>
-        <CenteredText>Loading...</CenteredText>
-      </>
-    );
+  if (loading) {
+    return <CenteredText>Loading...</CenteredText>;
   }
 
   if (listingList.length === 0) {
@@ -100,11 +94,11 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
         .then((res) => res.json())
         .then((res) => {
           const urls = res.urls;
-          console.log(res.urls);
+          // console.log(res.urls);
           if (Array.isArray(urls)) {
             setImageSRC(res.urls);
           } else {
-            console.log(urls + "is not an array");
+            // console.log(urls + "is not an array");
           }
         })
         .catch((err) => {

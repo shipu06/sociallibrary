@@ -1,27 +1,30 @@
 import axios from "axios";
-import { SET_LISTINGS } from "../actions/types";
-
-export function setListings(listings) {
-  return {
-    type: SET_LISTINGS,
-    payload: listings,
-  };
-}
+import {
+  SUCCESS_LISTINGS,
+  REQUEST_LISTINGS,
+  ERROR_LISTING,
+} from "../actions/types";
 
 export function getListings() {
   return async (dispatch, getState) => {
-    const url = getState().settings.otodomUrl;
+    dispatch({ type: REQUEST_LISTINGS });
 
-    const data = await axios
-      .post(
-        "api/flat",
-        { url, limit: 60 },
-        { headers: { "Content-Type": "application/json" } }
-      )
-      .then((res) => res.data);
-    if (data.success) {
-      const listings = data.data;
-      dispatch(setListings(listings));
+    try {
+      const url = getState().settings.otodomUrl;
+
+      const data = await axios
+        .post(
+          "api/flat",
+          { url, limit: 60 },
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((res) => res.data);
+      if (data.success) {
+        const listings = data.data;
+        dispatch({ type: SUCCESS_LISTINGS, payload: listings });
+      }
+    } catch (err) {
+      dispatch({ type: ERROR_LISTING, payload: err });
     }
   };
 }
