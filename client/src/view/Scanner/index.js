@@ -8,6 +8,7 @@ import { updateFiltered } from "../../store/actions/filteredActions";
 import { SemipolarLoading } from "react-loadingg";
 import ImageGallery from "react-image-gallery";
 import CenteredText from "../../components/Modals/CenteredText.js";
+import { motion } from "framer-motion";
 import "./index.css";
 
 export default function Flats() {
@@ -33,12 +34,19 @@ export default function Flats() {
 
   if (loading) {
     return (
-      <>
-        <SemipolarLoading size="medium" color="#6366F1" speed={1.2} />
-        <h1 className="text-xl absolute left-1/2 bottom-1/2 translate-y-40 -translate-x-1/2 font-light">
-          Getting data...
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          opacity: { type: "spring", stiffness: 100 },
+          default: { duration: 2 },
+        }}
+      >
+        <SemipolarLoading size="small" color="#6366F1" speed={1.2} />
+        <h1 className="text-xl absolute left-1/2 bottom-1/2 translate-y-40 -translate-x-1/2 font-light -z-10">
+          Loading data...
         </h1>
-      </>
+      </motion.div>
     );
   }
 
@@ -114,9 +122,9 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
     onRemove();
   };
 
-  if (hidden) {
-    return <></>;
-  }
+  // if (hidden) {
+  //   return <></>;
+  // }
 
   if (error) {
     return (
@@ -129,12 +137,24 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
 
   if (loading) {
     return (
-      <>
-        <SemipolarLoading size="medium" color="#6366F1" speed={1.2} />
-        <h1 className="text-xl absolute left-1/2 bottom-1/2 translate-y-40 -translate-x-1/2 font-light">
-          Loading listings...
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={!hidden ? "open" : "closed"}
+        variants={{
+          open: { opacity: 1 },
+          closed: { opacity: 0 },
+        }}
+        transition={{
+          opacity: { type: "spring", stiffness: 100 },
+          default: { duration: 2 },
+        }}
+        exit={{ opacity: 0 }}
+      >
+        <SemipolarLoading size="small" color="#6366F1" speed={1.2} />
+        <h1 className="text-xl absolute left-1/2 bottom-1/2 translate-y-40 -translate-x-1/2 font-light -z-10">
+          Loading listing...
         </h1>
-      </>
+      </motion.div>
     );
   }
 
@@ -155,7 +175,17 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
   }));
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={!hidden ? "open" : "closed"}
+      variants={{
+        open: { opacity: 1, visibility: "visible" },
+        closed: { opacity: 0, visibility: "hidden" },
+      }}
+      transition={{
+        type: "spring",
+        duration: 1,
+      }}
       className={
         "absolute top-16 bottom-0 left-0 right-0 lg:left-24 lg:right-24"
       }
@@ -225,6 +255,6 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
           </svg>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
