@@ -5,10 +5,9 @@ import { addDeleted } from "../../store/actions/deletedActions";
 import { addSaved } from "../../store/actions/savedActions";
 import { updateFiltered } from "../../store/actions/filteredActions";
 
-import ContentLoader from "react-content-loader";
-import CenteredText from "../../components/Modals/CenteredText.js";
+import { SemipolarLoading } from "react-loadingg";
 import ImageGallery from "react-image-gallery";
-
+import CenteredText from "../../components/Modals/CenteredText.js";
 import "./index.css";
 
 export default function Flats() {
@@ -33,7 +32,14 @@ export default function Flats() {
   };
 
   if (loading) {
-    return <CenteredText>Loading...</CenteredText>;
+    return (
+      <>
+        <SemipolarLoading size="medium" color="#6366F1" speed={1.2} />
+        <h1 className="text-xl absolute left-1/2 bottom-1/2 translate-y-40 -translate-x-1/2 font-light">
+          Getting data...
+        </h1>
+      </>
+    );
   }
 
   if (filtered.length === 0 && currentIndex !== 0) {
@@ -44,23 +50,33 @@ export default function Flats() {
     return <CenteredText>No results, try again later</CenteredText>;
   }
 
-  return (
-    <Listing
-      key={currentListing.link}
-      listing={currentListing}
-      onRemove={onRemove}
-    />
-  );
+  return filtered
+    .slice(0, 2)
+    .map((listing) => (
+      <Listing
+        key={listing.link}
+        listing={listing}
+        onRemove={onRemove}
+        hidden={listing.link !== currentListing.link}
+      />
+    ));
 }
 
 const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
   const dispatch = useDispatch();
 
-  const { title, link, price } = listing;
+  const title = (listing.title ??= "N/A");
+  const link = (listing.link ??= [
+    "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+  ]);
+  const price = (listing.price ??= "N/A");
+
   const [imagesSRC, setImageSRC] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    console.log("mounted " + title);
     const getData = async () => {
       fetch("api/flat/single", {
         method: "POST",
@@ -70,15 +86,17 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
         .then((res) => res.json())
         .then((res) => {
           const urls = res.urls;
-          // console.log(res.urls);
           if (Array.isArray(urls)) {
             setImageSRC(res.urls);
+            console.log("set data " + title);
           } else {
-            // console.log(urls + "is not an array");
+            console.log(urls + "is not an array");
           }
+          setLoading(false);
         })
         .catch((err) => {
           setError(err);
+          setLoading(false);
         });
     };
     getData();
@@ -109,18 +127,14 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
     );
   }
 
-  if (imagesSRC.length === 0) {
+  if (loading) {
     return (
-      <div className={"absolute top-16 bottom-0 left-0 right-0 "}>
-        <ContentLoader
-          backgroundColor="rgb(241,245,249)"
-          foregroundColor="white"
-          height="100%"
-          width="100%"
-        >
-          <rect x="0" y="0" height={"100%"} width={"100%"} />
-        </ContentLoader>
-      </div>
+      <>
+        <SemipolarLoading size="medium" color="#6366F1" speed={1.2} />
+        <h1 className="text-xl absolute left-1/2 bottom-1/2 translate-y-40 -translate-x-1/2 font-light">
+          Loading listings...
+        </h1>
+      </>
     );
   }
 

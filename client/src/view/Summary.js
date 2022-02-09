@@ -5,8 +5,6 @@ import { removeSaved, setSaved } from "../store/actions/savedActions";
 import { removeDeleted, setDeleted } from "../store/actions/deletedActions";
 import { updateFiltered } from "../store/actions/filteredActions";
 
-import storage from "../utils/storage";
-
 export default function Flats() {
   const dispatch = useDispatch();
 
@@ -24,7 +22,7 @@ export default function Flats() {
           <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
             <div class="rounded-t mb-0 px-4 py-3 border-0">
               <div class="flex flex-wrap items-center">
-                <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+                <div class="relative w-full max-w-full flex-grow flex-1">
                   <h3 class="font-semibold text-base text-gray-700">
                     {saved.length > 0
                       ? saved.length + " saved listings"
@@ -33,7 +31,7 @@ export default function Flats() {
                 </div>
 
                 {saved.length > 0 && (
-                  <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+                  <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                     <button
                       class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
@@ -58,14 +56,11 @@ export default function Flats() {
                         Id
                       </th>
                       <th class="bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
-                      <th class="pl-3 pr-16 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left w-20">
+                      <th class="pl-3 pr-16 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left w-20 md:pr-72">
                         Image
                       </th>
                       <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         Info
-                      </th>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        Listing name
                       </th>
                     </tr>
                   </thead>
@@ -102,25 +97,29 @@ export default function Flats() {
                               </svg>
                             </button>
                           </td>
-                          <th class="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-left text-gray-700 ">
+                          <th class="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-normal text-left text-gray-700 ">
                             <a href={listing.link} target="_blank">
                               <img
                                 src={listing.mainImage}
-                                className="object-cover md:w-full md:h-24 h-24 w-full"
+                                className="object-cover md:w-full md:h-44 h-24 w-full"
                               />
                             </a>
                           </th>
-                          <td class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-3 ">
-                            <h1 className="text-lg font-bold">
-                              {listing.price}
-                            </h1>
-                            {listing.area + "  -   " + listing.rooms}
-                          </td>
-                          <th class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs font-thin py-3 text-left font-normal text-gray-700">
-                            <a href={listing.link} target="_blank">
+                          <td class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs  py-3 ">
+                            <a
+                              href={listing.link}
+                              target="_blank"
+                              className="block font-medium"
+                            >
                               {listing.title}
                             </a>
-                          </th>
+                            <h1 className="text-lg font-bold py-2">
+                              {listing.price}
+                            </h1>
+                            <span className="text-gray-500 text-xs">
+                              {listing.area + "  -   " + listing.rooms}
+                            </span>
+                          </td>
                         </tr>
                       );
                     })}
@@ -136,7 +135,7 @@ export default function Flats() {
           <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
             <div class="rounded-t mb-0 px-4 py-3 border-0">
               <div class="flex flex-wrap items-center">
-                <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+                <div class="relative w-full max-w-full flex-grow flex-1">
                   <h3 class="font-semibold text-base text-gray-700">
                     {deleted.length > 0
                       ? deleted.length + " removed listings"
@@ -145,7 +144,7 @@ export default function Flats() {
                 </div>
 
                 {deleted.length > 0 && (
-                  <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+                  <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                     <button
                       class="bg-red-400 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
