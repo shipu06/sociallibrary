@@ -23,8 +23,9 @@ const puppeteer = require("puppeteer");
 })();
 
 // Controller
-router.get("/", getFlats);
+router.get("/", getFlats); // NOT USED
 router.post("/", getFlatsFromURL);
+router.post("/single", getListingImagesFromURL);
 
 function getFlats(req, res) {
   console.log("GET /api/flat");
@@ -32,6 +33,11 @@ function getFlats(req, res) {
     .getFlatsFromOtoDomURL(otodomURL)
     .then((data) => res.json(data))
     .catch((err) => res.json({ message: err }));
+
+  // flatServices
+  //   .getFlatsFromGumtreeURL(otodomURL)
+  //   .then((data) => res.json(data))
+  //   .catch((err) => res.json({ message: err }));
 }
 
 function getFlatsFromURL(req, res) {
@@ -48,8 +54,77 @@ function getFlatsFromURL(req, res) {
     });
 }
 
+function getListingImagesFromURL(req, res) {
+  const url = req.body.URL;
+  console.log("GET /api/flat/single - " + url);
+  flatServices
+    .getImagesURLFromOtoDomListingURL(req.body.URL)
+    .then((data) => res.json({ urls: data }))
+    .catch((err) => res.json(err));
+}
+
 // Services
 const flatServices = {};
+
+flatServices.getFlatsFromOtoDomURL = async (URL, limit = 100) => {
+  console.time("Scrapping searching list: ");
+  try {
+    if (typeof URL !== "string") {
+      throw new Error("URL is not a string");
+    }
+    if (URL === "") {
+      throw new Error("URL is empty string");
+    }
+    // Get site HTML
+    const response = await fetch(URL);
+    const body = await response.text();
+
+    // Parse the html text and extract titles
+    const $ = cheerio.load(body);
+    // Listing selectors
+    const listingSelector = {
+      container: '[role="main"] > [data-cy="search.listing"] li',
+      link: '[data-cy="listing-item-link"]',
+      title: '[data-cy="listing-item-title"]',
+    };
+    // Get listings info
+    const listingList = [];
+    $(listingSelector.container).each(async (i, item) => {
+      if (i >= limit) {
+        return;
+      }
+      const listingNode = $(item);
+      const path = listingNode.find(listingSelector.link).attr("href");
+
+      if (typeof path === "undefined") {
+        return;
+      }
+
+      const title = listingNode.find(listingSelector.title).text();
+      const link = "https://www.otodom.pl" + path;
+      const mainImage = $(
+        listingNode.find('[media="(max-width: 768px)"]')[0]
+      ).attr("srcset");
+      const price = $(listingNode.find("article p")[1]).text();
+      const rooms = $(listingNode.find("article p span")[1]).text();
+      const area = $(listingNode.find("article p span")[2]).text();
+
+      listingList.push({
+        title,
+        link,
+        price,
+        area,
+        rooms,
+        mainImage,
+      });
+    });
+    console.timeEnd("Scrapping searching list: ");
+
+    return listingList;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
 
 flatServices.getImagesURLFromOtoDomListingURL = async (URL) => {
   try {
@@ -94,83 +169,22 @@ flatServices.getImagesURLFromOtoDomListingURL = async (URL) => {
   }
 };
 
-flatServices.getFlatsFromOtoDomURL = async (URL, limit = 100) => {
-  console.time("Scrapping searching list: ");
-  try {
-    if (typeof URL !== "string") {
-      throw new Error("URL is not a string");
-    }
-    if (URL === "") {
-      throw new Error("URL is empty string");
-    }
-    // Get site HTML
-    const response = await fetch(URL);
-    const body = await response.text();
-
-    // Parse the html text and extract titles
-    const $ = cheerio.load(body);
-    // Listing selectors
-    const listingSelector = {
-      container: '[role="main"] > [data-cy="search.listing"] li',
-      link: '[data-cy="listing-item-link"]',
-      title: '[data-cy="listing-item-title"]',
-    };
-    // Get listings info
-    const listingList = [];
-    $(listingSelector.container).each(async (i, item) => {
-      if (i >= limit) {
-        return;
-      }
-      const listingNode = $(item);
-      const path = listingNode.find(listingSelector.link).attr("href");
-
-      if (typeof path === "undefined") {
-        return;
-      }
-
-      const title = listingNode.find(listingSelector.title).text();
-      const link = "https://www.otodom.pl" + path;
-      const mainImage = $(
-        listingNode.find('[media="(max-width: 768px)"]')[0]
-      ).attr("srcset");
-      const price = $(listingNode.find("article p")[1]).text();
-      const rooms = $(listingNode.find("article p span")[1]).text();
-      const area = $(listingNode.find("article p span")[2]).text();
-      // console.log(area, rooms);
-
-      listingList.push({
-        title,
-        link,
-        price,
-        area,
-        rooms,
-        mainImage,
-      });
-    });
-    console.timeEnd("Scrapping searching list: ");
-
-    return listingList;
-  } catch (err) {
-    throw new Error(err.message);
-  }
-};
-
-router.get("/test", async (req, res) => {
+// Tests
+router.get("/test-flats", async (req, res) => {
   try {
     const URL =
-      "https://www.otodom.pl/pl/oferta/przytulne-2-pok-z-balkonem-w-kamienicy-z-winda-ID4f858";
-    const urls = await flatServices.getImagesURLFromOtoDomListingURL(URL);
-    return res.json({ urls });
+      "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/v1c9008l3200208p1?pr=1400,2200";
+    return res.json({ URL });
   } catch (err) {
     return res.json(err);
   }
 });
 
-router.post("/single", async (req, res) => {
+router.get("/test-single", async (req, res) => {
   try {
-    const urls = await flatServices.getImagesURLFromOtoDomListingURL(
-      req.body.URL
-    );
+    const URL =
+      "https://www.otodom.pl/pl/oferta/przytulne-2-pok-z-balkonem-w-kamienicy-z-winda-ID4f858";
+    const urls = await flatServices.getImagesURLFromOtoDomListingURL(URL);
     return res.json({ urls });
   } catch (err) {
     return res.json(err);

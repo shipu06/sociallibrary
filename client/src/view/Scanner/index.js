@@ -122,9 +122,6 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
     onRemove();
   };
 
-  // if (hidden) {
-  //   return <></>;
-  // }
 
   if (error) {
     return (
@@ -146,7 +143,7 @@ const Listing = ({ listing, hidden, onRemove } = { title: "N/A" }) => {
         }}
         transition={{
           opacity: { type: "spring", stiffness: 100 },
-          default: { duration: 2 },
+          default: { duration: 1 },
         }}
         exit={{ opacity: 0 }}
       >

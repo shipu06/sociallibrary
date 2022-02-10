@@ -68,21 +68,21 @@ const NavBar = () => {
           </div>
 
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <a href="/scanner">
-              {/* Logo */}
-              <div className="flex-shrink-0 flex items-cente relative">
-                {newFlatsCounter !== 0 && (
-                  <div className="absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 -right-3 flex justify-center items-center text-center">
-                    {newFlatsCounter}
-                  </div>
-                )}
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center relative">
+              {newFlatsCounter !== 0 && (
+                <div className="absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 -right-3 flex justify-center items-center text-center">
+                  {newFlatsCounter}
+                </div>
+              )}
+              <a href="/scanner">
                 <img
                   className="block h-8 w-auto"
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                   alt="Workflow"
                 />
-              </div>
-            </a>
+              </a>
+            </div>
             {/* Items Nav */}
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
