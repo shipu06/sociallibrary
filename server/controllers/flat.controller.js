@@ -30,23 +30,45 @@ function getFlatsFromURL(req, res) {
   const url = req.body.url;
   const limit = req.body.limit || 50;
   console.log("POST /api/flat - " + url);
-  flatServices
-    .getFlatsFromOtodomUrl(url, limit)
-    .then((data) => {
-      return res.json({ data, success: true });
-    })
-    .catch((err) => {
-      return res.json({ message: err.message, success: false });
-    });
+  if (url.includes("otodom")) {
+    flatServices
+      .getFlatsFromOtodomUrl(url, limit)
+      .then((data) => {
+        return res.json({ data, success: true });
+      })
+      .catch((err) => {
+        return res.json({ message: err.message, success: false });
+      });
+  } else if (url.includes("gumtree")) {
+    flatServices
+      .getFlatsFromGumtreeUrl(url, limit)
+      .then((data) => {
+        return res.json({ data, success: true });
+      })
+      .catch((err) => {
+        return res.json({ message: err.message, success: false });
+      });
+  } else {
+    return res.json({ data: [], success: false });
+  }
 }
 
 function getListingImagesFromURL(req, res) {
   const url = req.body.URL;
   console.log("GET /api/flat/single - " + url);
-  flatServices
-    .getImagesFromOtodomListingUrl(req.body.URL)
-    .then((data) => res.json({ urls: data }))
-    .catch((err) => res.json(err));
+  if (url.includes("otodom")) {
+    flatServices
+      .getImagesFromOtodomListingUrl(req.body.URL)
+      .then((data) => res.json({ urls: data }))
+      .catch((err) => res.json(err));
+  } else if (url.includes("gumtree")) {
+    flatServices
+      .getImagesFromGumtreeListingUrl(req.body.URL)
+      .then((data) => res.json({ urls: data }))
+      .catch((err) => res.json(err));
+  } else {
+    res.json({ err: "Didn't found any matching url" });
+  }
 }
 
 // Services

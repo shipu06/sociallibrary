@@ -21,6 +21,7 @@ export default function Settings() {
 
   const addGroup = (group) => {
     dispatch(setGroup(group.groupName, group.link));
+    setIsAddForm(false);
   };
 
   const onRemove = (name) => {
@@ -52,7 +53,6 @@ export default function Settings() {
         <Form
           title={"Add a new group"}
           onSave={(group) => {
-            setIsAddForm(false);
             addGroup(group);
           }}
           onCancel={() => {
