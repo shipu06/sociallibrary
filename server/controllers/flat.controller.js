@@ -31,7 +31,7 @@ function getFlatsFromURL(req, res) {
   const limit = req.body.limit || 50;
   console.log("POST /api/flat - " + url);
   flatServices
-    .getFlatsFromGumtreeUrl(url, limit)
+    .getFlatsFromOtodomUrl(url, limit)
     .then((data) => {
       return res.json({ data, success: true });
     })
@@ -44,7 +44,7 @@ function getListingImagesFromURL(req, res) {
   const url = req.body.URL;
   console.log("GET /api/flat/single - " + url);
   flatServices
-    .getImagesFromGumtreeListingUrl(req.body.URL)
+    .getImagesFromOtodomListingUrl(req.body.URL)
     .then((data) => res.json({ urls: data }))
     .catch((err) => res.json(err));
 }

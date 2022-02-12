@@ -2,84 +2,70 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setOtodomUrl } from "../store/actions/settingsActions";
 
-// Store
+import Group from "../components/Settings/Group";
+import Form from "../components/Settings/Form";
 
-export default function Flats() {
+export default function Settings() {
   const dispatch = useDispatch();
-  const settings = useSelector((state) => state.settings);
-  const [otodomURL, setOtodomURL] = useState(settings.otodomUrl);
-  const [isValid, setIsValid] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    isLinkValid(otodomURL).then((res) => {
-      setIsValid(res);
-      setLoading(false);
-    });
-  }, []);
+  const [isAddForm, setIsAddForm] = useState(true);
 
-  const isLinkValid = async (link) => {
-    try {
-      const jsonData = await fetch("api/flat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: link, limit: 5 }),
-      });
-      const data = await jsonData.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-
-      return data.data.length > 0;
-    } catch (err) {
-      return false;
-    }
+  const onEdit = (name, link) => {
+    dispatch(setOtodomUrl(link));
   };
 
-  const updateSettings = () => {
-    setLoading(true);
-    isLinkValid(otodomURL).then((res) => {
-      setIsValid(res);
-      setLoading(false);
-      res && dispatch(setOtodomUrl(otodomURL));
-    });
+  const addGroup = (name, link) => {
+    // dispatch(setOtodomUrl(otodomURL));
   };
+
   return (
     <div class="xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-6 max-w-7xl sm:px-6 lg:px-8">
+      {/* Settings title */}
       <h4 class="mb-6 text-xl font-bold text-gray-700 dark:text-gray-600 text-center">
         Settings
       </h4>
 
-      <div class="px-6 py-6 bg-white rounded-md shadow-md font">
-        <span class="text-gray-600 text-lg font-bold">Otodom.pl</span>
-        <label class="block text-sm">
-          {loading ? (
-            <p className="py-2">Loading...</p>
-          ) : (
-            <p
-              className={`${isValid ? "text-green-500" : "text-red-500"} py-2`}
-            >
-              {isValid ? "Valid link" : "Wrong link"}
-            </p>
-          )}
-          <div class="relative text-gray-500 ">
-            <input
-              class="block w-full pr-20 py-2 pl-3 mt-1 text-sm text-black border-gray-200 border-2"
-              placeholder="Paste url from Otodom.pl..."
-              onChange={(e) => {
-                setOtodomURL(e.target.value);
-              }}
-              value={otodomURL}
-            />
-            <button
-              onClick={updateSettings}
-              class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-indigo-500 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-            >
-              Save
-            </button>
-          </div>
-        </label>
-      </div>
+      {/* Groups */}
+      <Group onEdit={onEdit} />
+
+      {/* Add */}
+      {isAddForm ? (
+        <AddPlaceHolder
+          onClick={() => {
+            setIsAddForm(false);
+          }}
+        />
+      ) : (
+        <Form
+          title={"Add a new group"}
+          onSave={addGroup}
+          onCancel={() => {
+            setIsAddForm(true);
+          }}
+        />
+      )}
     </div>
   );
 }
+
+const AddPlaceHolder = ({ onClick }) => {
+  return (
+    <div className="mx-auto flex justify-center items-center text-gray-300 pt-8">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-36 w-36"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        onClick={onClick}
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="0.3"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </div>
+  );
+};
