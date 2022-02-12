@@ -4,15 +4,9 @@ import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [newFlatsCounter, setNewFlatsCounter] = useState(0);
+  const groups = useSelector((state) => state.settings.groups);
 
-  const filtered = useSelector((state) => state.filtered);
-
-  useEffect(() => {
-    setNewFlatsCounter(filtered.length);
-  }, [filtered]);
-
-  const elements = ["scanner", "summary", "settings"];
+  const elements = ["summary"];
 
   const toggleOpen = () => {
     setIsOpen((state) => !state);
@@ -26,7 +20,7 @@ const NavBar = () => {
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-300"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-300 relative"
               aria-controls="mobile-menu"
               aria-expanded="false"
               onClick={toggleOpen}
@@ -64,18 +58,15 @@ const NavBar = () => {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
+
+              <CounterAll />
             </button>
           </div>
 
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center relative">
-              {newFlatsCounter !== 0 && (
-                <div className="absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 -right-3 flex justify-center items-center text-center">
-                  {newFlatsCounter}
-                </div>
-              )}
-              <a href="/scanner">
+              <a href="/settings">
                 <img
                   className="block h-8 w-auto"
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
@@ -83,25 +74,48 @@ const NavBar = () => {
                 />
               </a>
             </div>
-            {/* Items Nav */}
-            <div className="hidden sm:block sm:ml-6">
+
+            {/* Groups Nav */}
+            <div className="hidden sm:block sm:ml-6 rounded">
               <div className="flex space-x-4">
-                {elements.map((url) => (
+                {Object.entries(groups).map(([name, url]) => (
                   <NavLink
                     key={url}
-                    to={url}
+                    to={"/group/" + name}
                     onClick={toggleOpen}
                     className={({ isActive }) =>
                       isActive
-                        ? "bg-gray-900 text-white px-3 py-2 rounded-md font-medium capitalize"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md font-medium capitalize"
+                        ? "bg-gray-900 text-white px-4 py-2 rounded-md font-medium capitalize relative"
+                        : "text-gray-300 bg-gray-800 hover:text-white hover:bg-gray-700 block px-4 py-2 rounded-md font-medium capitalize relative"
                     }
                     aria-current="page"
                   >
-                    {url}
+                    {name}
+                    <Counter name={name} />
                   </NavLink>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* Items Nav */}
+          <div className="hidden sm:block sm:ml-6">
+            <div className="flex space-x-4">
+              {elements.map((url, idx) => (
+                <NavLink
+                  key={url + idx}
+                  to={url}
+                  onClick={toggleOpen}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bg-gray-900 text-white px-3 py-2 rounded-md font-medium capitalize"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md font-medium capitalize"
+                  }
+                  aria-current="page"
+                >
+                  {url}
+                </NavLink>
+              ))}
             </div>
           </div>
 
@@ -155,7 +169,7 @@ const NavBar = () => {
       {isOpen && (
         <div className="sm:hidden" id="mobile-menu">
           <div
-            className="px-2 pt-2 pb-3 space-y-1 relative"
+            className="px-2 pt-2 pb-3 space-y-1 relative bg-gray-700"
             style={{ zIndex: "200" }}
           >
             {elements.map((url) => (
@@ -165,12 +179,29 @@ const NavBar = () => {
                 onClick={toggleOpen}
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium capitalize"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium capitalize"
+                    ? "text-white font-semibold block px-4 py-2 rounded-md text-base capitalize relative  whitespace-nowrap truncate"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white block px-4 py-2 rounded-md text-base font-medium capitalize relative  whitespace-nowrap truncate"
                 }
                 aria-current="page"
               >
                 {url}
+              </NavLink>
+            ))}
+            {/* Groups Nav */}
+            {Object.entries(groups).map(([name, url]) => (
+              <NavLink
+                key={url}
+                to={"/group/" + name}
+                onClick={toggleOpen}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-white font-semibold block px-10 py-2 rounded-md text-base capitalize relative  whitespace-nowrap truncate"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white block px-10 py-2 rounded-md text-base font-medium capitalize relative  whitespace-nowrap truncate"
+                }
+                aria-current="page"
+              >
+                {name}
+                <Counter name={name} mobile />
               </NavLink>
             ))}
           </div>
@@ -181,3 +212,64 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+const substractArray = (A, B) => {
+  return A?.filter((n) => !B?.includes(n.link));
+};
+
+const Counter = ({ name = "", mobile }) => {
+  const listings = useSelector((state) => state.listings.groups[name]);
+  const saved = useSelector((state) => state.saved);
+  const deleted = useSelector((state) => state.deleted);
+
+  // All & Removed & Saved
+  const counter = substractArray(listings, [
+    ...deleted,
+    ...saved.map((i) => i.link),
+  ])?.length;
+
+  if (counter > 0) {
+    return (
+      <div
+        className={`absolute bg-red-600 text-white text-xs rounded-full px-1  ${
+          mobile ? "top-1/2 left-2 -translate-y-1/2" : "-top-1 right-0 "
+        } flex justify-center items-center text-center`}
+      >
+        {counter}
+      </div>
+    );
+  }
+
+  return <></>;
+};
+
+const CounterAll = () => {
+  const groups = useSelector((state) => state.listings.groups);
+  const saved = useSelector((state) => state.saved);
+  const deleted = useSelector((state) => state.deleted);
+
+  const listingsAll = Object.values(groups).map((listings) => listings);
+  const listings = listingsAll.reduce((acc, val) => [...acc, ...val], []);
+
+  // All & Removed & Saved;
+  const counter = substractArray(listings, [
+    ...deleted,
+    ...saved.map((i) => i.link),
+  ])?.length;
+
+  useEffect(() => {
+    console.log("change");
+  }, [groups, saved, deleted]);
+
+  if (counter > 0) {
+    return (
+      <div
+        className={`absolute bg-red-600 text-white text-xs rounded-full px-1 -top-1 right-0 flex justify-center items-center text-center`}
+      >
+        {counter}
+      </div>
+    );
+  }
+
+  return <></>;
+};

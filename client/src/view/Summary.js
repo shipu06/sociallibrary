@@ -14,16 +14,16 @@ export default function Flats() {
 
   return (
     <div className="height-screen-without-logo">
-      <h4 class="text-xl font-bold text-gray-700 dark:text-gray-600 text-center mt-6">
+      <h4 className="text-xl font-bold text-gray-700 dark:text-gray-600 text-center mt-6">
         Summary
       </h4>
-      <section class="py-1">
-        <div class="xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-6 max-w-7xl sm:px-6 lg:px-8">
-          <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-            <div class="rounded-t mb-0 px-4 py-3 border-0">
-              <div class="flex flex-wrap items-center">
-                <div class="relative w-full max-w-full flex-grow flex-1">
-                  <h3 class="font-semibold text-base text-gray-700">
+      <section className="py-1">
+        <div className="xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-6 max-w-7xl sm:px-6 lg:px-8">
+          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-md rounded ">
+            <div className="rounded-t mb-0 px-4 py-3 border-0">
+              <div className="flex flex-wrap items-center">
+                <div className="relative w-full max-w-full flex-grow flex-1">
+                  <h3 className="font-semibold text-base text-gray-700">
                     {saved.length > 0
                       ? saved.length + " saved listings"
                       : "0 saved listings"}
@@ -31,9 +31,9 @@ export default function Flats() {
                 </div>
 
                 {saved.length > 0 && (
-                  <div class="relative w-full max-w-full flex-grow flex-1 text-right">
+                  <div className="relative w-full max-w-full flex-grow flex-1 text-right">
                     <button
-                      class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
                         dispatch(setSaved([]));
@@ -48,18 +48,18 @@ export default function Flats() {
             </div>
 
             {saved.length > 0 && (
-              <div class="block w-full overflow-x-auto pb-4">
-                <table class="items-center bg-transparent w-full border-collapse ">
+              <div className="block w-full overflow-x-auto pb-4">
+                <table className="items-center bg-transparent w-full border-collapse ">
                   <thead>
                     <tr>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      <th className="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         Id
                       </th>
-                      <th class="bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
-                      <th class="pl-3 pr-16 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left w-20 md:pr-72">
+                      <th className="bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
+                      <th className="pl-3 pr-16 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left w-20 md:pr-72">
                         Image
                       </th>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      <th className="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         Info
                       </th>
                     </tr>
@@ -69,12 +69,12 @@ export default function Flats() {
                     {saved.map((listing, idx) => {
                       return (
                         <tr>
-                          <th class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-3 text-left text-gray-500 font-thin">
+                          <th className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-3 text-left text-gray-500 font-thin">
                             {idx + 1}
                           </th>
-                          <td class="border-t-0  align-left border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                          <td className="border-t-0  align-left border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                             <button
-                              class="px-2 text-indigo-500 text-xs font-bold uppercase rounded outline-none focus:outline-none ease-linear transition-all duration-150"
+                              className="px-2 text-indigo-500 text-xs font-bold uppercase rounded outline-none focus:outline-none ease-linear transition-all duration-150"
                               type="button"
                               onClick={() => {
                                 dispatch(removeSaved(listing));
@@ -82,7 +82,7 @@ export default function Flats() {
                               }}
                             >
                               <svg
-                                class="w-6 h-6"
+                                className="w-6 h-6"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -97,7 +97,7 @@ export default function Flats() {
                               </svg>
                             </button>
                           </td>
-                          <th class="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-normal text-left text-gray-700 ">
+                          <th className="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-normal text-left text-gray-700 ">
                             <a href={listing.link} target="_blank">
                               <img
                                 src={listing.mainImage}
@@ -105,7 +105,7 @@ export default function Flats() {
                               />
                             </a>
                           </th>
-                          <td class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs  py-3 ">
+                          <td className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs  py-3 ">
                             <a
                               href={listing.link}
                               target="_blank"
@@ -130,13 +130,13 @@ export default function Flats() {
           </div>
         </div>
       </section>
-      <section class="py-1">
-        <div class="xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-            <div class="rounded-t mb-0 px-4 py-3 border-0">
-              <div class="flex flex-wrap items-center">
-                <div class="relative w-full max-w-full flex-grow flex-1">
-                  <h3 class="font-semibold text-base text-gray-700">
+      <section className="py-1">
+        <div className="xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-md rounded ">
+            <div className="rounded-t mb-0 px-4 py-3 border-0">
+              <div className="flex flex-wrap items-center">
+                <div className="relative w-full max-w-full flex-grow flex-1">
+                  <h3 className="font-semibold text-base text-gray-700">
                     {deleted.length > 0
                       ? deleted.length + " removed listings"
                       : "0 removed listings"}
@@ -144,9 +144,9 @@ export default function Flats() {
                 </div>
 
                 {deleted.length > 0 && (
-                  <div class="relative w-full max-w-full flex-grow flex-1 text-right">
+                  <div className="relative w-full max-w-full flex-grow flex-1 text-right">
                     <button
-                      class="bg-red-400 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="bg-red-400 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
                         dispatch(setDeleted([]));
@@ -161,17 +161,17 @@ export default function Flats() {
             </div>
 
             {deleted.length > 0 && (
-              <div class="block w-full overflow-x-auto pb-4">
-                <table class="items-center bg-transparent w-full border-collapse ">
+              <div className="block w-full overflow-x-auto pb-4">
+                <table className="items-center bg-transparent w-full border-collapse ">
                   <thead>
                     <tr>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      <th className="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         Id
                       </th>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      <th className="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         URL
                       </th>
-                      <th class="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
+                      <th className="px-3 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-1 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"></th>
                     </tr>
                   </thead>
 
@@ -179,17 +179,17 @@ export default function Flats() {
                     {deleted.map((url, idx) => {
                       return (
                         <tr>
-                          <td class="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-1 text-left text-gray-500 font-thin">
+                          <td className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-1 text-left text-gray-500 font-thin">
                             {idx + 1}
                           </td>
-                          <td class="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-left text-gray-700 ">
+                          <td className="border-t-0 px-3 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-left text-gray-700 ">
                             <a href={url} target="_blank" />
                             {url}
                             <a />
                           </td>
-                          <td class="border-t-0 px-3 align-left border-l-0 border-r-0 text-xs whitespace-nowrap py-1">
+                          <td className="border-t-0 px-3 align-left border-l-0 border-r-0 text-xs whitespace-nowrap py-1">
                             <button
-                              class="p-2 text-red-400 text-xs font-semibold uppercase rounded outline-none focus:outline-none ease-linear transition-all duration-150"
+                              className="p-2 text-red-400 text-xs font-semibold uppercase rounded outline-none focus:outline-none ease-linear transition-all duration-150"
                               type="button"
                               onClick={() => {
                                 dispatch(removeDeleted(url));

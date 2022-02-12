@@ -9,6 +9,7 @@ import "./App.css";
 
 import NavBar from "./components/NavBar";
 import Scanner from "./view/Scanner";
+import Scanner2 from "./view/Scanner2";
 import Summary from "./view/Summary";
 import Settings from "./view/Settings";
 import Test from "./view/Test";
@@ -20,6 +21,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route exact path="/scanner" element={<Scanner />} />
+          <Route path="/group/:name" element={<Scanner2 />} />
           <Route exact path="/summary" element={<Summary />} />
           <Route exact path="/settings" element={<Settings />} />
           <Route exact path="/test" element={<Test />} />

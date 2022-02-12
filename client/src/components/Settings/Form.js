@@ -1,8 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { SemipolarLoading } from "react-loadingg";
-
-// Store
+import React, { useState } from "react";
 
 export default function Form({
   name = "",
@@ -45,12 +41,14 @@ export default function Form({
   const isSaveEnabled = isValid && link.length !== 0 && groupName.length !== 0;
 
   return (
-    <div class="px-6 py-6 bg-white rounded-sm shadow font mb-6">
+    <div className="px-6 py-6 bg-white rounded-sm shadow font mb-6">
       {/* title */}
-      <span class="text-gray-600 text-lg font-bold mb-4 block">{title}</span>
+      <span className="text-gray-600 text-lg font-bold mb-4 block">
+        {title}
+      </span>
       {/* name */}
       <input
-        class="block w-full text-slate-600 font-medium bg-slate-100 pr-3 py-2 pl-3 mt-1 text-sm rounded shadow"
+        className="block w-full text-slate-600 font-medium bg-slate-100 pr-3 py-2 pl-3 mt-1 text-sm rounded shadow"
         placeholder="Group name"
         onChange={(e) => {
           setGroupName(e.target.value);
@@ -58,9 +56,9 @@ export default function Form({
         value={groupName}
       />
       {/* link */}
-      <div class="relative text-gray-500 mt-4 flex">
+      <div className="relative text-gray-500 mt-4 flex">
         <input
-          class="block w-full text-slate-600 font-medium bg-slate-100 pr-3 py-2 pl-3 text-sm rounded-l shadow"
+          className="block w-full text-slate-600 font-medium bg-slate-100 pr-3 py-2 pl-3 text-sm rounded-l shadow"
           placeholder="Paste url..."
           onChange={(e) => {
             setIsValid(false);
@@ -70,13 +68,11 @@ export default function Form({
           value={link}
         />
         <button
-          onClick={() => {
-            setLoading(true);
-            isLinkValid(link).then((res) => {
-              setIsValid(res);
-            });
+          onClick={async () => {
+            const text = await navigator.clipboard.readText();
+            setLink(text);
           }}
-          class={`px-5 text-xs font-medium text-white  ${
+          className={`px-5 text-xs font-medium text-white  ${
             haveToValidate
               ? "bg-gray-500"
               : isValid
@@ -87,7 +83,7 @@ export default function Form({
           {loading
             ? "Loading..."
             : haveToValidate
-            ? "Check"
+            ? "Paste"
             : isValid
             ? "Valid link"
             : "Wrong link"}
@@ -96,13 +92,21 @@ export default function Form({
       {/* save button */}
       <div className="text-center mt-6">
         <button
-          disabled={!isSaveEnabled}
-          className={`px-4 py-2 mt-2 text-base w-1/2 mx-auto font-medium text-white transition-colors duration-150 bg-gray-500 disabled:opacity-20 border border-transparent rounded-sm focus:outline-none focus:shadow-outline-purple`}
+          className={`px-4 py-2 mt-2 text-base w-1/2 mx-auto font-medium text-white transition-colors duration-150  ${
+            isSaveEnabled ? "bg-green-500" : "bg-blue-500"
+          } disabled:opacity-20 border border-transparent rounded-sm focus:outline-none focus:shadow-outline-purple`}
           onClick={() => {
-            onSave(groupName, link);
+            if (isSaveEnabled) {
+              onSave({ groupName, link });
+            } else {
+              setLoading(true);
+              isLinkValid(link).then((res) => {
+                setIsValid(res);
+              });
+            }
           }}
         >
-          Save
+          {isSaveEnabled ? "Save" : "Verify"}
         </button>
         <button
           onClick={onCancel}
